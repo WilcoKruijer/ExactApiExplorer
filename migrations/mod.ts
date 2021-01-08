@@ -12,28 +12,22 @@ export interface Migration {
   downgrade(): void;
 }
 
-// db.query(
-//     `INSERT INTO migrations (name, executed) VALUES (:name, :executed);`,
-//     { name, executed },
-//   );
-
 export async function upgrade() {
   for (const migrationName of migrations) {
-    for (
-      const [executed] of db.query(
-        "SELECT executed FROM migrations WHERE name = ?",
-        [migrationName],
-      )
-    ) {
-      // bug; migration will not be in database yet.
-      console.log();
-      if (!executed) {
-        const migration = await import(migrationName);
-        const instance = new migration.default();
+    const result = db.query(
+      "SELECT executed FROM migrations WHERE name = ?",
+      [migrationName],
+    ).oneOrUndefined();
 
-        console.log("Will upgrade", migrationName);
-      }
+    if (result && result.length && result[0]) {
+      // This migration has already been executed.
+      continue;
     }
+
+    const migration = await import(migrationName);
+    const instance = new migration.default();
+
+    console.log("Will upgrade", migrationName);
   }
 }
 
