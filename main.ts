@@ -14,14 +14,15 @@ const flags = parse(Deno.args);
 
 if ("migrate" in flags) {
   if (flags["migrate"] === "up") {
-    upgrade();
+    await upgrade();
   } else if (flags["migrate"] === "down") {
-    downgrade();
+    await downgrade();
   } else {
     console.error(
       "Invalid value given for 'migrate'. Expected 'up' or 'down'. Ignoring.",
     );
   }
+  Deno.exit();
 }
 
 run();
