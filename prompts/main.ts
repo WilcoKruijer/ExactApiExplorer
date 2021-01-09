@@ -1,5 +1,6 @@
 import { Input, prompt, Select } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
+import Playground from "../classes/Playground.ts";
 
 // import classTransformer from 'https://cdn.skypack.dev/class-transformer';
 
@@ -9,6 +10,7 @@ const enum Prompts {
 
 const enum Options {
   SETUP = "Exact Online Setup",
+  MISC = "Something else ...",
   EXIT = "Exit",
 }
 
@@ -20,6 +22,7 @@ export async function run() {
       type: Select,
       options: [
         Options.SETUP,
+        Options.MISC,
         Options.EXIT,
       ],
       after: async ({ action }, next) => {
@@ -28,6 +31,9 @@ export async function run() {
             await runExactSetup();
             break;
 
+          case Options.MISC:
+            await (new Playground()).go();
+            break;
           default:
             break;
         }

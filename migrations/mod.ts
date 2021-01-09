@@ -13,6 +13,7 @@ export interface Migration {
 }
 
 export async function upgrade() {
+  let upgradedRevisions = 0;
   for (const migrationName of migrations) {
     const result = db.query(
       "SELECT executed FROM migrations WHERE name = ?",
@@ -32,9 +33,15 @@ export async function upgrade() {
 
     db.query(
       "INSERT INTO migrations (name, executed) VALUES (:migrationName, 1)" +
-      "ON CONFLICT (name) DO UPDATE SET executed=1 WHERE name = :migrationName",
-      { migrationName }
-    )
+        "ON CONFLICT (name) DO UPDATE SET executed=1 WHERE name = :migrationName",
+      { migrationName },
+    );
+
+    upgradedRevisions += 1;
+  }
+
+  if (!upgradedRevisions) {
+    console.error("Nothing to upgrade.");
   }
 }
 
@@ -60,8 +67,8 @@ export async function downgrade() {
 
     db.query(
       "UPDATE migrations SET executed=0 WHERE name = :migrationName",
-      { migrationName }
-    )
+      { migrationName },
+    );
 
     // Only downgrade 1 revision.
     return;

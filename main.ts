@@ -22,7 +22,6 @@ if ("migrate" in flags) {
       "Invalid value given for 'migrate'. Expected 'up' or 'down'. Ignoring.",
     );
   }
-  Deno.exit();
 }
 
 run();
