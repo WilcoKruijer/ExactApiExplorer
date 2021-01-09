@@ -1,4 +1,5 @@
-import settingRepository from "../repositories/setting.ts";
+import db from "../database.ts";
+import settingRepository from "../repositories/Setting.ts";
 
 export default class Playground {
   constructor() {
@@ -13,5 +14,12 @@ export default class Playground {
     }
     const res = settingRepository.getByKey("Author");
     console.log(res);
+
+    db.query(
+      "INSERT INTO settings (key, value) VALUES (?)",
+      [["a", "1"], ["b", "2"]],
+    );
+
+    console.log(db.query("SELECT * FROM settings"));
   }
 }

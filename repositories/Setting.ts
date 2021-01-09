@@ -24,6 +24,7 @@ class SettingRepository {
       { key, value },
     );
   }
+
 }
 
 export default new SettingRepository();
