@@ -1,10 +1,14 @@
 /**
  * Entrypoint of this project.
  * Run with: `deno run --unstable --allow-read=. --allow-write=. main.ts`
+ * 
+ * Write lock file after adding dependencies:
+ * deno cache --unstable main.ts --lock lock.json --lock-write
  */
 
 import { parse } from "./deps.ts";
 import { downgrade, upgrade } from "./migrations/mod.ts";
+import { run } from "./prompts/main.ts";
 
 const flags = parse(Deno.args);
 
@@ -19,3 +23,5 @@ if ("migrate" in flags) {
     );
   }
 }
+
+run();

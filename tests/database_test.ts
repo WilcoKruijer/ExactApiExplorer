@@ -3,7 +3,7 @@ import Database from "../classes/Database.ts";
 import { OneRowError } from "../classes/Rows.ts";
 
 // Run with:
-// deno test --unstable --allow-read=. --allow-write=. tests/databaseTests.ts
+// deno test --unstable --allow-read=. --allow-write=. tests/database_test.ts
 
 await Deno.remove("test_db.sqlite");
 const db = new Database("test_db.sqlite");
