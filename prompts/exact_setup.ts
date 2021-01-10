@@ -1,5 +1,17 @@
-import ExactApi from "../classes/ExactApi.ts";
-import { ansi, colors, Confirm, Input, link, prompt, Toggle } from "../deps.ts";
+import ExactApi, { ExactApiOptions } from "../classes/ExactApi.ts";
+import {
+  ansi,
+  colors,
+  Confirm,
+  Input,
+  link,
+  prompt,
+  serve,
+  Toggle,
+} from "../deps.ts";
+import type { Setting } from "../repositories/SettingRepository.ts";
+import SettingRepository from "../repositories/SettingRepository.ts";
+import SettingService from "../services/SettingService.ts";
 
 const BASE_URL = "http://localhost:8080";
 
@@ -7,7 +19,7 @@ const enum Prompts {
   MAKE_APP = "confirmedMakeApp",
   CLIENT_ID = "clientId",
   CLIENT_SECRET = "clientSecret",
-  ENTER_CODE = "url",
+  PICK_DIVISION = "division",
 }
 
 let clientId: string;
@@ -65,10 +77,10 @@ export async function runExactSetup() {
       },
     },
     {
-      name: Prompts.ENTER_CODE,
-      message: "Please enter the code from the URL:",
+      name: Prompts.PICK_DIVISION,
+      message: "Please select a division",
       type: Input,
-      before: (_, next) => {
+      before: async (_, next) => {
         exactApi = new ExactApi({
           baseUrl: BASE_URL,
           clientId: clientId,
@@ -79,27 +91,39 @@ export async function runExactSetup() {
 
         console.log(
           colors.bold("[2] Login to Exact.\n") +
-            "\t- Please go to the following URL and login:\n" +
-            colors.gray("\t\t" + link(url, url)) +
-            "\n" +
-            "\t- After logging in you will be redirected to a page. Copy the entire URL from your browser's search bar.",
+            "Please go to the following URL and login:\n" +
+            colors.gray("\t" + link(url, url)),
         );
 
-        next();
-      },
-      after: ({ url }, next) => {
-        if (!url) {
-          next(Prompts.ENTER_CODE);
-        }
-        const code = new URL(url!).searchParams.get("code");
+        const code = await startWebServer();
 
-        if (!code) {
-          next(Prompts.ENTER_CODE);
-        }
+        await exactApi.requestToken(code!);
+        const settings = SettingService.exactOptionsToSettings(
+          exactApi.options,
+        );
+        SettingRepository.setAll(settings);
 
-        next();
-        console.log("your code:", code);
+        console.log("All done.", Deno.resources());
+
+        await next();
       },
     },
   ]);
+}
+
+export async function startWebServer() {
+  const server = serve({ hostname: "0.0.0.0", port: 8080 });
+
+  for await (const request of server) {
+    const code = new URL(request.url, BASE_URL).searchParams.get("code");
+    request.respond({
+      status: 200,
+      body: `
+    <html>
+    <body>
+    You can close this page now ;)
+    `,
+    });
+    return code;
+  }
 }

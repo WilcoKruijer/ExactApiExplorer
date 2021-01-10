@@ -1,25 +1,21 @@
 import db from "../database.ts";
-import settingRepository from "../repositories/Setting.ts";
-
+import SettingRepository from "../repositories/SettingRepository.ts";
+import { startWebServer } from "../prompts/exact_setup.ts";
 export default class Playground {
   constructor() {
     console.log("Constructed playground...");
   }
 
-  go() {
+  async go() {
     try {
-      settingRepository.create("Author", "Wilco");
+      SettingRepository.set({
+        key: "Coole man",
+        value: "Wilco",
+      });
     } catch (_) {
       // pass
     }
-    const res = settingRepository.getByKey("Author");
-    console.log(res);
 
-    db.query(
-      "INSERT INTO settings (key, value) VALUES (?)",
-      [["a", "1"], ["b", "2"]],
-    );
-
-    console.log(db.query("SELECT * FROM settings"));
+    await startWebServer();
   }
 }

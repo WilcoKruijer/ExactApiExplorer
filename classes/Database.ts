@@ -1,18 +1,7 @@
-import { DB, Rows } from "../deps.ts";
+import { DB, Rows, SqliteError, Status } from "../deps.ts";
 
 // Import so we get the module declaration.
 import "../classes/Rows.ts";
-
-// Copied because it's an unexported type from SQLite library.
-export type QueryParam =
-  | boolean
-  | number
-  | bigint
-  | string
-  | null
-  | undefined
-  | Date
-  | Uint8Array;
 
 export default class Database extends DB {
   inTransaction = false;
@@ -29,8 +18,21 @@ export default class Database extends DB {
     );
   }
 
+  /**
+   * Starts a transaction. Ignores the fact that a transaction might already 
+   * have been started.
+   */
   startTransaction() {
-    super.query("BEGIN TRANSACTION;");
+    try {
+      super.query("BEGIN TRANSACTION;");
+    } catch (error) {
+      if (
+        error.name !== "SqliteError" || error.code !== Status.SqliteError ||
+        error.message !== "cannot start a transaction within a transaction"
+      ) {
+        throw error;
+      }
+    }
   }
 
   commit() {

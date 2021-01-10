@@ -29,21 +29,29 @@ export default class ExactApi {
   }
 
   async requestToken(code: string) {
+    const params = new URLSearchParams();
+    params.set("client_id", this.#options.clientId);
+    params.set("client_secret", this.#options.clientSecret);
+    params.set("code", code);
+    params.set("grant_type", "authorization_code");
+    params.set("redirect_uri", this.redirectUrl());
+
     const response = await fetch(TOKEN_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify({
-        "client_id": this.#options.clientId,
-        "client_secret": this.#options.clientSecret,
-        "code": code,
-        "grant_type": "authorization_code",
-        "redirect_uri": this.redirectUrl(),
-      }),
+      body: params,
     });
 
+    console.log(
+      "requested with code",
+      this.#options.clientId,
+      this.#options.clientSecret,
+    );
+
     if (!response.ok) {
+      console.error(await response.text());
       throw new ExactOnlineUnavailableError("Requesting token failed.");
     }
 
@@ -56,6 +64,7 @@ export default class ExactApi {
   }
 
   get options(): ExactApiOptions {
+    // Make a copy
     return { ...this.#options };
   }
 
