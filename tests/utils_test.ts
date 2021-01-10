@@ -12,4 +12,5 @@ Deno.test("Snakecase to camelcase", () => {
   assertEquals(Utils.snakeToCamelCase("this_is_cool"), "thisIsCool");
   assertEquals(Utils.snakeToCamelCase("testing"), "testing");
   assertEquals(Utils.snakeToCamelCase("ALL_CAPS_THING"), "allCapsThing");
+  assertEquals(Utils.snakeToCamelCase("TESTING"), "testing");
 });

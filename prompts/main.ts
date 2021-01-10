@@ -1,26 +1,39 @@
-import { Input, prompt, Select } from "../deps.ts";
+import { colors, Input, prompt, Select } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
 import Playground from "../classes/Playground.ts";
 import { exactApi } from "../main.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
+import runQueryPrompts from "./exact_query.ts";
 
 const enum Prompts {
   ACTION = "action",
+  SELECT_DIVISION = "division",
 }
 
 const enum Options {
+  QUERY = "Execute an API query",
   DIVISION = "Set Exact Online division",
   SETUP = "Exact Online setup",
   MISC = "Something else ...",
   EXIT = "Exit",
 }
 
-let division = 0;
+async function printCurrentDivision(division: number) {
+  const [{ Description }] = await ExactRepository.getDivisionByCode(division);
+  console.log(
+    `Selected division: ${colors.brightGreen(Description)} (${
+      colors.yellow(division + "")
+    }).`,
+  );
+}
 
 export async function run() {
+  let division = 0;
+
   try {
     if (exactApi) {
-      division = await exactApi.retrieveDivision();
+      const retrievedDivision = await exactApi.retrieveDivision();
+      division = exactApi.division ?? retrievedDivision;
     }
   } catch (error) {
     if (
@@ -31,7 +44,13 @@ export async function run() {
     }
   }
 
-  console.log(`Exact Online API is available! Division: ${division}.`);
+  if (division) {
+    console.log(
+      "Exact Online API is available!",
+    );
+
+    await printCurrentDivision(division);
+  }
 
   await prompt([
     {
@@ -39,6 +58,11 @@ export async function run() {
       message: "Please select an action:",
       type: Select,
       options: [
+        {
+          name: Options.QUERY,
+          value: Options.QUERY,
+          disabled: division === 0,
+        },
         {
           name: Options.DIVISION,
           value: Options.DIVISION,
@@ -50,9 +74,12 @@ export async function run() {
       ],
       after: async ({ action }, next) => {
         switch (action) {
+          case Options.QUERY:
+            await runQueryPrompts();
+            return await next(Prompts.ACTION);
           case Options.DIVISION:
-            await divisions();
-            break;
+            await selectDivision();
+            return await next(Prompts.ACTION);
 
           case Options.SETUP:
             await runExactSetup(!!division);
@@ -69,12 +96,29 @@ export async function run() {
   ]);
 }
 
-async function divisions() {
-  const resp = await ExactRepository.getDivisions();
-  console.log(resp.length);
-  console.table(resp);
+async function selectDivision() {
+  const divisions = await ExactRepository.getDivisions();
+  const options: { name: string; value: string }[] = [];
 
-  for (const r of resp) {
-    console.log(r.Code);
+  for (const div of divisions) {
+    options.push({
+      name: div.Description,
+      value: div.Code + "",
+    });
   }
+
+  await prompt([
+    {
+      name: Prompts.SELECT_DIVISION,
+      message: "Please select a division:",
+      type: Select,
+      options: options,
+      after: async ({ division }, next) => {
+        if (exactApi && division) {
+          exactApi.division = +division;
+          await printCurrentDivision(+division);
+        }
+      },
+    },
+  ]);
 }

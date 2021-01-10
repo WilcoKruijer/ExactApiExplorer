@@ -133,10 +133,8 @@ export default class ExactApi {
 
     const division = res[0].CurrentDivision;
 
-    if (this.setOptionsCallback && this.#options.division !== division) {
-      // Division has changed, it should be stored.
-      this.#options.division = division;
-      this.setOptionsCallback(this.options);
+    if (!this.division) {
+      this.division = division;
     }
 
     return division;
@@ -148,6 +146,9 @@ export default class ExactApi {
   public async jsonRequest<T>(
     request: (ExactApiRequest & { method: "PUT" | "DELETE" }),
   ): Promise<undefined>;
+  public async jsonRequest<T>(
+    request: (ExactApiRequest),
+  ): Promise<(T & ExactApiResponseMeta)[] | undefined>;
   public async jsonRequest<T>(
     request: ExactApiRequest,
   ) {
@@ -183,6 +184,18 @@ export default class ExactApi {
     return { ...this.#options };
   }
 
+  public get division(): number | undefined {
+    return this.#options.division;
+  }
+
+  public set division(division: number | undefined) {
+    if (this.setOptionsCallback && this.#options.division !== division) {
+      // Division has changed, it should be stored.
+      this.#options.division = division;
+      this.setOptionsCallback(this.options);
+    }
+  }
+
   public redirectUrl() {
     return this.options.baseUrl;
   }
@@ -194,6 +207,12 @@ export default class ExactApi {
     params.set("response_type", "code");
 
     return new URL(AUTH_URL + "?" + params.toString()).toString();
+  }
+
+  public static buildUrl(request: ExactApiRequest) {
+    const params = ExactApi.buildRequestParameters(request);
+
+    return new URL(REST_URL + request.resource + "?" + params.toString());
   }
 
   private async retrievePaginatedResponse<T>(
@@ -243,7 +262,7 @@ export default class ExactApi {
     return results as (T & ExactApiResponseMeta)[];
   }
 
-  private buildRequestParameters(request: ExactApiRequest) {
+  private static buildRequestParameters(request: ExactApiRequest) {
     const params = new URLSearchParams();
 
     if (request.select) {
@@ -264,9 +283,7 @@ export default class ExactApi {
   private async rawRequest(request: ExactApiRequest) {
     await this.refreshTokenIfNeeded();
 
-    const params = this.buildRequestParameters(request);
-
-    const url = new URL(REST_URL + request.resource + "?" + params.toString());
+    const url = ExactApi.buildUrl(request);
 
     const fetchObject: RequestInit = {
       method: request.method,
