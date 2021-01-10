@@ -1,8 +1,8 @@
 import { Migration } from "./mod.ts";
-import { db } from "../main.ts";
+import type Database from "../classes/Database.ts";
 
 export default class InitialMigration implements Migration {
-  upgrade() {
+  upgrade(db: Database) {
     db.query(
       `CREATE TABLE IF NOT EXISTS settings 
             (id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -11,7 +11,7 @@ export default class InitialMigration implements Migration {
     );
   }
 
-  downgrade() {
+  downgrade(db: Database) {
     db.query("DROP TABLE settings;");
   }
 }

@@ -1,3 +1,4 @@
+import Database from "../classes/Database.ts";
 import { db } from "../main.ts";
 
 /**
@@ -5,11 +6,12 @@ import { db } from "../main.ts";
  */
 const migrations = [
   "./000_initial.ts",
+  "./001_query_history.ts",
 ];
 
 export interface Migration {
-  upgrade(): void;
-  downgrade(): void;
+  upgrade(db: Database): void;
+  downgrade(db: Database): void;
 }
 
 export async function upgrade() {
@@ -29,7 +31,7 @@ export async function upgrade() {
     const instance: Migration = new migration.default();
 
     console.log(`Upgrading: '${migrationName}'.`);
-    instance.upgrade();
+    instance.upgrade(db);
 
     db.query(
       "INSERT INTO migrations (name, executed) VALUES (:migrationName, 1)" +
@@ -63,7 +65,7 @@ export async function downgrade() {
     const instance: Migration = new migration.default();
 
     console.log(`Downgrading: '${migrationName}'.`);
-    instance.downgrade();
+    instance.downgrade(db);
 
     db.query(
       "UPDATE migrations SET executed=0 WHERE name = :migrationName",

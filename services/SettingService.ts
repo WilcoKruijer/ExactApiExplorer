@@ -4,8 +4,8 @@ import Utils from "../classes/Utils.ts";
 
 const EXACT_STORAGE_PREFIX = "EXACT_STORAGE.";
 
-class SettingService {
-  exactOptionsToSettings(options: ExactApiOptions): Setting[] {
+export default class SettingService {
+  static exactOptionsToSettings(options: ExactApiOptions): Setting[] {
     return Object.keys(options)
       .map((key) => {
         return {
@@ -15,7 +15,7 @@ class SettingService {
       });
   }
 
-  settingsToExactOptions(settings: Setting[]) {
+  static settingsToExactOptions(settings: Setting[]) {
     const obj: Record<string, string | number> = {};
 
     for (const setting of settings) {
@@ -41,5 +41,3 @@ class SettingService {
     }
   }
 }
-
-export default new SettingService();
