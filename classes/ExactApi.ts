@@ -57,7 +57,7 @@ type ObjectArray = Array<Record<string, unknown>>;
 interface ExactApiResponse {
   d: {
     results: ObjectArray;
-    __next: string;
+    __next: string; // url to next page of this response
   } | ObjectArray;
 }
 
@@ -100,6 +100,10 @@ export default class ExactApi {
     this.setToken(await response.json());
   }
 
+  /**
+   * Checks if the API is available for querying.
+   * Returns the current selected division when available. 0 otherwise.
+   */
   public async available(): Promise<number> {
     const response = await this.rawRequest({
       method: "GET",
@@ -126,7 +130,7 @@ export default class ExactApi {
   }
 
   public redirectUrl() {
-    return this.options.baseUrl + "/admin/exact/oauth/success";
+    return this.options.baseUrl;
   }
 
   public authRequestUrl() {

@@ -1,4 +1,4 @@
-import db from "../database.ts";
+import { db } from "../main.ts";
 
 /**
  * List of migrations to run, in this order.

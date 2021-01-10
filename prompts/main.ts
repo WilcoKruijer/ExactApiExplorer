@@ -1,6 +1,7 @@
 import { Input, prompt, Select } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
 import Playground from "../classes/Playground.ts";
+import { createExactApi, exactApi } from "../main.ts";
 
 const enum Prompts {
   ACTION = "action",
@@ -12,7 +13,24 @@ const enum Options {
   EXIT = "Exit",
 }
 
+let division = 0;
+
 export async function run() {
+  try {
+    if (exactApi) {
+      division = await exactApi.available();
+    }
+  } catch (error) {
+    if (
+      error.name !== "ExactOnlineServiceError" &&
+      error.name !== "ExactApiNotReadyError"
+    ) {
+      throw error;
+    }
+  }
+
+  console.log(`Exact Online API is available! Division: ${division}.`);
+
   await prompt([
     {
       name: Prompts.ACTION,
@@ -26,8 +44,11 @@ export async function run() {
       after: async ({ action }, next) => {
         switch (action) {
           case Options.SETUP:
-            await runExactSetup();
-            break;
+            await runExactSetup(!!division);
+
+            // Recreate Exact Api so it reads the new EXACT_STORAGE keys.
+            createExactApi();
+            return await next(Prompts.ACTION);
 
           case Options.MISC:
             await (new Playground()).go();

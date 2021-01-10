@@ -1,12 +1,11 @@
-import db from "../database.ts";
+import { db } from "../main.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
-import { startWebServer } from "../prompts/exact_setup.ts";
 export default class Playground {
   constructor() {
     console.log("Constructed playground...");
   }
 
-  async go() {
+  go() {
     try {
       SettingRepository.set({
         key: "Coole man",
@@ -15,7 +14,5 @@ export default class Playground {
     } catch (_) {
       // pass
     }
-
-    await startWebServer();
   }
 }

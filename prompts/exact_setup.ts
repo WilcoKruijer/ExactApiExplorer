@@ -1,78 +1,56 @@
 import ExactApi, { ExactApiOptions } from "../classes/ExactApi.ts";
-import {
-  ansi,
-  colors,
-  Confirm,
-  Input,
-  link,
-  prompt,
-  serve,
-  Toggle,
-} from "../deps.ts";
-import type { Setting } from "../repositories/SettingRepository.ts";
+import { colors, Input, link, prompt, serve, Toggle } from "../deps.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
 import SettingService from "../services/SettingService.ts";
 
 const BASE_URL = "http://localhost:8080";
 
 const enum Prompts {
+  RESET_CONFIRMATION = "resetConfirmed",
   MAKE_APP = "confirmedMakeApp",
   CLIENT_ID = "clientId",
   CLIENT_SECRET = "clientSecret",
-  PICK_DIVISION = "division",
 }
 
 let clientId: string;
-let clientSecret: string;
-let exactApi: ExactApi;
 
 function initializeExactApi(apiOptions: ExactApiOptions) {
-  if (exactApi) {
-    return;
-  }
-
-  exactApi = new ExactApi(apiOptions);
+  const exactApi = new ExactApi(apiOptions);
   exactApi.setTokenCallback = (options) => {
     const settings = SettingService.exactOptionsToSettings(
       exactApi.options,
     );
     SettingRepository.setAll(settings);
-    console.log("Saved ExactApiOptions to disk.");
   };
+
+  return exactApi;
 }
 
-export async function runExactSetup() {
-  //available
-
-  const apiOptions = SettingService.settingsToExactOptions(
-    SettingRepository.getExactStorageSettings(),
-  );
-
-  let division = 0;
-  if (apiOptions) {
-    initializeExactApi(apiOptions);
-
-    try {
-      division = await exactApi.available();
-    } catch (error) {
-      if (
-        error.name !== "ExactApiNotReadyError" &&
-        error.name !== "ExactOnlineServiceError"
-      ) {
-        throw error;
-      }
-      console.error(error.message, error.exactResponse);
-    }
-  }
-
-  console.log("API available?", division);
-
+export async function runExactSetup(doConfirm = false) {
   await prompt([
+    {
+      name: Prompts.RESET_CONFIRMATION,
+      message:
+        "Are you sure you want to reset your existing Exact Online API connection?",
+      type: Toggle,
+      before: async (_, next) => {
+        if (doConfirm) {
+          return await next();
+        } else {
+          return await next(Prompts.MAKE_APP);
+        }
+      },
+      after: async ({ resetConfirmed }, next) => {
+        if (resetConfirmed) {
+          return await next(Prompts.MAKE_APP);
+        }
+      },
+    },
     {
       name: Prompts.MAKE_APP,
       message: "Have you successfully made an app?",
       type: Toggle,
-      before: (_, next) => {
+      before: async (_, next) => {
         console.log(
           colors.bold("[1] Create Exact App\n") +
             colors.gray(
@@ -86,45 +64,37 @@ export async function runExactSetup() {
             "\n",
         );
 
-        next();
+        await next();
       },
-      after: ({ confirmedMakeApp }, next) => {
-        next(confirmedMakeApp ? undefined : Prompts.MAKE_APP);
+      after: async ({ confirmedMakeApp }, next) => {
+        await next(confirmedMakeApp ? undefined : Prompts.MAKE_APP);
       },
     },
     {
       name: Prompts.CLIENT_ID,
       message: "Please enter the Client ID:",
       type: Input,
-      after: (answer, next) => {
+      after: async (answer, next) => {
         if (!answer.clientId) {
-          next(Prompts.CLIENT_ID);
+          return await next(Prompts.CLIENT_ID);
         }
         clientId = answer.clientId!;
-        next();
+        await next();
       },
     },
     {
       name: Prompts.CLIENT_SECRET,
       message: "Please enter the Client Secret:",
       type: Input,
-      after: (answer, next) => {
+      after: async (answer, next) => {
         if (!answer.clientSecret) {
-          next(Prompts.CLIENT_SECRET);
+          return await next(Prompts.CLIENT_SECRET);
         }
-        clientSecret = answer.clientSecret!;
-        next();
-      },
-    },
-    {
-      name: Prompts.PICK_DIVISION,
-      message: "Please select a division",
-      type: Input,
-      before: async (_, next) => {
-        initializeExactApi({
+
+        const exactApi = initializeExactApi({
           baseUrl: BASE_URL,
           clientId: clientId,
-          clientSecret: clientSecret,
+          clientSecret: answer.clientSecret!,
         });
 
         const url = exactApi.authRequestUrl();
@@ -136,27 +106,40 @@ export async function runExactSetup() {
         );
 
         const code = await startWebServer();
-
         await exactApi.requestToken(code!);
-
-        console.log("All done.");
 
         const division = await exactApi.available();
 
-        console.log("API available?", division);
+        if (!division) {
+          console.error(
+            colors.red("Error:"),
+            "Something went wrong while setting up the Exact Online API.\n" +
+              "Please try again (later).",
+          );
 
-        // await next();
+          return await next(Prompts.MAKE_APP);
+        } else {
+          console.log(
+            colors.green("Succes:"),
+            "Created Exact Online API connection!",
+          );
+        }
       },
     },
   ]);
 }
 
-export async function startWebServer() {
+/**
+ * Stars a webserver that only accepts a single request.
+ * The user will be redirected to this page by Exact.
+ * This server will then retrieve the token.
+ */
+async function startWebServer() {
   const server = serve({ hostname: "0.0.0.0", port: 8080 });
 
   for await (const request of server) {
     const code = new URL(request.url, BASE_URL).searchParams.get("code");
-    request.respond({
+    await request.respond({
       status: 200,
       body: `
     <html>
@@ -164,6 +147,7 @@ export async function startWebServer() {
     You can close this page now ;)
     `,
     });
+    server.close();
     return code;
   }
 }

@@ -1,5 +1,5 @@
 import { Migration } from "./mod.ts";
-import db from "../database.ts";
+import { db } from "../main.ts";
 
 export default class InitialMigration implements Migration {
   upgrade() {
