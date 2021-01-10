@@ -31,7 +31,7 @@ export function createExactApi() {
   }
 
   exactApi = new ExactApi(apiOptions);
-  exactApi.setTokenCallback = (options) => {
+  exactApi.setOptionsCallback = (options) => {
     const settings = SettingService.exactOptionsToSettings(
       options,
     );

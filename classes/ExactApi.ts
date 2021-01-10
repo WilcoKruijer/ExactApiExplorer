@@ -38,7 +38,7 @@ export interface ExactApiOptions {
   accessToken?: string;
   refreshToken?: string;
 
-  division?: string;
+  division?: number;
 }
 
 type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
@@ -63,7 +63,7 @@ interface ExactApiResponse {
 
 export default class ExactApi {
   #options: ExactApiOptions;
-  setTokenCallback?: (options: ExactApiOptions) => void;
+  setOptionsCallback?: (options: ExactApiOptions) => void;
 
   constructor(options: ExactApiOptions) {
     this.#options = options;
@@ -101,10 +101,11 @@ export default class ExactApi {
   }
 
   /**
-   * Checks if the API is available for querying.
-   * Returns the current selected division when available. 0 otherwise.
+   * Gets the currently selected revision from the API and stores it.
+   * Returns the current selected division when available. A response of
+   * 0 means the API is not ready for querying.
    */
-  public async available(): Promise<number> {
+  public async retrieveDivision(): Promise<number> {
     const response = await this.rawRequest({
       method: "GET",
       resource: "v1/current/Me",
@@ -121,7 +122,45 @@ export default class ExactApi {
       return 0;
     }
 
-    return res[0]["CurrentDivision"] as number;
+    const division = res[0]["CurrentDivision"] as number;
+
+    if (this.setOptionsCallback && this.#options.division !== division) {
+      // Division has changed, it should be stored.
+      this.#options.division = division;
+      this.setOptionsCallback(this.options);
+    }
+
+    return division;
+  }
+
+  public async jsonRequest(
+    request: ExactApiRequest,
+  ): Promise<ObjectArray | undefined> {
+    if (!this.#options.division) {
+      throw new ExactApiNotReadyError(
+        "Division has not been set. Call retrieveDivision() first.",
+      );
+    }
+
+    request = {
+      ...request,
+      resource: `v1/${this.#options.division}/${request.resource}`,
+    };
+
+    const response = await this.rawRequest(request);
+
+    if (!response.ok) {
+      throw new ExactOnlineServiceError(
+        "JSON request failed.",
+        await response.json(),
+      );
+    }
+
+    if (request.method === "DELETE" || request.method === "PUT") {
+      return;
+    }
+
+    return this.retrievePaginatedResponse(await response.json());
   }
 
   public get options(): ExactApiOptions {
@@ -241,8 +280,8 @@ export default class ExactApi {
     this.#options.accessToken = tokenData["access_token"];
     this.#options.refreshToken = tokenData["refresh_token"];
 
-    if (this.setTokenCallback) {
-      this.setTokenCallback(this.options);
+    if (this.setOptionsCallback) {
+      this.setOptionsCallback(this.options);
     }
   }
 

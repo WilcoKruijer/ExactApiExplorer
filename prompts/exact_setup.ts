@@ -1,7 +1,7 @@
-import ExactApi, { ExactApiOptions } from "../classes/ExactApi.ts";
 import { colors, Input, link, prompt, serve, Toggle } from "../deps.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
 import SettingService from "../services/SettingService.ts";
+import { createExactApi, exactApi } from "../main.ts";
 
 const BASE_URL = "http://localhost:8080";
 
@@ -13,18 +13,6 @@ const enum Prompts {
 }
 
 let clientId: string;
-
-function initializeExactApi(apiOptions: ExactApiOptions) {
-  const exactApi = new ExactApi(apiOptions);
-  exactApi.setTokenCallback = (options) => {
-    const settings = SettingService.exactOptionsToSettings(
-      exactApi.options,
-    );
-    SettingRepository.setAll(settings);
-  };
-
-  return exactApi;
-}
 
 export async function runExactSetup(doConfirm = false) {
   await prompt([
@@ -91,11 +79,25 @@ export async function runExactSetup(doConfirm = false) {
           return await next(Prompts.CLIENT_SECRET);
         }
 
-        const exactApi = initializeExactApi({
+        // Store the given data.
+        const settings = SettingService.exactOptionsToSettings({
           baseUrl: BASE_URL,
           clientId: clientId,
           clientSecret: answer.clientSecret!,
         });
+        SettingRepository.setAll(settings);
+        // Recreate the Exact Api based on the stored settings.
+        createExactApi();
+
+        if (!exactApi) {
+          console.error(
+            colors.red("Error:"),
+            "Something went wrong while setting up the Exact Online API.\n" +
+              "Please try again (later).",
+          );
+
+          return await next(Prompts.MAKE_APP);
+        }
 
         const url = exactApi.authRequestUrl();
 
@@ -108,7 +110,7 @@ export async function runExactSetup(doConfirm = false) {
         const code = await startWebServer();
         await exactApi.requestToken(code!);
 
-        const division = await exactApi.available();
+        const division = await exactApi.retrieveDivision();
 
         if (!division) {
           console.error(

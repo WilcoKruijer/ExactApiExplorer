@@ -27,8 +27,8 @@ class SettingService {
       [, variable] = setting.key.split(".");
       variable = Utils.snakeToCamelCase(variable);
 
-      // accessExpiry is a number, so we should convert.
-      const value = variable === "accessExpiry"
+      // These variablse should be numbers, so we should convert.
+      const value = variable === "accessExpiry" || variable === "division"
         ? +setting.value
         : setting.value;
 

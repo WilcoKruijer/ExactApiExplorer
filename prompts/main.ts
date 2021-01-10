@@ -18,7 +18,7 @@ let division = 0;
 export async function run() {
   try {
     if (exactApi) {
-      division = await exactApi.available();
+      division = await exactApi.retrieveDivision();
     }
   } catch (error) {
     if (
@@ -45,9 +45,6 @@ export async function run() {
         switch (action) {
           case Options.SETUP:
             await runExactSetup(!!division);
-
-            // Recreate Exact Api so it reads the new EXACT_STORAGE keys.
-            createExactApi();
             return await next(Prompts.ACTION);
 
           case Options.MISC:
