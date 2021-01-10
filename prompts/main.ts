@@ -1,14 +1,16 @@
 import { Input, prompt, Select } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
 import Playground from "../classes/Playground.ts";
-import { createExactApi, exactApi } from "../main.ts";
+import { exactApi } from "../main.ts";
+import ExactRepository from "../repositories/ExactRepository.ts";
 
 const enum Prompts {
   ACTION = "action",
 }
 
 const enum Options {
-  SETUP = "Exact Online Setup",
+  DIVISION = "Set Exact Online division",
+  SETUP = "Exact Online setup",
   MISC = "Something else ...",
   EXIT = "Exit",
 }
@@ -37,12 +39,21 @@ export async function run() {
       message: "Please select an action:",
       type: Select,
       options: [
+        {
+          name: Options.DIVISION,
+          value: Options.DIVISION,
+          disabled: division === 0,
+        },
         Options.SETUP,
         Options.MISC,
         Options.EXIT,
       ],
       after: async ({ action }, next) => {
         switch (action) {
+          case Options.DIVISION:
+            await divisions();
+            break;
+
           case Options.SETUP:
             await runExactSetup(!!division);
             return await next(Prompts.ACTION);
@@ -56,4 +67,14 @@ export async function run() {
       },
     },
   ]);
+}
+
+async function divisions() {
+  const resp = await ExactRepository.getDivisions();
+  console.log(resp.length);
+  console.table(resp);
+
+  for (const r of resp) {
+    console.log(r.Code);
+  }
 }

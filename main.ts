@@ -36,9 +36,9 @@ export function createExactApi() {
       options,
     );
     SettingRepository.setAll(settings);
-    console.log(">>> Saving Exact Storage to DISK.");
+    // console.log(">>> Saving Exact Storage to DISK.");
   };
-  console.log("Created Exact API.");
+  // console.log("Created Exact API.");
 }
 
 // Handle command-line arguments.

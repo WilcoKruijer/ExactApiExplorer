@@ -52,14 +52,21 @@ export interface ExactApiRequest {
   top?: string;
 }
 
-type ObjectArray = Array<Record<string, unknown>>;
-
-interface ExactApiResponse {
+export interface ExactApiResponse<T> {
   d: {
-    results: ObjectArray;
+    results: T[];
     __next: string; // url to next page of this response
-  } | ObjectArray;
+  } | T[];
 }
+
+export interface ExactApiResponseMeta {
+  __metadata: {
+    uri: string;
+    type: string;
+  };
+}
+
+type MeResponse = { CurrentDivision: number };
 
 export default class ExactApi {
   #options: ExactApiOptions;
@@ -116,13 +123,15 @@ export default class ExactApi {
       return 0;
     }
 
-    const res = await this.retrievePaginatedResponse(await response.json());
+    const res = await this.retrievePaginatedResponse<MeResponse>(
+      await response.json(),
+    );
 
     if (!res.length) {
       return 0;
     }
 
-    const division = res[0]["CurrentDivision"] as number;
+    const division = res[0].CurrentDivision;
 
     if (this.setOptionsCallback && this.#options.division !== division) {
       // Division has changed, it should be stored.
@@ -133,9 +142,15 @@ export default class ExactApi {
     return division;
   }
 
-  public async jsonRequest(
+  public async jsonRequest<T>(
+    request: (ExactApiRequest & { method: "GET" | "POST" }),
+  ): Promise<(T & ExactApiResponseMeta)[]>;
+  public async jsonRequest<T>(
+    request: (ExactApiRequest & { method: "PUT" | "DELETE" }),
+  ): Promise<undefined>;
+  public async jsonRequest<T>(
     request: ExactApiRequest,
-  ): Promise<ObjectArray | undefined> {
+  ) {
     if (!this.#options.division) {
       throw new ExactApiNotReadyError(
         "Division has not been set. Call retrieveDivision() first.",
@@ -160,7 +175,7 @@ export default class ExactApi {
       return;
     }
 
-    return this.retrievePaginatedResponse(await response.json());
+    return this.retrievePaginatedResponse<T>(await response.json());
   }
 
   public get options(): ExactApiOptions {
@@ -181,15 +196,15 @@ export default class ExactApi {
     return new URL(AUTH_URL + "?" + params.toString()).toString();
   }
 
-  private async retrievePaginatedResponse(
-    exactResponse: ExactApiResponse,
-  ): Promise<ObjectArray> {
+  private async retrievePaginatedResponse<T>(
+    exactResponse: ExactApiResponse<T & ExactApiResponseMeta>,
+  ): Promise<(T & ExactApiResponseMeta)[]> {
     let d = exactResponse["d"];
 
     if (Array.isArray(d)) {
       // Sometimes d is an array instead of an object. This means there are
       // no more pages.
-      return d;
+      return d as (T & ExactApiResponseMeta)[];
     }
 
     const results = d["results"];
@@ -225,7 +240,7 @@ export default class ExactApi {
       iteration += 1;
     }
 
-    return results;
+    return results as (T & ExactApiResponseMeta)[];
   }
 
   private buildRequestParameters(request: ExactApiRequest) {
