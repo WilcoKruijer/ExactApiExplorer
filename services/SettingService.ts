@@ -35,7 +35,10 @@ class SettingService {
       obj[variable as keyof ExactApiOptions] = value;
     }
 
-    return obj as unknown as ExactApiOptions;
+    if ("baseUrl" in obj && "clientId" in obj && "clientSecret" in obj) {
+      // Only return an ExactApiOptions when we actually have a valid object.
+      return obj as unknown as ExactApiOptions;
+    }
   }
 }
 

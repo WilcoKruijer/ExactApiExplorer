@@ -26,7 +26,47 @@ let clientId: string;
 let clientSecret: string;
 let exactApi: ExactApi;
 
+function initializeExactApi(apiOptions: ExactApiOptions) {
+  if (exactApi) {
+    return;
+  }
+
+  exactApi = new ExactApi(apiOptions);
+  exactApi.setTokenCallback = (options) => {
+    const settings = SettingService.exactOptionsToSettings(
+      exactApi.options,
+    );
+    SettingRepository.setAll(settings);
+    console.log("Saved ExactApiOptions to disk.");
+  };
+}
+
 export async function runExactSetup() {
+  //available
+
+  const apiOptions = SettingService.settingsToExactOptions(
+    SettingRepository.getExactStorageSettings(),
+  );
+
+  let division = 0;
+  if (apiOptions) {
+    initializeExactApi(apiOptions);
+
+    try {
+      division = await exactApi.available();
+    } catch (error) {
+      if (
+        error.name !== "ExactApiNotReadyError" &&
+        error.name !== "ExactOnlineServiceError"
+      ) {
+        throw error;
+      }
+      console.error(error.message, error.exactResponse);
+    }
+  }
+
+  console.log("API available?", division);
+
   await prompt([
     {
       name: Prompts.MAKE_APP,
@@ -81,7 +121,7 @@ export async function runExactSetup() {
       message: "Please select a division",
       type: Input,
       before: async (_, next) => {
-        exactApi = new ExactApi({
+        initializeExactApi({
           baseUrl: BASE_URL,
           clientId: clientId,
           clientSecret: clientSecret,
@@ -98,14 +138,14 @@ export async function runExactSetup() {
         const code = await startWebServer();
 
         await exactApi.requestToken(code!);
-        const settings = SettingService.exactOptionsToSettings(
-          exactApi.options,
-        );
-        SettingRepository.setAll(settings);
 
-        console.log("All done.", Deno.resources());
+        console.log("All done.");
 
-        await next();
+        const division = await exactApi.available();
+
+        console.log("API available?", division);
+
+        // await next();
       },
     },
   ]);
