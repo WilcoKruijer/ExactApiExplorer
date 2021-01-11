@@ -51,7 +51,7 @@ export async function run() {
 
     await printCurrentDivision(division);
   }
-
+  
   await prompt([
     {
       name: Prompts.ACTION,

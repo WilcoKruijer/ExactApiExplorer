@@ -9,36 +9,16 @@
 import { parse } from "./deps.ts";
 import { downgrade, upgrade } from "./migrations/mod.ts";
 import { run } from "./prompts/main.ts";
-import Database from "./classes/Database.ts";
-import SettingService from "./services/SettingService.ts";
-import ExactApi from "./classes/ExactApi.ts";
-import SettingRepository from "./repositories/SettingRepository.ts";
+import { createExactApi } from "./singletons/exact_api.ts";
 
-// Initialize the database.
-export const db = new Database("storage.sqlite");
+// We need to create the database singleton before we can run migrations.
+export { db } from "./singletons/database.ts";
+export { createExactApi, exactApi } from "./singletons/exact_api.ts";
 
-// Initialize the ExactApi singleton
-export let exactApi: ExactApi | undefined = undefined;
-createExactApi();
-
-export function createExactApi() {
-  const apiOptions = SettingService.settingsToExactOptions(
-    SettingRepository.getExactStorageSettings(),
+if (!import.meta.main) {
+  throw new Error(
+    "Main.ts is meant to run as the entrypoint of this application.",
   );
-
-  if (!apiOptions) {
-    return;
-  }
-
-  exactApi = new ExactApi(apiOptions);
-  exactApi.setOptionsCallback = (options) => {
-    const settings = SettingService.exactOptionsToSettings(
-      options,
-    );
-    SettingRepository.setAll(settings);
-    // console.log(">>> Saving Exact Storage to DISK.");
-  };
-  // console.log("Created Exact API.");
 }
 
 // Handle command-line arguments.
@@ -55,5 +35,7 @@ if ("migrate" in flags) {
   }
 }
 
-// Start he main prompts
+createExactApi();
+
+// Start the main prompts
 await run();

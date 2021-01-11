@@ -1,4 +1,4 @@
-import { colors, Input, prompt, Select, List } from "../deps.ts";
+import { colors, Input, List, prompt, Select } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
 import Playground from "../classes/Playground.ts";
 import { exactApi } from "../main.ts";
@@ -114,7 +114,6 @@ export default async function runQueryPrompts() {
       list: true,
       suggestions: selectSuggestions,
       after: async ({ selectEntry }, next) => {
-
         if (selectEntry && selectEntry.length) {
           request.select = selectEntry.join(",");
         }

@@ -2,11 +2,11 @@ export {
   Checkbox,
   Confirm,
   Input,
+  List,
   Number,
   prompt,
   Select,
   Toggle,
-  List,
 } from "https://raw.githubusercontent.com/c4spar/deno-cliffy/f2d8c93dc1b0339bce4bbb6a6a3b80faecb38640/prompt/mod.ts";
 
 // } from "https://x.nest.land/cliffy@0.16.0/prompt/mod.ts";

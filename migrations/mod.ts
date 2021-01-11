@@ -1,4 +1,4 @@
-import Database from "../classes/Database.ts";
+import type Database from "../classes/Database.ts";
 import { db } from "../main.ts";
 
 /**

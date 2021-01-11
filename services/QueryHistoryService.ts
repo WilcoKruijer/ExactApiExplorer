@@ -1,8 +1,8 @@
 import { ExactApiRequest } from "../classes/ExactApi.ts";
 import {
   EndpointParameter,
-  QueryHistory,
   HistorySets,
+  QueryHistory,
 } from "../repositories/QueryHistoryRepository.ts";
 
 export interface HistoryResult {
@@ -56,7 +56,7 @@ export default class QueryHistoryService {
     return {
       selects: Array.from(sets.selects),
       filters: Array.from(sets.filters),
-      tops: Array.from(sets.tops)
-    }
+      tops: Array.from(sets.tops),
+    };
   }
 }

@@ -71,7 +71,7 @@ export default class QueryHistoryRepository {
       selects,
       filters,
       tops,
-    }
+    };
   }
 
   static getVariablesForEndpoint(endpoint: string) {
