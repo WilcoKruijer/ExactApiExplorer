@@ -83,6 +83,11 @@ export async function run() {
 
           case Options.SETUP:
             await runExactSetup(!!division);
+            if (exactApi?.division) {
+              division = exactApi.division;
+              await printCurrentDivision(exactApi.division);
+            }
+
             return await next(Prompts.ACTION);
 
           case Options.MISC:
