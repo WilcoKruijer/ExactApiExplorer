@@ -1,4 +1,4 @@
-import { assertEquals } from "../deps.ts";
+import { assertEquals, uuidv4 } from "../deps.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
 import { db } from "./_utils.ts";
 
@@ -50,4 +50,28 @@ Deno.test("Write multiple settings using setAll()", () => {
 
   assertEquals(s1, ["key1", "val2"]);
   assertEquals(s2, ["key2", "valX"]);
+});
+
+
+
+Deno.test("Write EXACT_STORAGE. settings and read them back", () => {
+  const vals = [uuidv4.generate(), uuidv4.generate(), uuidv4.generate()];
+  const settings = [{
+    key: "EXACT_STORAGE." + vals[0],
+    value: vals[0],
+  }, {
+    key: "EXACT_STORAGE." + vals[1],
+    value: vals[1],
+  }, {
+    key: "EXACT_STORAGE." + vals[2],
+    value: vals[2],
+  }];
+
+  settingRepo.setAll(settings);
+  const [s1, s2, s3] = settingRepo.getExactStorageSettings()
+
+  assertEquals(s1, settings[0]);
+  assertEquals(s2, settings[1]);
+  assertEquals(s3, settings[2]);
+
 });

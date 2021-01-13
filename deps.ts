@@ -27,3 +27,5 @@ export {
   assertThrows,
 } from "https://deno.land/std@0.83.0/testing/asserts.ts";
 export { serve } from "https://deno.land/std@0.83.0/http/server.ts";
+
+export { v4 as uuidv4 } from "https://deno.land/std@0.83.0/uuid/mod.ts";
