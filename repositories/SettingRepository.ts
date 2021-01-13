@@ -1,4 +1,4 @@
-import { db } from "../main.ts";
+import Database from "../classes/Database.ts";
 
 export interface Setting {
   key: string;
@@ -6,8 +6,14 @@ export interface Setting {
 }
 
 export default class SettingRepository {
-  static getByKey(key: string) {
-    const [_, value] = db.query(
+  #db: Database;
+
+  constructor(db: Database) {
+    this.#db = db;
+  }
+
+  public getByKey(key: string) {
+    const [_, value] = this.#db.query(
       "SELECT key, value FROM settings WHERE key=:key",
       { key },
     ).oneOrThrow();
@@ -18,10 +24,10 @@ export default class SettingRepository {
     } as Setting;
   }
 
-  static getExactStorageSettings() {
+  public getExactStorageSettings() {
     const settings: Setting[] = [];
     for (
-      const [key, value] of db.query(
+      const [key, value] of this.#db.query(
         "SELECT key, value FROM SETTINGS WHERE key LIKE 'EXACT_STORAGE.%';",
       )
     ) {
@@ -34,19 +40,19 @@ export default class SettingRepository {
     return settings;
   }
 
-  static set(setting: Setting) {
-    db.query(
+  public set(setting: Setting) {
+    this.#db.query(
       "INSERT INTO settings (key, value) VALUES (:key, :value)" +
         "ON CONFLICT (key) DO UPDATE SET value = :value WHERE key = :key",
       setting,
     );
   }
 
-  static setAll(settings: Setting[]) {
-    db.startTransaction();
+  public setAll(settings: Setting[]) {
+    this.#db.startTransaction();
     for (const s of settings) {
       this.set(s);
     }
-    db.commit();
+    this.#db.commit();
   }
 }

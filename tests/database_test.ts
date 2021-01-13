@@ -3,10 +3,9 @@ import Database from "../classes/Database.ts";
 import { OneRowError } from "../classes/Rows.ts";
 
 // Run with:
-// deno test --unstable --allow-read=. --allow-write=. tests/database_test.ts
+// deno test --unstable tests/database_test.ts
 
-await Deno.remove("test_db.sqlite");
-const db = new Database("test_db.sqlite");
+const db = new Database();
 
 Deno.test("Database is initialized", () => {
   const [[res]] = db.query("SELECT 1=1;");

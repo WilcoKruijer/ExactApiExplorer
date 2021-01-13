@@ -1,9 +1,9 @@
 import { colors, Input, prompt, Select } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
 import Playground from "../classes/Playground.ts";
-import { exactApi } from "../main.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
 import runQueryPrompts from "./exact_query.ts";
+import DatabaseSingleton from "../singletons/database.ts";
 
 const enum Prompts {
   ACTION = "action",
@@ -18,8 +18,11 @@ const enum Options {
   EXIT = "Exit",
 }
 
+const db = DatabaseSingleton.getInstance();
+const exactRepo = new ExactRepository(db);
+
 async function printCurrentDivision(division: number) {
-  const [{ Description }] = await ExactRepository.getDivisionByCode(division);
+  const [{ Description }] = await exactRepo.getDivisionByCode(division);
   console.log(
     `Selected division: ${colors.brightGreen(Description)} (${
       colors.yellow(division + "")
@@ -30,10 +33,12 @@ async function printCurrentDivision(division: number) {
 export async function run() {
   let division = 0;
 
+  exactRepo.constructApi();
+
   try {
-    if (exactApi) {
-      const retrievedDivision = await exactApi.retrieveDivision();
-      division = exactApi.division ?? retrievedDivision;
+    if (exactRepo.api) {
+      const retrievedDivision = await exactRepo.api.retrieveDivision();
+      division = exactRepo.api.division ?? retrievedDivision;
     }
   } catch (error) {
     if (
@@ -51,7 +56,7 @@ export async function run() {
 
     await printCurrentDivision(division);
   }
-  
+
   await prompt([
     {
       name: Prompts.ACTION,
@@ -83,9 +88,9 @@ export async function run() {
 
           case Options.SETUP:
             await runExactSetup(!!division);
-            if (exactApi?.division) {
-              division = exactApi.division;
-              await printCurrentDivision(exactApi.division);
+            if (exactRepo.api?.division) {
+              division = exactRepo.api.division;
+              await printCurrentDivision(exactRepo.api.division);
             }
 
             return await next(Prompts.ACTION);
@@ -102,7 +107,7 @@ export async function run() {
 }
 
 async function selectDivision() {
-  const divisions = await ExactRepository.getDivisions();
+  const divisions = await exactRepo.getDivisions();
   const options: { name: string; value: string }[] = [];
 
   for (const div of divisions) {
@@ -119,8 +124,8 @@ async function selectDivision() {
       type: Select,
       options: options,
       after: async ({ division }, next) => {
-        if (exactApi && division) {
-          exactApi.division = +division;
+        if (exactRepo.api && division) {
+          exactRepo.api.division = +division;
           await printCurrentDivision(+division);
         }
       },

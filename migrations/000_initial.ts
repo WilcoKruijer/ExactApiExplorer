@@ -1,4 +1,4 @@
-import { Migration } from "./mod.ts";
+import { Migration } from "./Migrator.ts";
 import type Database from "../classes/Database.ts";
 
 export default class InitialMigration implements Migration {

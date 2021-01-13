@@ -7,13 +7,11 @@
  */
 
 import { parse } from "./deps.ts";
-import { downgrade, upgrade } from "./migrations/mod.ts";
+import Migrator from "./migrations/Migrator.ts";
 import { run } from "./prompts/main.ts";
-import { createExactApi } from "./singletons/exact_api.ts";
+import DatabaseSingleton from "./singletons/database.ts";
 
-// We need to create the database singleton before we can run migrations.
-export { db } from "./singletons/database.ts";
-export { createExactApi, exactApi } from "./singletons/exact_api.ts";
+// export { default as DatabaseSingleton } from "./singletons/database.ts";
 
 if (!import.meta.main) {
   throw new Error(
@@ -21,13 +19,17 @@ if (!import.meta.main) {
   );
 }
 
+// We need to create the database singleton before we can run migrations.
+const db = DatabaseSingleton.getInstance();
+const migrator = new Migrator(db);
+
 // Handle command-line arguments.
 const flags = parse(Deno.args);
 if ("migrate" in flags) {
   if (flags["migrate"] === "up") {
-    await upgrade();
+    await migrator.upgrade();
   } else if (flags["migrate"] === "down") {
-    await downgrade();
+    await migrator.downgrade();
   } else {
     console.error(
       "Invalid value given for 'migrate'. Expected 'up' or 'down'. Ignoring.",
@@ -35,8 +37,6 @@ if ("migrate" in flags) {
     Deno.exit(1);
   }
 }
-
-createExactApi();
 
 // Start the main prompts
 await run();

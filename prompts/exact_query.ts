@@ -1,11 +1,9 @@
 import { colors, Input, List, prompt, Select } from "../deps.ts";
-import { runExactSetup } from "./exact_setup.ts";
-import Playground from "../classes/Playground.ts";
-import { exactApi } from "../main.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
 import ExactApi, { ExactApiRequest } from "../classes/ExactApi.ts";
 import QueryHistoryService from "../services/QueryHistoryService.ts";
 import QueryHistoryRepository from "../repositories/QueryHistoryRepository.ts";
+import DatabaseSingleton from "../singletons/database.ts";
 
 const enum Prompts {
   ENTER_URL = "urlEntry",
@@ -13,6 +11,10 @@ const enum Prompts {
   ENTER_FILTER = "filterEntry",
   ENTER_TOP = "topEntry",
 }
+
+const db = DatabaseSingleton.getInstance();
+const exactRepo = new ExactRepository(db);
+const queryHistoryRepo = new QueryHistoryRepository(db);
 
 async function executeQuery(request: ExactApiRequest) {
   console.log(
@@ -22,7 +24,7 @@ async function executeQuery(request: ExactApiRequest) {
   );
 
   try {
-    const result = await ExactRepository.cleanJsonRequest<
+    const result = await exactRepo.cleanJsonRequest<
       Record<string, unknown>
     >(request);
 
@@ -31,8 +33,8 @@ async function executeQuery(request: ExactApiRequest) {
       result,
     );
 
-    QueryHistoryRepository.createQueryHistory(queryHistory);
-    QueryHistoryRepository.upsertMultipleEndpointParameter(parameters);
+    queryHistoryRepo.createQueryHistory(queryHistory);
+    queryHistoryRepo.upsertMultipleEndpointParameter(parameters);
 
     if (!result || !result.length) {
       return console.log("No results found.");
@@ -96,8 +98,8 @@ export default async function runQueryPrompts() {
           return await next(Prompts.ENTER_URL);
         }
 
-        const sets = QueryHistoryRepository.getHistoryForEndpoint(urlEntry);
-        const vars = QueryHistoryRepository.getVariablesForEndpoint(urlEntry);
+        const sets = queryHistoryRepo.getHistoryForEndpoint(urlEntry);
+        const vars = queryHistoryRepo.getVariablesForEndpoint(urlEntry);
         const suggestions = QueryHistoryService.getSuggestions(sets, vars);
         selectSuggestions.push(...suggestions.selects);
         filterSuggestions.push(...suggestions.filters);

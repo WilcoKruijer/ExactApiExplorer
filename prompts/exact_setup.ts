@@ -1,7 +1,8 @@
 import { colors, Input, link, prompt, serve, Toggle } from "../deps.ts";
+import ExactRepository from "../repositories/ExactRepository.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
 import SettingService from "../services/SettingService.ts";
-import { createExactApi, exactApi } from "../main.ts";
+import DatabaseSingleton from "../singletons/database.ts";
 
 const BASE_URL = "http://localhost:8080";
 
@@ -12,9 +13,13 @@ const enum Prompts {
   CLIENT_SECRET = "clientSecret",
 }
 
-let clientId: string;
-
 export async function runExactSetup(doConfirm = false) {
+  const db = DatabaseSingleton.getInstance();
+  const settingRepo = new SettingRepository(db);
+  const exactRepo = new ExactRepository(db);
+
+  let clientId: string;
+
   await prompt([
     {
       name: Prompts.RESET_CONFIRMATION,
@@ -85,11 +90,11 @@ export async function runExactSetup(doConfirm = false) {
           clientId: clientId,
           clientSecret: answer.clientSecret!,
         });
-        SettingRepository.setAll(settings);
+        settingRepo.setAll(settings);
         // Recreate the Exact Api based on the stored settings.
-        createExactApi();
+        exactRepo.constructApi();
 
-        if (!exactApi) {
+        if (!exactRepo.api) {
           console.error(
             colors.red("Error:"),
             "Something went wrong while setting up the Exact Online API.\n" +
@@ -99,7 +104,7 @@ export async function runExactSetup(doConfirm = false) {
           return await next(Prompts.MAKE_APP);
         }
 
-        const url = exactApi.authRequestUrl();
+        const url = exactRepo.api.authRequestUrl();
 
         console.log(
           colors.bold("[2] Login to Exact.\n") +
@@ -108,9 +113,9 @@ export async function runExactSetup(doConfirm = false) {
         );
 
         const code = await startWebServer();
-        await exactApi.requestToken(code!);
+        await exactRepo.api.requestToken(code!);
 
-        const division = await exactApi.retrieveDivision();
+        const division = await exactRepo.api.retrieveDivision();
 
         if (!division) {
           console.error(

@@ -1,5 +1,5 @@
 import Database from "../classes/Database.ts";
-import { Migration } from "./mod.ts";
+import { Migration } from "./Migrator.ts";
 
 export default class QueryHistoryMigration implements Migration {
   upgrade(db: Database) {

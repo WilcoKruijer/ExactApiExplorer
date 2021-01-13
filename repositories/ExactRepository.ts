@@ -1,9 +1,11 @@
-import {
+import Database from "../classes/Database.ts";
+import ExactApi, {
   ExactApiNotReadyError,
   ExactApiRequest,
   ExactApiResponseMeta,
 } from "../classes/ExactApi.ts";
-import { exactApi } from "../main.ts";
+import SettingRepository from "./SettingRepository.ts";
+import SettingService from "../services/SettingService.ts";
 
 type DivisionResponse = {
   Code: string;
@@ -18,19 +20,61 @@ type EndpointData = {
   scope: string;
 };
 
-const endpointData: EndpointData[] = JSON.parse(
-  await Deno.readTextFile("./resources/exact_endpoints.json"),
-);
-
 export default class ExactRepository {
+  private static endpointData = ExactRepository.loadEndpointData();
+  private static api?: ExactApi = undefined;
+
+  #db;
+  #settingRepo;
+
+  constructor(db: Database) {
+    this.#db = db;
+    this.#settingRepo = new SettingRepository(db);
+  }
+
+  get api(): ExactApi {
+    if (!ExactRepository.api) {
+      throw new ExactApiNotReadyError("Api not yet constructed.");
+    }
+
+    return ExactRepository.api;
+  }
+
+  public constructApi() {
+    // TODO(Wilco): are we ending up with multiple ExactApi instances?
+
+    const apiOptions = SettingService.settingsToExactOptions(
+      this.#settingRepo.getExactStorageSettings(),
+    );
+
+    if (!apiOptions) {
+      return;
+    }
+
+    ExactRepository.api = new ExactApi(apiOptions);
+    ExactRepository.api.setOptionsCallback = (options) => {
+      const settings = SettingService.exactOptionsToSettings(
+        options,
+      );
+      this.#settingRepo.setAll(settings);
+      console.log(">>> Saving Exact Storage to DISK.");
+    };
+  }
+
+  private static loadEndpointData(): EndpointData[] {
+    return JSON.parse(
+      Deno.readTextFileSync("./resources/exact_endpoints.json"),
+    );
+  }
+
   public static get endpoints(): string[] {
     const prefix = "/api/v1/{division}/";
-    return endpointData.map((d) => d.url)
+    return ExactRepository.endpointData.map((d) => d.url)
       .filter((url) => url.startsWith(prefix))
       .map((url) => url.slice(prefix.length));
   }
 
-  public static getDivisions() {
+  public getDivisions() {
     return this.cleanJsonRequest<DivisionResponse>({
       method: "GET",
       resource: "hrm/Divisions",
@@ -38,7 +82,7 @@ export default class ExactRepository {
     });
   }
 
-  public static getDivisionByCode(code: number) {
+  public getDivisionByCode(code: number) {
     return this.cleanJsonRequest<DivisionResponse>({
       method: "GET",
       resource: "hrm/Divisions",
@@ -47,30 +91,22 @@ export default class ExactRepository {
     });
   }
 
-  public static async cleanJsonRequest<T>(
+  public async cleanJsonRequest<T>(
     request: (ExactApiRequest & { method: "GET" | "POST" }),
   ): Promise<T[]>;
-  public static async cleanJsonRequest<T>(
+  public async cleanJsonRequest<T>(
     request: (ExactApiRequest & { method: "PUT" | "DELETE" }),
   ): Promise<undefined>;
-  public static async cleanJsonRequest<T>(
+  public async cleanJsonRequest<T>(
     request: (ExactApiRequest),
   ): Promise<T[] | undefined>;
-  public static async cleanJsonRequest<T>(request: ExactApiRequest) {
+  public async cleanJsonRequest<T>(request: ExactApiRequest) {
     const res = await this.api.jsonRequest<T>(request);
     if (!res) {
       return;
     }
 
-    return this.cleanResponse<T>(res);
-  }
-
-  private static get api() {
-    if (!exactApi) {
-      throw new ExactApiNotReadyError("exactApi not set.");
-    }
-
-    return exactApi;
+    return ExactRepository.cleanResponse<T>(res);
   }
 
   private static cleanResponse<T>(
