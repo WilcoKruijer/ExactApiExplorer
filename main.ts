@@ -32,6 +32,7 @@ if ("migrate" in flags) {
     console.error(
       "Invalid value given for 'migrate'. Expected 'up' or 'down'. Ignoring.",
     );
+    Deno.exit(1);
   }
 }
 
