@@ -7,13 +7,13 @@ export {
   prompt,
   Select,
   Toggle,
-} from "https://x.nest.land/cliffy@0.17.0/prompt/mod.ts";
+} from "https://deno.land/x/cliffy@v0.17.0/prompt/mod.ts";
 
 export {
   ansi,
   colors,
   link,
-} from "https://x.nest.land/cliffy@0.17.0/ansi/mod.ts";
+} from "https://deno.land/x/cliffy@v0.17.0/ansi/mod.ts";
 
 export { DB, Status } from "https://deno.land/x/sqlite@v2.3.2/mod.ts";
 export { default as SqliteError } from "https://deno.land/x/sqlite@v2.3.2/src/error.ts";
