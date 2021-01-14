@@ -12,6 +12,12 @@ type DivisionResponse = {
   Description: string;
 };
 
+type RevenueListResponse = {
+  Year: number;
+  Period: number;
+  Amount: number;
+};
+
 type EndpointData = {
   service: string;
   endpoint: string;
@@ -57,7 +63,7 @@ export default class ExactRepository {
         options,
       );
       this.#settingRepo.setAll(settings);
-      console.log(">>> Saving Exact Storage to DISK.");
+      // console.log(">>> Saving Exact Storage to DISK.");
     };
   }
 
@@ -72,6 +78,18 @@ export default class ExactRepository {
     return ExactRepository.endpointData.map((d) => d.url)
       .filter((url) => url.startsWith(prefix))
       .map((url) => url.slice(prefix.length));
+  }
+
+  public getRevenueListByYearAndStatus(year: number) {
+    const searchParams = new URLSearchParams({
+      year: year.toString(),
+      afterEntry: true.toString(),
+    });
+    return this.cleanJsonRequest<RevenueListResponse>({
+      method: "GET",
+      resource: `read/financial/RevenueListByYear`,
+      searchParams,
+    });
   }
 
   public getDivisions() {
@@ -100,7 +118,9 @@ export default class ExactRepository {
   public async cleanJsonRequest<T>(
     request: (ExactApiRequest),
   ): Promise<T[] | undefined>;
-  public async cleanJsonRequest<T>(request: ExactApiRequest) {
+  public async cleanJsonRequest<T>(
+    request: ExactApiRequest,
+  ) {
     const res = await this.api.jsonRequest<T>(request);
     if (!res) {
       return;

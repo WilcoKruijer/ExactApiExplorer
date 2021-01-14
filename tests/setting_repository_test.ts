@@ -52,8 +52,6 @@ Deno.test("Write multiple settings using setAll()", () => {
   assertEquals(s2, ["key2", "valX"]);
 });
 
-
-
 Deno.test("Write EXACT_STORAGE. settings and read them back", () => {
   const vals = [uuidv4.generate(), uuidv4.generate(), uuidv4.generate()];
   const settings = [{
@@ -68,10 +66,9 @@ Deno.test("Write EXACT_STORAGE. settings and read them back", () => {
   }];
 
   settingRepo.setAll(settings);
-  const [s1, s2, s3] = settingRepo.getExactStorageSettings()
+  const [s1, s2, s3] = settingRepo.getExactStorageSettings();
 
   assertEquals(s1, settings[0]);
   assertEquals(s2, settings[1]);
   assertEquals(s3, settings[2]);
-
 });

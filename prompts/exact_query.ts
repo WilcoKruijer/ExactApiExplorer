@@ -51,7 +51,7 @@ async function executeQuery(request: ExactApiRequest) {
       maxKeys = Math.max(Object.keys(res).length, maxKeys);
     }
 
-    if (maxKeys < 8) {
+    if (maxKeys < 10) {
       console.table(result);
     } else {
       console.log(result);
