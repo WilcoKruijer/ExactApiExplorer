@@ -46,6 +46,7 @@ type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
 export interface ExactApiRequest {
   method: RestMethod;
   resource: string;
+  searchParams?: URLSearchParams;
   body?: Record<string, unknown>;
   filter?: string;
   select?: string;
@@ -173,7 +174,7 @@ export default class ExactApi {
     }
 
     if (request.method === "DELETE" || request.method === "PUT") {
-      return;
+      return undefined;
     }
 
     return this.retrievePaginatedResponse<T>(await response.json());
@@ -263,7 +264,7 @@ export default class ExactApi {
   }
 
   private static buildRequestParameters(request: ExactApiRequest) {
-    const params = new URLSearchParams();
+    const params = request.searchParams ?? new URLSearchParams();
 
     if (request.select) {
       params.set("$select", request.select);
