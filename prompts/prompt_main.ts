@@ -1,6 +1,5 @@
 import { colors, Input, prompt, Select } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
-import Playground from "../classes/Playground.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
 import runQueryPrompts from "./exact_query.ts";
 import DatabaseSingleton from "../singletons/database.ts";
@@ -14,7 +13,6 @@ const enum Options {
   QUERY = "Execute an API query",
   DIVISION = "Set Exact Online division",
   SETUP = "Exact Online setup",
-  MISC = "Something else ...",
   EXIT = "Exit",
 }
 
@@ -74,7 +72,6 @@ export async function run() {
           disabled: division === 0,
         },
         Options.SETUP,
-        Options.MISC,
         Options.EXIT,
       ],
       after: async ({ action }, next) => {
@@ -95,9 +92,6 @@ export async function run() {
 
             return await next(Prompts.ACTION);
 
-          case Options.MISC:
-            await (new Playground()).go();
-            break;
           default:
             break;
         }
