@@ -1,3 +1,5 @@
+/** This module extends the SQLite module's functionality. */
+
 import { Rows } from "../deps.ts";
 
 declare module "../deps.ts" {
@@ -7,6 +9,7 @@ declare module "../deps.ts" {
   }
 }
 
+/** Error thrown when one row is expected, but zero or multiple are given. */
 export class OneRowError extends Error {
   constructor(message: string) {
     super(message);

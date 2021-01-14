@@ -1,9 +1,12 @@
+// TODO(Wilco): allow adjusting these to different TLDs
 const AUTH_URL = "https://start.exactonline.nl/api/oauth2/auth/";
 const REST_URL = "https://start.exactonline.nl/api/";
 const TOKEN_URL = "https://start.exactonline.nl/api/oauth2/token/";
 
+// TODO(Wilco): make iteration limit adjustable as well.
 const ITERATION_LIMIT = 50;
 
+/** Thrown when the API returns an error message. */
 export class ExactOnlineServiceError extends Error {
   name = "ExactOnlineServiceError";
   exactResponse: Record<string, unknown>;
@@ -13,6 +16,7 @@ export class ExactOnlineServiceError extends Error {
   }
 }
 
+/** Thrown when the setup steps are not completed. */
 export class ExactApiNotReadyError extends Error {
   name = "ExactApiNotReadyError";
   constructor(message: string) {
@@ -20,6 +24,10 @@ export class ExactApiNotReadyError extends Error {
   }
 }
 
+/** 
+ * Thrown when pagination goes over the iteration limit. 
+ * In the Exact API, each page is a new request.
+ */
 export class ExactApiIterationLimit extends Error {
   name = "ExactApiIterationLimit";
   constructor(message: string) {
@@ -27,6 +35,7 @@ export class ExactApiIterationLimit extends Error {
   }
 }
 
+/** Persistant data the API requires. */
 export interface ExactApiOptions {
   baseUrl: string;
   clientId: string;
@@ -43,6 +52,7 @@ export interface ExactApiOptions {
 
 type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
 
+/** Options for requesting data from the api. */
 export interface ExactApiRequest {
   method: RestMethod;
   resource: string;
@@ -53,6 +63,7 @@ export interface ExactApiRequest {
   top?: string;
 }
 
+/** Response wrapper for a raw API response */
 export interface ExactApiResponse<T> {
   d: {
     results: T[];
@@ -60,6 +71,7 @@ export interface ExactApiResponse<T> {
   } | T[];
 }
 
+/** Metadata returned with each API call. */
 export interface ExactApiResponseMeta {
   __metadata: {
     uri: string;
@@ -69,8 +81,14 @@ export interface ExactApiResponseMeta {
 
 type MeResponse = { CurrentDivision: number };
 
+/** Class that aids interaction with the Exact Online API. */
 export default class ExactApi {
   #options: ExactApiOptions;
+
+  /** 
+   * Function that gets called when any of the options change.
+   * Use this for persisting data used by the API to your storage of choice.
+   */
   setOptionsCallback?: (options: ExactApiOptions) => void;
 
   constructor(options: ExactApiOptions) {
@@ -80,7 +98,7 @@ export default class ExactApi {
   /**
    * Gets an access and refresh token from Exact.
    * This is needed before Exact APIs can be used.
-   * @param code the code gotton from the redirect after logging into Exact.
+   * @param code the code gotten from the redirect after logging into Exact.
    */
   public async requestToken(code: string) {
     const params = new URLSearchParams();
@@ -88,7 +106,7 @@ export default class ExactApi {
     params.set("client_secret", this.#options.clientSecret);
     params.set("code", code);
     params.set("grant_type", "authorization_code");
-    params.set("redirect_uri", this.redirectUrl());
+    params.set("redirect_uri", this.#options.baseUrl);
 
     const response = await fetch(TOKEN_URL, {
       method: "POST",
@@ -141,6 +159,10 @@ export default class ExactApi {
     return division;
   }
 
+  /**
+   * Query the Exact API.
+   * Handles paginating by requesting all pages until the iteration limit is reached. 
+   */
   public async jsonRequest<T>(
     request: (ExactApiRequest & { method: "GET" | "POST" }),
   ): Promise<(T & ExactApiResponseMeta)[]>;
@@ -180,16 +202,26 @@ export default class ExactApi {
     return this.retrievePaginatedResponse<T>(await response.json());
   }
 
+  /** Returns a copy of the current options. */
   public get options(): ExactApiOptions {
     // Make a copy
     return { ...this.#options };
   }
 
+  /** Gets the current division. Undefined means the API is not yet ready. */
   public get division(): number | undefined {
     return this.#options.division;
   }
 
+  /** 
+   * Sets the division API calls are directed to.
+   * This does not verify if the division actually exist. 
+   */
   public set division(division: number | undefined) {
+    if (typeof division === "undefined") {
+      throw new Error("Cannot set division to 'undefined'.");
+    }
+
     if (this.setOptionsCallback && this.#options.division !== division) {
       // Division has changed, it should be stored.
       this.#options.division = division;
@@ -197,14 +229,11 @@ export default class ExactApi {
     }
   }
 
-  public redirectUrl() {
-    return this.options.baseUrl;
-  }
-
+  /** Builds the URL to user login page. */
   public authRequestUrl() {
     const params = new URLSearchParams();
     params.set("client_id", this.options.clientId);
-    params.set("redirect_uri", this.redirectUrl());
+    params.set("redirect_uri", this.#options.baseUrl);
     params.set("response_type", "code");
 
     return new URL(AUTH_URL + "?" + params.toString()).toString();
