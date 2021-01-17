@@ -1,10 +1,9 @@
 import { colors, Input, link, prompt, serve, Toggle } from "../deps.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
+import { EXACT_REDIRECT_URL } from "../resources/constants.ts";
 import SettingService from "../services/SettingService.ts";
 import DatabaseSingleton from "../singletons/database.ts";
-
-const BASE_URL = "http://localhost:8080";
 
 const enum Prompts {
   RESET_CONFIRMATION = "resetConfirmed",
@@ -53,7 +52,7 @@ export async function runExactSetup(doConfirm = false) {
             link("apps.exactonline.com", "https://apps.exactonline.com/") +
             "\n" +
             "\t- Enter the following into the 'Redirect URI' field: " +
-            colors.italic(BASE_URL) +
+            colors.italic(EXACT_REDIRECT_URL) +
             "\n",
         );
 
@@ -85,14 +84,13 @@ export async function runExactSetup(doConfirm = false) {
         }
 
         // Store the given data.
-        const settings = SettingService.exactOptionsToSettings({
-          baseUrl: BASE_URL,
+        const settings = SettingService.exactStorageToSettings({
           clientId: clientId,
           clientSecret: answer.clientSecret!,
         });
         settingRepo.setAll(settings);
         // Recreate the Exact Api based on the stored settings.
-        exactRepo.constructApi();
+        exactRepo.constructApi(EXACT_REDIRECT_URL);
 
         if (!exactRepo.api) {
           console.error(
@@ -104,7 +102,7 @@ export async function runExactSetup(doConfirm = false) {
           return await next(Prompts.MAKE_APP);
         }
 
-        const url = exactRepo.api.authRequestUrl();
+        const url = exactRepo.api.authRequestUrl;
 
         console.log(
           colors.bold("[2] Login to Exact.\n") +
@@ -137,22 +135,21 @@ export async function runExactSetup(doConfirm = false) {
 }
 
 /**
- * Stars a webserver that only accepts a single request.
+ * Starts a webserver that only accepts a single request.
  * The user will be redirected to this page by Exact.
  * This server will then retrieve the token.
  */
 async function startWebServer() {
+  // TODO(Wilco): check for AddrInUse and change port when relevant.
   const server = serve({ hostname: "0.0.0.0", port: 8080 });
 
   for await (const request of server) {
-    const code = new URL(request.url, BASE_URL).searchParams.get("code");
+    const code = new URL(request.url, EXACT_REDIRECT_URL).searchParams.get(
+      "code",
+    );
     await request.respond({
       status: 200,
-      body: `
-    <html>
-    <body>
-    You can close this page now ;)
-    `,
+      body: "<html><body>You can close this page now ;)",
     });
     server.close();
     return code;

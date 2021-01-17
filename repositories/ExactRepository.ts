@@ -46,21 +46,25 @@ export default class ExactRepository {
     return ExactRepository.api;
   }
 
-  public constructApi() {
+  public constructApi(redirectUrl: string) {
     // TODO(Wilco): are we ending up with multiple ExactApi instances?
 
-    const apiOptions = SettingService.settingsToExactOptions(
+    const apiStorage = SettingService.settingsToExactStorage(
       this.#settingRepo.getExactStorageSettings(),
     );
 
-    if (!apiOptions) {
+    if (!apiStorage) {
       return;
     }
 
-    ExactRepository.api = new ExactApi(apiOptions);
-    ExactRepository.api.setOptionsCallback = (options) => {
-      const settings = SettingService.exactOptionsToSettings(
-        options,
+    ExactRepository.api = new ExactApi({
+      exactTLD: "nl",
+      redirectUrl,
+    }, apiStorage);
+
+    ExactRepository.api.setStorageCallback = (storage) => {
+      const settings = SettingService.exactStorageToSettings(
+        storage,
       );
       this.#settingRepo.setAll(settings);
       // console.log(">>> Saving Exact Storage to DISK.");

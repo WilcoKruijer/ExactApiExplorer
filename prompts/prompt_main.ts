@@ -1,8 +1,9 @@
-import { colors, Input, prompt, Select } from "../deps.ts";
+import { colors, Input, prompt, Select, Toggle } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
 import runQueryPrompts from "./exact_query.ts";
 import DatabaseSingleton from "../singletons/database.ts";
+import { EXACT_REDIRECT_URL } from "../resources/constants.ts";
 
 const enum Prompts {
   ACTION = "action",
@@ -29,9 +30,9 @@ async function printCurrentDivision(division: number) {
 }
 
 export async function run() {
-  let division = 0;
+  let division: number | null = null;
 
-  exactRepo.constructApi();
+  exactRepo.constructApi(EXACT_REDIRECT_URL);
 
   try {
     if (exactRepo.api) {
@@ -64,12 +65,12 @@ export async function run() {
         {
           name: Options.QUERY,
           value: Options.QUERY,
-          disabled: division === 0,
+          disabled: !division,
         },
         {
           name: Options.DIVISION,
           value: Options.DIVISION,
-          disabled: division === 0,
+          disabled: !division,
         },
         Options.SETUP,
         Options.EXIT,

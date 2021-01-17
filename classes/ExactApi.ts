@@ -1,10 +1,10 @@
-// TODO(Wilco): allow adjusting these to different TLDs
-const AUTH_URL = "https://start.exactonline.nl/api/oauth2/auth/";
-const REST_URL = "https://start.exactonline.nl/api/";
-const TOKEN_URL = "https://start.exactonline.nl/api/oauth2/token/";
+const INCOMPLETE_EXACT_URL = "https://start.exactonline.";
+const AUTH_PATH = "/api/oauth2/auth/";
+const REST_PATH = "/api/";
+const TOKEN_PATH = "/api/oauth2/token/";
 
 // TODO(Wilco): make iteration limit adjustable as well.
-const ITERATION_LIMIT = 50;
+const ITERATION_LIMIT = 30;
 
 /** Thrown when the API returns an error message. */
 export class ExactOnlineServiceError extends Error {
@@ -35,9 +35,15 @@ export class ExactApiIterationLimit extends Error {
   }
 }
 
-/** Persistant data the API requires. */
+export type ExactTLD = "nl" | "be" | "fr" | "de" | "es" | "co.uk" | "com";
+
 export interface ExactApiOptions {
-  baseUrl: string;
+  redirectUrl: string;
+  exactTLD: ExactTLD;
+}
+
+/** Persistant data the API requires. */
+export interface ExactApiStorage {
   clientId: string;
   clientSecret: string;
 
@@ -83,16 +89,18 @@ type MeResponse = { CurrentDivision: number };
 
 /** Class that aids interaction with the Exact Online API. */
 export default class ExactApi {
+  #storage: ExactApiStorage;
   #options: ExactApiOptions;
 
   /** 
-   * Function that gets called when any of the options change.
+   * Function that gets called when any of the storage change.
    * Use this for persisting data used by the API to your storage of choice.
    */
-  setOptionsCallback?: (options: ExactApiOptions) => void;
+  setStorageCallback?: (storage: ExactApiStorage) => void;
 
-  constructor(options: ExactApiOptions) {
+  constructor(options: ExactApiOptions, storage: ExactApiStorage) {
     this.#options = options;
+    this.#storage = storage;
   }
 
   /**
@@ -102,13 +110,13 @@ export default class ExactApi {
    */
   public async requestToken(code: string) {
     const params = new URLSearchParams();
-    params.set("client_id", this.#options.clientId);
-    params.set("client_secret", this.#options.clientSecret);
+    params.set("client_id", this.#storage.clientId);
+    params.set("client_secret", this.#storage.clientSecret);
     params.set("code", code);
     params.set("grant_type", "authorization_code");
-    params.set("redirect_uri", this.#options.baseUrl);
+    params.set("redirect_uri", this.#options.redirectUrl);
 
-    const response = await fetch(TOKEN_URL, {
+    const response = await fetch(this.tokenUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -127,11 +135,11 @@ export default class ExactApi {
   }
 
   /**
-   * Gets the currently selected revision from the API and stores it.
-   * Returns the current selected division when available. A response of
-   * 0 means the API is not ready for querying.
+   * Gets the currently selected division from the API and stores it.
+   * Returns the current selected division when available. A return value of
+   * null means the API is not ready for querying.
    */
-  public async retrieveDivision(): Promise<number> {
+  public async retrieveDivision(): Promise<number | null> {
     const response = await this.rawRequest({
       method: "GET",
       resource: "v1/current/Me",
@@ -139,7 +147,7 @@ export default class ExactApi {
     });
 
     if (!response.ok) {
-      return 0;
+      return null;
     }
 
     const res = await this.retrievePaginatedResponse<MeResponse>(
@@ -147,11 +155,12 @@ export default class ExactApi {
     );
 
     if (!res.length) {
-      return 0;
+      return null;
     }
 
     const division = res[0].CurrentDivision;
 
+    // Only update division when we don't currently have a division set
     if (!this.division) {
       this.division = division;
     }
@@ -175,7 +184,7 @@ export default class ExactApi {
   public async jsonRequest<T>(
     request: ExactApiRequest,
   ) {
-    if (!this.#options.division) {
+    if (!this.#storage.division) {
       throw new ExactApiNotReadyError(
         "Division has not been set. Call retrieveDivision() first.",
       );
@@ -183,7 +192,7 @@ export default class ExactApi {
 
     request = {
       ...request,
-      resource: `v1/${this.#options.division}/${request.resource}`,
+      resource: `v1/${this.#storage.division}/${request.resource}`,
     };
 
     const response = await this.rawRequest(request);
@@ -202,15 +211,15 @@ export default class ExactApi {
     return this.retrievePaginatedResponse<T>(await response.json());
   }
 
-  /** Returns a copy of the current options. */
-  public get options(): ExactApiOptions {
+  /** Returns a copy of the current storage. */
+  public get storage(): ExactApiStorage {
     // Make a copy
-    return { ...this.#options };
+    return { ...this.#storage };
   }
 
   /** Gets the current division. Undefined means the API is not yet ready. */
   public get division(): number | undefined {
-    return this.#options.division;
+    return this.#storage.division;
   }
 
   /** 
@@ -219,30 +228,44 @@ export default class ExactApi {
    */
   public set division(division: number | undefined) {
     if (typeof division === "undefined") {
-      throw new Error("Cannot set division to 'undefined'.");
+      throw new TypeError("Cannot set division to 'undefined'.");
     }
 
-    if (this.setOptionsCallback && this.#options.division !== division) {
+    if (this.setStorageCallback && this.#storage.division !== division) {
       // Division has changed, it should be stored.
-      this.#options.division = division;
-      this.setOptionsCallback(this.options);
+      this.#storage.division = division;
+      this.setStorageCallback(this.storage);
     }
   }
 
   /** Builds the URL to user login page. */
-  public authRequestUrl() {
+  public get authRequestUrl() {
     const params = new URLSearchParams();
-    params.set("client_id", this.options.clientId);
-    params.set("redirect_uri", this.#options.baseUrl);
+    params.set("client_id", this.storage.clientId);
+    params.set("redirect_uri", this.#options.redirectUrl);
     params.set("response_type", "code");
 
-    return new URL(AUTH_URL + "?" + params.toString()).toString();
+    return new URL(this.authBaseUrl + "?" + params.toString()).toString();
   }
 
-  public static buildUrl(request: ExactApiRequest) {
+  public buildUrl(request: ExactApiRequest) {
     const params = ExactApi.buildRequestParameters(request);
 
-    return new URL(REST_URL + request.resource + "?" + params.toString());
+    return new URL(
+      this.restBaseUrl + request.resource + "?" + params.toString(),
+    );
+  }
+
+  public get authBaseUrl() {
+    return INCOMPLETE_EXACT_URL + this.#options.exactTLD + AUTH_PATH;
+  }
+
+  public get restBaseUrl() {
+    return INCOMPLETE_EXACT_URL + this.#options.exactTLD + REST_PATH;
+  }
+
+  public get tokenUrl() {
+    return INCOMPLETE_EXACT_URL + this.#options.exactTLD + TOKEN_PATH;
   }
 
   private async retrievePaginatedResponse<T>(
@@ -265,7 +288,7 @@ export default class ExactApi {
       }
 
       // Strip base url from the url the api returned
-      const nextUrl: string = d.__next.substring(REST_URL.length);
+      const nextUrl: string = d.__next.substring(this.restBaseUrl.length);
 
       // TODO(Wilco): Is 'GET' always the right method here?
       const response = await this.rawRequest({
@@ -313,13 +336,13 @@ export default class ExactApi {
   private async rawRequest(request: ExactApiRequest) {
     await this.refreshTokenIfNeeded();
 
-    const url = ExactApi.buildUrl(request);
+    const url = this.buildUrl(request);
 
     const fetchObject: RequestInit = {
       method: request.method,
       headers: {
         "Accept": "application/json",
-        "Authorization": `Bearer ${this.#options.accessToken}`,
+        "Authorization": `Bearer ${this.#storage.accessToken}`,
       },
       body: request.body ? JSON.stringify(request.body) : undefined,
     };
@@ -338,12 +361,12 @@ export default class ExactApi {
   private setToken(tokenData: Record<string, string>) {
     const expiresIn = +tokenData["expires_in"];
 
-    this.#options.accessExpiry = Date.now() + expiresIn;
-    this.#options.accessToken = tokenData["access_token"];
-    this.#options.refreshToken = tokenData["refresh_token"];
+    this.#storage.accessExpiry = Date.now() + expiresIn;
+    this.#storage.accessToken = tokenData["access_token"];
+    this.#storage.refreshToken = tokenData["refresh_token"];
 
-    if (this.setOptionsCallback) {
-      this.setOptionsCallback(this.options);
+    if (this.setStorageCallback) {
+      this.setStorageCallback(this.storage);
     }
   }
 
@@ -351,26 +374,26 @@ export default class ExactApi {
    * Refreshes our current access token if needed.
    */
   private async refreshTokenIfNeeded() {
-    if (!this.#options.refreshToken || !this.#options.accessExpiry) {
+    if (!this.#storage.refreshToken || !this.#storage.accessExpiry) {
       // We don't have a token yet, we cannot refresh.
       throw new ExactApiNotReadyError(
         "Cannot refresh token without a refresh token.",
       );
     }
 
-    if (Date.now() < this.#options.accessExpiry) {
+    if (Date.now() < this.#storage.accessExpiry) {
       // We have a refresh token and it isn't currently expired.
       // TODO(Wilco): check if having a small offset of a second is useful here.
       return;
     }
 
     const params = new URLSearchParams();
-    params.set("client_id", this.#options.clientId);
-    params.set("client_secret", this.#options.clientSecret);
+    params.set("client_id", this.#storage.clientId);
+    params.set("client_secret", this.#storage.clientSecret);
     params.set("grant_type", "refresh_token");
-    params.set("refresh_token", this.#options.refreshToken);
+    params.set("refresh_token", this.#storage.refreshToken);
 
-    const response = await fetch(TOKEN_URL, {
+    const response = await fetch(this.tokenUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

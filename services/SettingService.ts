@@ -1,21 +1,21 @@
-import type { ExactApiOptions } from "../classes/ExactApi.ts";
+import type { ExactApiStorage } from "../classes/ExactApi.ts";
 import type { Setting } from "../repositories/SettingRepository.ts";
 import Utils from "../classes/Utils.ts";
 
 const EXACT_STORAGE_PREFIX = "EXACT_STORAGE.";
 
 export default class SettingService {
-  static exactOptionsToSettings(options: ExactApiOptions): Setting[] {
+  static exactStorageToSettings(options: ExactApiStorage): Setting[] {
     return Object.keys(options)
       .map((key) => {
         return {
           key: EXACT_STORAGE_PREFIX + Utils.camelToSnakeCase(key).toUpperCase(),
-          value: options[key as keyof ExactApiOptions],
+          value: options[key as keyof ExactApiStorage],
         } as Setting;
       });
   }
 
-  static settingsToExactOptions(settings: Setting[]) {
+  static settingsToExactStorage(settings: Setting[]) {
     const obj: Record<string, string | number> = {};
 
     for (const setting of settings) {
@@ -27,17 +27,17 @@ export default class SettingService {
       [, variable] = setting.key.split(".");
       variable = Utils.snakeToCamelCase(variable);
 
-      // These variablse should be numbers, so we should convert.
+      // These variables should be numbers, so we should convert.
       const value = variable === "accessExpiry" || variable === "division"
         ? +setting.value
         : setting.value;
 
-      obj[variable as keyof ExactApiOptions] = value;
+      obj[variable as keyof ExactApiStorage] = value;
     }
 
-    if ("baseUrl" in obj && "clientId" in obj && "clientSecret" in obj) {
-      // Only return an ExactApiOptions when we actually have a valid object.
-      return obj as unknown as ExactApiOptions;
+    if ("clientId" in obj && "clientSecret" in obj) {
+      // Only return an ExactApiStorage when we actually have a valid object.
+      return obj as unknown as ExactApiStorage;
     }
   }
 }

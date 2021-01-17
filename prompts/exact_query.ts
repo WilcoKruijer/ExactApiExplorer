@@ -20,7 +20,7 @@ async function executeQuery(request: ExactApiRequest) {
   console.log(
     "Will execute: " +
       colors.yellow("GET ") +
-      colors.brightGreen(ExactApi.buildUrl(request).toString()),
+      colors.brightGreen(exactRepo.api.buildUrl(request).toString()),
   );
 
   try {
