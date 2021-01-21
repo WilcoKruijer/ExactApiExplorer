@@ -21,6 +21,7 @@ Deno.test("Convert settings to to array of ExactApiStorage", () => {
   const settings = [
     { key: "EXACT_STORAGE.CLIENT_ID", value: "some-kind-of-id" },
     { key: "EXACT_STORAGE.CLIENT_SECRET", value: "thisIsASecret123" },
+    { key: "Irrelevant", value: "123" },
     { key: "EXACT_STORAGE.ACCESS_EXPIRY", value: "123123123" },
   ] as Setting[];
 

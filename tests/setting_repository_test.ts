@@ -63,6 +63,9 @@ Deno.test("Write EXACT_STORAGE. settings and read them back", () => {
   }, {
     key: "EXACT_STORAGE." + vals[2],
     value: vals[2],
+  }, {
+    key: "Irrelevant",
+    value: "123",
   }];
 
   settingRepo.setAll(settings);

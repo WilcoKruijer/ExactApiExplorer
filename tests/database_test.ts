@@ -57,3 +57,44 @@ Deno.test("oneOrUndefined throws when >1 result", () => {
     "Multiple rows",
   );
 });
+
+Deno.test("Allow multiple transactions to be started", () => {
+  db.startTransaction();
+  db.startTransaction();
+});
+
+Deno.test("Start a transaction, then rollback", () => {
+  db.startTransaction();
+  db.query(`CREATE TABLE some_table 
+  (id INTEGER PRIMARY KEY AUTOINCREMENT)`);
+  db.rollback();
+
+  assertThrows(
+    () => {
+      db.query("SELECT * FROM some_table").oneOrUndefined();
+    },
+    undefined,
+    "no such table",
+  );
+});
+
+Deno.test("Start a transaction, then commit", () => {
+  db.startTransaction();
+  db.query(`CREATE TABLE some_table 
+  (id INTEGER PRIMARY KEY AUTOINCREMENT)`);
+  db.commit();
+
+  const res = db.query("SELECT * FROM some_table").oneOrUndefined();
+
+  assertEquals(res, undefined);
+});
+
+Deno.test("Rollback without transaction", () => {
+  assertThrows(
+    () => {
+      db.rollback();
+    },
+    undefined,
+    "no transaction is active",
+  );
+});
