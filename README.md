@@ -16,9 +16,9 @@ Exact Online API Explorer helps you build Exact Online extensions by enabling yo
 
  1. Install [Deno](https://deno.land/#installation).
  2. Clone this repostiory.
- 3. Initialize the local SQLite database & run the program: 
+ 3. Initialize the local SQLite database & run the program:
 
- ```deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json --cached-only main.ts --migrate=up```
+ ```deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json main.ts --migrate=up```
 
  4. Follow the set-up instructions.
  5. Enjoy!
