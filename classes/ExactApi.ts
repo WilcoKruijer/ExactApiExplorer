@@ -24,8 +24,8 @@ export class ExactApiNotReadyError extends Error {
   }
 }
 
-/** 
- * Thrown when pagination goes over the iteration limit. 
+/**
+ * Thrown when pagination goes over the iteration limit.
  * In the Exact API, each page is a new request.
  */
 export class ExactApiIterationLimit extends Error {
@@ -92,7 +92,7 @@ export default class ExactApi {
   #storage: ExactApiStorage;
   #options: ExactApiOptions;
 
-  /** 
+  /**
    * Function that gets called when any of the storage change.
    * Use this for persisting data used by the API to your storage of choice.
    */
@@ -170,7 +170,7 @@ export default class ExactApi {
 
   /**
    * Query the Exact API.
-   * Handles paginating by requesting all pages until the iteration limit is reached. 
+   * Handles paginating by requesting all pages until the iteration limit is reached.
    */
   public async jsonRequest<T>(
     request: (ExactApiRequest & { method: "GET" | "POST" }),
@@ -222,9 +222,9 @@ export default class ExactApi {
     return this.#storage.division;
   }
 
-  /** 
+  /**
    * Sets the division API calls are directed to.
-   * This does not verify if the division actually exist. 
+   * This does not verify if the division actually exist.
    */
   public set division(division: number | undefined) {
     if (typeof division === "undefined") {

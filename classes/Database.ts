@@ -19,7 +19,7 @@ export default class Database extends DB {
   }
 
   /**
-   * Starts a transaction. Ignores the fact that a transaction might already 
+   * Starts a transaction. Ignores the fact that a transaction might already
    * have been started.
    */
   startTransaction() {
