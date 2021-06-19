@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows } from "../deps.ts";
+import { assertEquals } from "../deps.ts";
 import Utils from "../classes/Utils.ts";
 
 // deno test --unstable --allow-read=. --allow-write=.

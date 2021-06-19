@@ -1,6 +1,6 @@
-import { colors, Input, List, prompt, Select } from "../deps.ts";
+import { colors, Input, List, prompt } from "../deps.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
-import ExactApi, { ExactApiRequest } from "../classes/ExactApi.ts";
+import { ExactApiRequest } from "../classes/ExactApi.ts";
 import QueryHistoryService from "../services/QueryHistoryService.ts";
 import QueryHistoryRepository from "../repositories/QueryHistoryRepository.ts";
 import DatabaseSingleton from "../singletons/database.ts";
@@ -143,7 +143,7 @@ export default async function runQueryPrompts() {
       type: Input,
       list: true,
       suggestions: topSuggestions,
-      after: async ({ topEntry }, next) => {
+      after: async ({ topEntry }) => {
         if (topEntry) {
           request.top = topEntry;
         } else if (!request.select) {

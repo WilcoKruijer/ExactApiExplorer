@@ -1,4 +1,4 @@
-import { colors, Input, prompt, Select, Toggle } from "../deps.ts";
+import { colors, prompt, Select } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
 import runQueryPrompts from "./exact_query.ts";
@@ -118,7 +118,7 @@ async function selectDivision() {
       message: "Please select a division:",
       type: Select,
       options: options,
-      after: async ({ division }, next) => {
+      after: async ({ division }) => {
         if (exactRepo.api && division) {
           exactRepo.api.division = +division;
           await printCurrentDivision(+division);

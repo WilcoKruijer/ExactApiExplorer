@@ -1,6 +1,6 @@
 import { ExactApiStorage } from "../classes/ExactApi.ts";
 import SettingService from "../services/SettingService.ts";
-import { assertEquals, assertThrows } from "../deps.ts";
+import { assertEquals } from "../deps.ts";
 import { Setting } from "../repositories/SettingRepository.ts";
 
 Deno.test("Convert ExactApiStorage to array of settings", () => {
