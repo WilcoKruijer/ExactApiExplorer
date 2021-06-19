@@ -18,14 +18,14 @@ Exact Online API Explorer helps you build Exact Online extensions by enabling yo
  2. Clone this repostiory.
  3. Initialize the local SQLite database & run the program: 
 
- ```deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json --cached-only main.ts --migrate=up```
+ ```deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl,deno.land --lock lock.json main.ts --migrate=up```
 
  4. Follow the set-up instructions.
  5. Enjoy!
 
 # Deno specifics
 
-The application was tested with Deno version `1.7.2.` and stdlib `0.87.0`. The following flags are used:
+The application was tested with Deno version `1.11.1.` and stdlib `0.99.0`. The following flags are used:
  * `--unstable`: Used to access `Deno.setRaw()`. This means this application might break with future versions of Deno.
  * `--allow-read=.` an SQLite database-file is stored in the current working directory, this flag is used to read from it.
  * `--allow-write=.` Same as above.

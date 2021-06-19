@@ -27,7 +27,7 @@ Rows.prototype.oneOrThrow = function () {
     throw new OneRowError("Multiple rows in result.");
   }
 
-  if (typeof value === "undefined") {
+  if (typeof value === "undefined" || value === null) {
     throw new OneRowError("No rows in result.");
   }
 
@@ -43,6 +43,10 @@ Rows.prototype.oneOrUndefined = function () {
 
   if (!done) {
     throw new OneRowError("Multiple rows in result.");
+  }
+
+  if (value === null) {
+    return undefined;
   }
 
   return value;

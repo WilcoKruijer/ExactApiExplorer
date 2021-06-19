@@ -1,12 +1,13 @@
 import Database from "../classes/Database.ts";
+import type { QueryParam } from "../deps.ts";
 
-export interface EndpointParameter {
+export interface EndpointParameter extends Record<string, QueryParam> {
   endpoint: string;
   variable: string;
   type: string;
 }
 
-export interface QueryHistory {
+export interface QueryHistory extends Record<string, QueryParam> {
   endpoint: string;
   selected?: string;
   filter?: string;

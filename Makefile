@@ -1,8 +1,8 @@
 run:
-	deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json --cached-only main.ts
+	deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json main.ts
 
 migrate:
-	deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json --cached-only main.ts --migrate=up
+	deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl,deno.land --lock lock.json main.ts --migrate=up
 
 #  Reloads the dependencies, this is required when deps.ts is changed.
 reload:
@@ -23,4 +23,4 @@ test:
 	deno test --unstable --allow-read=. --no-check
 
 test_full:
-	deno test --unstable --allow-read=.
+	deno test --unstable --allow-read=. --allow-net=deno.land

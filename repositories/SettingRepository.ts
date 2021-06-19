@@ -1,6 +1,7 @@
 import Database from "../classes/Database.ts";
+import type { QueryParam } from "../deps.ts";
 
-export interface Setting {
+export interface Setting extends Record<string, QueryParam> {
   key: string;
   value: string;
 }

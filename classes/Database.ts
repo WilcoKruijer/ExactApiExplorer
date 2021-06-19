@@ -1,4 +1,4 @@
-import { DB, Rows, SqliteError, Status } from "../deps.ts";
+import { DB, Status } from "../deps.ts";
 
 // Import so we get the module declaration.
 import "../classes/Rows.ts";
