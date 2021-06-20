@@ -3,6 +3,10 @@ import ExactRepository, {
 } from "../repositories/ExactRepository.ts";
 import DatabaseSingleton from "../singletons/database.ts";
 import { Input, prompt } from "../deps.ts";
+import {
+  aggregateReportingBalance,
+  YearlyReportingBalance,
+} from "../services/ExactReportService.ts";
 
 const db = DatabaseSingleton.getInstance();
 const exactRepo = new ExactRepository(db);
@@ -30,17 +34,20 @@ export async function reportDataPrompt() {
 
         // const periods = await exactRepo.getFinancialPeriods(yearNumber);
         // const mapping = await exactRepo.getAccountClassificationMappings();
-        const balances: Partial<ReportingBalance>[] = await exactRepo
+        const balances: ReportingBalance[] = await exactRepo
           .getReportingBalance(yearNumber);
 
-        for (const b of balances) {
+        const yearlyBalances: Map<string, Partial<YearlyReportingBalance>> =
+          aggregateReportingBalance(balances);
+
+        for (const b of yearlyBalances.values()) {
           delete b.GLAccount;
           delete b.ID;
           delete b.Division;
           b.GLAccountDescription = b.GLAccountDescription?.substr(0, 30);
         }
 
-        console.table(balances);
+        console.table([...yearlyBalances.values()]);
       },
     },
   ]);

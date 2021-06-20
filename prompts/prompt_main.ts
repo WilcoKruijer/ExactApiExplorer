@@ -13,7 +13,7 @@ const enum Prompts {
 
 const enum Options {
   QUERY = "Execute an API query",
-  REPORT_DATA = "Get data for a report",
+  REPORT_DATA = "Get data for report",
   DIVISION = "Set Exact Online division",
   SETUP = "Exact Online setup",
   EXIT = "Exit",
