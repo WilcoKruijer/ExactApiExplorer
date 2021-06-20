@@ -7,7 +7,10 @@ import ExactApi, {
 import SettingRepository from "./SettingRepository.ts";
 import SettingService from "../services/SettingService.ts";
 
-type DivisionResponse = {
+const ODATA_DATE_TIME_REGEX = /\/Date\(([0-9]*)\)\//;
+
+/** String in the format /Date(UNIX_TIMESTAMP)/ */
+export type ODataDateTime = string;
   Code: string;
   Description: string;
 };
@@ -84,6 +87,38 @@ export default class ExactRepository {
       .map((url) => url.slice(prefix.length));
   }
 
+  public static convertDate(oDataDateTime: ODataDateTime): Date {
+    const match = oDataDateTime.match(ODATA_DATE_TIME_REGEX);
+
+    if (!match) {
+      throw new TypeError("Invalid ODataDateTime.");
+    }
+
+    return new Date(+match[1]);
+  }
+
+  // deno-lint-ignore no-explicit-any
+  public static convertDatesInResponse(resp: any) {
+    if (!resp || typeof resp !== "object") {
+      return;
+    }
+
+    for (const [key, value] of Object.entries(resp)) {
+      if (typeof value !== "string") {
+        continue;
+      }
+
+      try {
+        if (key in resp) {
+          resp[key] = ExactRepository.convertDate(value);
+        }
+      } catch (e) {
+        if (!(e instanceof TypeError)) {
+          throw e;
+        }
+      }
+    }
+  }
   public getRevenueListByYearAndStatus(year: number) {
     const searchParams = new URLSearchParams({
       year: year.toString(),
@@ -150,6 +185,8 @@ export default class ExactRepository {
       delete (item as Partial<T & ExactApiResponseMeta>)[
         "__metadata"
       ] as unknown as T;
+
+      ExactRepository.convertDatesInResponse(item);
     }
 
     return data as T[];
