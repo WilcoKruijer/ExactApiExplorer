@@ -11,33 +11,94 @@ const ODATA_DATE_TIME_REGEX = /\/Date\(([0-9]*)\)\//;
 
 /** String in the format /Date(UNIX_TIMESTAMP)/ */
 export type ODataDateTime = string;
+/** Ex. e0ecaffc-4093-493a-b4db-e9425e8901ba */
+export type ODataGuid = string;
+
+export interface DivisionResponse {
   Code: string;
   Description: string;
-};
+}
 
-type RevenueListResponse = {
+export interface Creator {
+  Created: ODataDateTime;
+  Creator: ODataGuid;
+  CreatorFullName: string;
+}
+
+export interface Modifier {
+  Modified: ODataDateTime;
+  Modifier: ODataGuid;
+  ModifierFullName: string;
+}
+
+export interface FinancialPeriod extends Creator, Modifier {
+  ID: ODataGuid;
+  Division: number;
+  StartDate: ODataDateTime;
+  EndDate: ODataDateTime;
+  FinPeriod: number;
+  FinYear: number;
+}
+
+export interface Account {
+  GLAccount: ODataGuid;
+  GLAccountCode: string;
+  GLAccountDescription: string;
+}
+
+export interface AccountClassificationMapping extends Account {
+  Classification: ODataGuid;
+  ClassificationCode: string;
+  ClassificationDescription: string;
+  Division: number;
+  GLSchemeCode: string;
+  GLSchemeDescription: string;
+  GLSchemeID: ODataGuid;
+  ID: ODataGuid;
+}
+
+export enum AccountStatus {
+  Open = 20,
+  Processed = 50,
+}
+
+export interface ReportingBalance extends Account {
+  Amount: number;
+  AmountCredit: number;
+  AmountDebit: number;
+  BalanceType: "W" | "B";
+  Count: number;
+  Division: number;
+  ID: string; // Not a guid for some reason.
+  ReportingPeriod: number;
+  ReportingYear: number;
+  // TODO(Wilco): create a type for 'Type'
+  //   ref: https://support.exactonline.com/community/s/knowledge-base#All-All-DNO-Reference-restapi-transactiontypesr
+  Type: number;
+  Status: AccountStatus;
+}
+
+export interface RevenueListResponse {
   Year: number;
   Period: number;
   Amount: number;
-};
+}
 
-type EndpointData = {
+export interface EndpointData {
   service: string;
   endpoint: string;
   url: string;
   methods: ("GET" | "POST" | "PUT" | "DELETE")[];
   scope: string;
-};
+}
 
 export default class ExactRepository {
   private static endpointData = ExactRepository.loadEndpointData();
   private static api?: ExactApi = undefined;
 
-  #db;
   #settingRepo;
 
   constructor(db: Database) {
-    this.#db = db;
     this.#settingRepo = new SettingRepository(db);
   }
 
@@ -119,14 +180,51 @@ export default class ExactRepository {
       }
     }
   }
+
+  public getAccountClassificationMappings() {
+    return this.cleanJsonRequest<AccountClassificationMapping>({
+      method: "GET",
+      resource: `financial/GLAccountClassificationMappings`,
+    });
+  }
+
+  public getReportingBalance(year: number) {
+    const searchParams = new URLSearchParams({
+      $select:
+        "Amount, AmountCredit, AmountDebit, BalanceType, Count, Division, " +
+        "GLAccount, GLAccountCode, GLAccountDescription, ID, ReportingPeriod, " +
+        "ReportingYear, Type, Status",
+      $filter: `ReportingYear eq ${year}`,
+      $orderby: "GLAccountDescription asc",
+    });
+    return this.cleanJsonRequest<ReportingBalance>({
+      method: "GET",
+      resource: `financial/ReportingBalance`,
+      searchParams,
+    });
+  }
+
   public getRevenueListByYearAndStatus(year: number) {
     const searchParams = new URLSearchParams({
+      $orderby: "Period asc",
       year: year.toString(),
       afterEntry: true.toString(),
     });
     return this.cleanJsonRequest<RevenueListResponse>({
       method: "GET",
       resource: `read/financial/RevenueListByYear`,
+      searchParams,
+    });
+  }
+
+  public getFinancialPeriods(year: number) {
+    const searchParams = new URLSearchParams({
+      $filter: `FinYear eq ${year}`,
+      $orderby: "StartDate asc",
+    });
+    return this.cleanJsonRequest<FinancialPeriod>({
+      method: "GET",
+      resource: `financial/FinancialPeriods`,
       searchParams,
     });
   }
