@@ -4,6 +4,7 @@ import ExactRepository from "../repositories/ExactRepository.ts";
 import runQueryPrompts from "./exact_query.ts";
 import DatabaseSingleton from "../singletons/database.ts";
 import { EXACT_REDIRECT_URL } from "../resources/constants.ts";
+import { reportDataPrompt } from "./report_data.ts";
 
 const enum Prompts {
   ACTION = "action",
@@ -12,6 +13,7 @@ const enum Prompts {
 
 const enum Options {
   QUERY = "Execute an API query",
+  REPORT_DATA = "Get data for a report",
   DIVISION = "Set Exact Online division",
   SETUP = "Exact Online setup",
   EXIT = "Exit",
@@ -68,6 +70,11 @@ export async function run() {
           disabled: !division,
         },
         {
+          name: Options.REPORT_DATA,
+          value: Options.REPORT_DATA,
+          disabled: !division,
+        },
+        {
           name: Options.DIVISION,
           value: Options.DIVISION,
           disabled: !division,
@@ -79,6 +86,9 @@ export async function run() {
         switch (action) {
           case Options.QUERY:
             await runQueryPrompts();
+            return await next(Prompts.ACTION);
+          case Options.REPORT_DATA:
+            await reportDataPrompt();
             return await next(Prompts.ACTION);
           case Options.DIVISION:
             await selectDivision();
@@ -92,9 +102,6 @@ export async function run() {
             }
 
             return await next(Prompts.ACTION);
-
-          default:
-            break;
         }
       },
     },
