@@ -10,8 +10,12 @@ const ITERATION_LIMIT = 30;
 export class ExactOnlineServiceError extends Error {
   name = "ExactOnlineServiceError";
   exactResponse: Record<string, unknown>;
-  constructor(message: string, exactResponse: Record<string, unknown> = {}) {
-    super(message);
+  constructor(message: string, exactResponse: ExactApiErrorResponse = {}) {
+    let msg = message;
+    if (exactResponse?.error?.message?.value) {
+      msg += "\n" + exactResponse.error.message.value;
+    }
+    super(msg);
     this.exactResponse = exactResponse;
   }
 }
@@ -82,6 +86,16 @@ export interface ExactApiResponseMeta {
   __metadata: {
     uri: string;
     type: string;
+  };
+}
+
+export interface ExactApiErrorResponse extends Record<string, unknown> {
+  error?: {
+    code: string;
+    message?: {
+      lang: string;
+      value?: string;
+    };
   };
 }
 
