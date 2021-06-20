@@ -1,5 +1,5 @@
 run:
-	deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json main.ts
+	deno run --unstable --no-check --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json main.ts
 
 migrate:
 	deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl,deno.land --lock lock.json main.ts --migrate=up
