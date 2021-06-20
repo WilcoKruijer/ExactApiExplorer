@@ -264,9 +264,10 @@ export default class ExactApi {
 
   public buildUrl(request: ExactApiRequest) {
     const params = ExactApi.buildRequestParameters(request);
+    const paramsString = params.toString() ? "?" + params.toString() : "";
 
     return new URL(
-      this.restBaseUrl + request.resource + "?" + params.toString(),
+      this.restBaseUrl + request.resource + paramsString,
     );
   }
 
