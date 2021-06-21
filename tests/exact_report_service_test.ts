@@ -1,5 +1,5 @@
 import { assertEquals } from "../deps.ts";
-import type { ReportingBalance } from "../repositories/ExactRepository.ts";
+import type { ReportingBalance } from "../repositories/exact_models.d.ts";
 import { aggregateReportingBalance } from "../services/ExactReportService.ts";
 
 Deno.test("Correctly aggregate reporting balance.", () => {

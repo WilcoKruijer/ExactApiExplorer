@@ -6,83 +6,16 @@ import ExactApi, {
 } from "../classes/ExactApi.ts";
 import SettingRepository from "./SettingRepository.ts";
 import SettingService from "../services/SettingService.ts";
+import type {
+  AccountClassificationMapping,
+  DivisionResponse,
+  FinancialPeriod,
+  ODataDateTime,
+  ReportingBalance,
+  RevenueListResponse,
+} from "./exact_models.d.ts";
 
 const ODATA_DATE_TIME_REGEX = /\/Date\(([0-9]*)\)\//;
-
-/** String in the format /Date(UNIX_TIMESTAMP)/ */
-export type ODataDateTime = string;
-/** Ex. e0ecaffc-4093-493a-b4db-e9425e8901ba */
-export type ODataGuid = string;
-
-export interface DivisionResponse {
-  Code: string;
-  Description: string;
-}
-
-export interface Creator {
-  Created: ODataDateTime;
-  Creator: ODataGuid;
-  CreatorFullName: string;
-}
-
-export interface Modifier {
-  Modified: ODataDateTime;
-  Modifier: ODataGuid;
-  ModifierFullName: string;
-}
-
-export interface FinancialPeriod extends Creator, Modifier {
-  ID: ODataGuid;
-  Division: number;
-  StartDate: ODataDateTime;
-  EndDate: ODataDateTime;
-  FinPeriod: number;
-  FinYear: number;
-}
-
-export interface Account {
-  GLAccount: ODataGuid;
-  GLAccountCode: string;
-  GLAccountDescription: string;
-}
-
-export interface AccountClassificationMapping extends Account {
-  Classification: ODataGuid;
-  ClassificationCode: string;
-  ClassificationDescription: string;
-  Division: number;
-  GLSchemeCode: string;
-  GLSchemeDescription: string;
-  GLSchemeID: ODataGuid;
-  ID: ODataGuid;
-}
-
-export enum AccountStatus {
-  Open = 20,
-  Processed = 50,
-}
-
-export interface ReportingBalance extends Account {
-  Amount: number;
-  AmountCredit: number;
-  AmountDebit: number;
-  BalanceType: "W" | "B";
-  Count: number;
-  Division: number;
-  ID: string; // Not a guid for some reason.
-  ReportingPeriod: number;
-  ReportingYear: number;
-  // TODO(Wilco): create a type for 'Type'
-  //   ref: https://support.exactonline.com/community/s/knowledge-base#All-All-DNO-Reference-restapi-transactiontypesr
-  Type: number;
-  Status: AccountStatus;
-}
-
-export interface RevenueListResponse {
-  Year: number;
-  Period: number;
-  Amount: number;
-}
 
 export interface EndpointData {
   service: string;
@@ -195,7 +128,7 @@ export default class ExactRepository {
         "GLAccount, GLAccountCode, GLAccountDescription, ID, ReportingPeriod, " +
         "ReportingYear, Type, Status",
       $filter: `ReportingYear eq ${year}`,
-      $orderby: "GLAccountDescription asc",
+      $orderby: "GLAccountDescription asc, ReportingPeriod asc",
     });
     return this.cleanJsonRequest<ReportingBalance>({
       method: "GET",

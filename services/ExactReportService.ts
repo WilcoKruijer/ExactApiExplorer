@@ -1,4 +1,4 @@
-import { ReportingBalance } from "../repositories/ExactRepository.ts";
+import type { ReportingBalance } from "../repositories/exact_models.d.ts";
 
 export type YearlyReportingBalance = Omit<ReportingBalance, "ReportingPeriod">;
 
