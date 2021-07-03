@@ -2,6 +2,10 @@ import type { ReportingBalance } from "../repositories/exact_models.d.ts";
 
 export type YearlyReportingBalance = Omit<ReportingBalance, "ReportingPeriod">;
 
+/**
+ * @param balances
+ * @returns a map from AccountCode to a reporting balance
+ */
 export function aggregateReportingBalance(balances: ReportingBalance[]) {
   const map: Map<string, YearlyReportingBalance> = new Map();
 
@@ -18,6 +22,7 @@ export function aggregateReportingBalance(balances: ReportingBalance[]) {
     total.Amount += balance.Amount;
     total.AmountCredit += balance.AmountCredit;
     total.AmountDebit += balance.AmountDebit;
+    total.Count += balance.Count;
   }
 
   return map;

@@ -45,7 +45,7 @@ Deno.test("Correctly aggregate reporting balance.", () => {
     AmountDebit: 60,
     AmountCredit: 30,
     BalanceType: "W",
-    Count: 1,
+    Count: 2,
     ID: "asd",
     ReportingYear: 2020,
     Division: 123123,
