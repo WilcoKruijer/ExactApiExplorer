@@ -13,7 +13,7 @@ lock:
 	deno cache --unstable main.ts --lock lock.json --lock-write
 
 fmt:
-	deno fmt
+	deno fmt --ignore=out/
 
 lint:
 	deno lint --unstable
