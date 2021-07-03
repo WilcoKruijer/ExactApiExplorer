@@ -1,4 +1,4 @@
-[
+const endpoints = [
   {
     "service": "Accountancy",
     "endpoint": "AccountInvolvedAccounts",
@@ -7,9 +7,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy practicemanagement"
+    "scope": "Accountancy practicemanagement",
   },
   {
     "service": "Accountancy",
@@ -19,9 +19,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy practicemanagement"
+    "scope": "Accountancy practicemanagement",
   },
   {
     "service": "Accountancy",
@@ -31,9 +31,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy practicemanagement"
+    "scope": "Accountancy practicemanagement",
   },
   {
     "service": "Accountancy",
@@ -43,9 +43,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy practicemanagement"
+    "scope": "Accountancy practicemanagement",
   },
   {
     "service": "Accountancy",
@@ -55,9 +55,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy practicemanagement"
+    "scope": "Accountancy practicemanagement",
   },
   {
     "service": "Accountancy",
@@ -67,9 +67,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy practicemanagement"
+    "scope": "Accountancy practicemanagement",
   },
   {
     "service": "Activities",
@@ -77,9 +77,9 @@
     "url": "/api/v1/{division}/activities/CommunicationNotes",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Organization workflow"
+    "scope": "Organization workflow",
   },
   {
     "service": "Activities",
@@ -87,9 +87,9 @@
     "url": "/api/v1/{division}/activities/Complaints",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Organization workflow"
+    "scope": "Organization workflow",
   },
   {
     "service": "Activities",
@@ -97,9 +97,9 @@
     "url": "/api/v1/{division}/activities/Events",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Organization workflow"
+    "scope": "Organization workflow",
   },
   {
     "service": "Activities",
@@ -107,9 +107,9 @@
     "url": "/api/v1/{division}/activities/ServiceRequests",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Organization workflow"
+    "scope": "Organization workflow",
   },
   {
     "service": "Activities",
@@ -117,27 +117,27 @@
     "url": "/api/v1/{division}/activities/Tasks",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Organization workflow"
+    "scope": "Organization workflow",
   },
   {
     "service": "Assets",
     "endpoint": "AssetGroups",
     "url": "/api/v1/{division}/assets/AssetGroups",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial assets"
+    "scope": "Financial assets",
   },
   {
     "service": "Assets",
     "endpoint": "Assets",
     "url": "/api/v1/{division}/assets/Assets",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial assets"
+    "scope": "Financial assets",
   },
   {
     "service": "Assets",
@@ -147,216 +147,216 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial assets"
+    "scope": "Financial assets",
   },
   {
     "service": "Budget",
     "endpoint": "Budgets",
     "url": "/api/v1/{division}/budget/Budgets",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial budgets"
+    "scope": "Financial budgets",
   },
   {
     "service": "Budget",
     "endpoint": "BudgetScenarios",
     "url": "/api/v1/beta/{division}/budget/BudgetScenarios",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial budgets"
+    "scope": "Financial budgets",
   },
   {
     "service": "Bulk",
     "endpoint": "Cashflow/Payments",
     "url": "/api/v1/{division}/bulk/Cashflow/Payments",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial cashflow"
+    "scope": "Financial cashflow",
   },
   {
     "service": "Bulk",
     "endpoint": "Cashflow/Receivables",
     "url": "/api/v1/{division}/bulk/Cashflow/Receivables",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables"
+    "scope": "Financial receivables",
   },
   {
     "service": "Bulk",
     "endpoint": "CRM/Accounts",
     "url": "/api/v1/{division}/bulk/CRM/Accounts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "Bulk",
     "endpoint": "CRM/Addresses",
     "url": "/api/v1/{division}/bulk/CRM/Addresses",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "Bulk",
     "endpoint": "CRM/Contacts",
     "url": "/api/v1/{division}/bulk/CRM/Contacts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "Bulk",
     "endpoint": "CRM/QuotationLines",
     "url": "/api/v1/{division}/bulk/CRM/QuotationLines",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "Bulk",
     "endpoint": "CRM/Quotations",
     "url": "/api/v1/{division}/bulk/CRM/Quotations",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "Bulk",
     "endpoint": "Documents/DocumentAttachments",
     "url": "/api/v1/{division}/bulk/Documents/DocumentAttachments",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Bulk",
     "endpoint": "Documents/Documents",
     "url": "/api/v1/{division}/bulk/Documents/Documents",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Bulk",
     "endpoint": "Financial/GLAccounts",
     "url": "/api/v1/{division}/bulk/Financial/GLAccounts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Bulk",
     "endpoint": "Financial/GLClassifications",
     "url": "/api/v1/{division}/bulk/Financial/GLClassifications",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Bulk",
     "endpoint": "Financial/TransactionLines",
     "url": "/api/v1/{division}/bulk/Financial/TransactionLines",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Bulk",
     "endpoint": "Logistics/Items",
     "url": "/api/v1/{division}/bulk/Logistics/Items",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Bulk",
     "endpoint": "Logistics/SalesItemPrices",
     "url": "/api/v1/{division}/bulk/Logistics/SalesItemPrices",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Bulk",
     "endpoint": "Project/ProjectWBS",
     "url": "/api/v1/{division}/bulk/Project/ProjectWBS",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Bulk",
     "endpoint": "SalesInvoice/SalesInvoiceLines",
     "url": "/api/v1/{division}/bulk/SalesInvoice/SalesInvoiceLines",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales invoices"
+    "scope": "Sales invoices",
   },
   {
     "service": "Bulk",
     "endpoint": "SalesInvoice/SalesInvoices",
     "url": "/api/v1/{division}/bulk/SalesInvoice/SalesInvoices",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales invoices"
+    "scope": "Sales invoices",
   },
   {
     "service": "Bulk",
     "endpoint": "SalesOrder/GoodsDeliveries",
     "url": "/api/v1/{division}/bulk/SalesOrder/GoodsDeliveries",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics wms"
+    "scope": "Logistics wms",
   },
   {
     "service": "Bulk",
     "endpoint": "SalesOrder/GoodsDeliveryLines",
     "url": "/api/v1/{division}/bulk/SalesOrder/GoodsDeliveryLines",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics wms"
+    "scope": "Logistics wms",
   },
   {
     "service": "Bulk",
     "endpoint": "SalesOrder/SalesOrderLines",
     "url": "/api/v1/{division}/bulk/SalesOrder/SalesOrderLines",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "Bulk",
     "endpoint": "SalesOrder/SalesOrders",
     "url": "/api/v1/{division}/bulk/SalesOrder/SalesOrders",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "Cashflow",
@@ -366,18 +366,18 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial cashflow"
+    "scope": "Financial cashflow",
   },
   {
     "service": "Cashflow",
     "endpoint": "Banks",
     "url": "/api/v1/{division}/cashflow/Banks",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial cashflow"
+    "scope": "Financial cashflow",
   },
   {
     "service": "Cashflow",
@@ -387,9 +387,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial cashflow"
+    "scope": "Financial cashflow",
   },
   {
     "service": "Cashflow",
@@ -397,9 +397,9 @@
     "url": "/api/v1/{division}/cashflow/PaymentConditions",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Financial cashflow"
+    "scope": "Financial cashflow",
   },
   {
     "service": "Cashflow",
@@ -407,18 +407,18 @@
     "url": "/api/v1/{division}/cashflow/Payments",
     "methods": [
       "GET",
-      "PUT"
+      "PUT",
     ],
-    "scope": "Financial cashflow"
+    "scope": "Financial cashflow",
   },
   {
     "service": "Cashflow",
     "endpoint": "ProcessPayments",
     "url": "/api/v1/{division}/cashflow/ProcessPayments",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Financial cashflow"
+    "scope": "Financial cashflow",
   },
   {
     "service": "Cashflow",
@@ -426,9 +426,9 @@
     "url": "/api/v1/{division}/cashflow/Receivables",
     "methods": [
       "GET",
-      "PUT"
+      "PUT",
     ],
-    "scope": "Financial receivables"
+    "scope": "Financial receivables",
   },
   {
     "service": "ContinuousMonitoring",
@@ -438,45 +438,48 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy processmanagement"
+    "scope": "Accountancy processmanagement",
   },
   {
     "service": "ContinuousMonitoring",
     "endpoint": "IndicatorDeviatingAmountEntereds",
-    "url": "/api/v1/beta/{division}/continuousmonitoring/IndicatorDeviatingAmountEntereds",
+    "url":
+      "/api/v1/beta/{division}/continuousmonitoring/IndicatorDeviatingAmountEntereds",
     "methods": [
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy processmanagement"
+    "scope": "Accountancy processmanagement",
   },
   {
     "service": "ContinuousMonitoring",
     "endpoint": "IndicatorDifferenceByPeriods",
-    "url": "/api/v1/beta/{division}/continuousmonitoring/IndicatorDifferenceByPeriods",
+    "url":
+      "/api/v1/beta/{division}/continuousmonitoring/IndicatorDifferenceByPeriods",
     "methods": [
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy processmanagement"
+    "scope": "Accountancy processmanagement",
   },
   {
     "service": "ContinuousMonitoring",
     "endpoint": "IndicatorDifferentVatCodes",
-    "url": "/api/v1/beta/{division}/continuousmonitoring/IndicatorDifferentVatCodes",
+    "url":
+      "/api/v1/beta/{division}/continuousmonitoring/IndicatorDifferentVatCodes",
     "methods": [
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy processmanagement"
+    "scope": "Accountancy processmanagement",
   },
   {
     "service": "ContinuousMonitoring",
@@ -485,9 +488,9 @@
     "methods": [
       "GET",
       "POST",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy processmanagement"
+    "scope": "Accountancy processmanagement",
   },
   {
     "service": "ContinuousMonitoring",
@@ -497,102 +500,106 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy processmanagement"
+    "scope": "Accountancy processmanagement",
   },
   {
     "service": "ContinuousMonitoring",
     "endpoint": "IndicatorSignals",
     "url": "/api/v1/beta/{division}/continuousmonitoring/IndicatorSignals",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Accountancy processmanagement"
+    "scope": "Accountancy processmanagement",
   },
   {
     "service": "ContinuousMonitoring",
     "endpoint": "IndicatorStates",
     "url": "/api/v1/beta/{division}/continuousmonitoring/IndicatorStates",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Accountancy processmanagement"
+    "scope": "Accountancy processmanagement",
   },
   {
     "service": "ContinuousMonitoring",
     "endpoint": "IndicatorUsageOfJournals",
-    "url": "/api/v1/beta/{division}/continuousmonitoring/IndicatorUsageOfJournals",
+    "url":
+      "/api/v1/beta/{division}/continuousmonitoring/IndicatorUsageOfJournals",
     "methods": [
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Accountancy processmanagement"
+    "scope": "Accountancy processmanagement",
   },
   {
     "service": "CRM",
     "endpoint": "AcceptQuotation",
     "url": "/api/v1/{division}/crm/AcceptQuotation",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "CRM",
     "endpoint": "AccountClasses",
     "url": "/api/v1/{division}/crm/AccountClasses",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "CRM",
     "endpoint": "AccountClassificationNames",
     "url": "/api/v1/{division}/crm/AccountClassificationNames",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "CRM",
     "endpoint": "AccountClassifications",
     "url": "/api/v1/{division}/crm/AccountClassifications",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "CRM",
     "endpoint": "AccountDocumentFolders",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadCRMAccountDocumentFolders\" target=\"_blank\">AccountDocumentFolders - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadCRMAccountDocumentFolders" target="_blank">AccountDocumentFolders - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "CRM",
     "endpoint": "AccountDocuments",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadCRMAccountDocuments\" target=\"_blank\">AccountDocuments - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadCRMAccountDocuments" target="_blank">AccountDocuments - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "CRM",
     "endpoint": "AccountDocumentsCount",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadCRMAccountDocumentsCount\" target=\"_blank\">AccountDocumentsCount - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadCRMAccountDocumentsCount" target="_blank">AccountDocumentsCount - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "CRM",
@@ -602,9 +609,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "CRM",
@@ -614,18 +621,18 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "CRM",
     "endpoint": "AddressStates",
     "url": "/api/v1/{division}/crm/AddressStates",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "CRM",
@@ -635,9 +642,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "CRM",
@@ -647,36 +654,37 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "CRM",
     "endpoint": "DefaultAddressForAccount",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadCRMDefaultAddressForAccount\" target=\"_blank\">DefaultAddressForAccount - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadCRMDefaultAddressForAccount" target="_blank">DefaultAddressForAccount - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "CRM",
     "endpoint": "Documents",
     "url": "/api/v1/{division}/read/crm/Documents",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "CRM",
     "endpoint": "DocumentsAttachments",
     "url": "/api/v1/{division}/read/crm/DocumentsAttachments",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "CRM",
@@ -686,9 +694,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Hosting hosting"
+    "scope": "Hosting hosting",
   },
   {
     "service": "CRM",
@@ -698,45 +706,47 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Crm opportunities"
+    "scope": "Crm opportunities",
   },
   {
     "service": "CRM",
     "endpoint": "OpportunityContacts",
     "url": "/api/v1/{division}/read/crm/OpportunityContacts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm opportunities"
+    "scope": "Crm opportunities",
   },
   {
     "service": "CRM",
     "endpoint": "OpportunityDocuments",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadCRMOpportunityDocuments\" target=\"_blank\">OpportunityDocuments - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadCRMOpportunityDocuments" target="_blank">OpportunityDocuments - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm opportunities"
+    "scope": "Crm opportunities",
   },
   {
     "service": "CRM",
     "endpoint": "OpportunityDocumentsCount",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadCRMOpportunityDocumentsCount\" target=\"_blank\">OpportunityDocumentsCount - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadCRMOpportunityDocumentsCount" target="_blank">OpportunityDocumentsCount - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm opportunities"
+    "scope": "Crm opportunities",
   },
   {
     "service": "CRM",
     "endpoint": "PrintQuotation",
     "url": "/api/v1/{division}/crm/PrintQuotation",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "CRM",
@@ -746,9 +756,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "CRM",
@@ -758,45 +768,45 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "CRM",
     "endpoint": "ReasonCodes",
     "url": "/api/v1/{division}/crm/ReasonCodes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "CRM",
     "endpoint": "RejectQuotation",
     "url": "/api/v1/{division}/crm/RejectQuotation",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "CRM",
     "endpoint": "ReopenQuotation",
     "url": "/api/v1/{division}/crm/ReopenQuotation",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "CRM",
     "endpoint": "ReviewQuotation",
     "url": "/api/v1/{division}/crm/ReviewQuotation",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "Documents",
@@ -805,18 +815,18 @@
     "methods": [
       "GET",
       "POST",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Documents",
     "endpoint": "DocumentCategories",
     "url": "/api/v1/{division}/documents/DocumentCategories",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Documents",
@@ -826,9 +836,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Documents",
@@ -838,18 +848,18 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Documents",
     "endpoint": "DocumentTypeCategories",
     "url": "/api/v1/{division}/documents/DocumentTypeCategories",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Documents",
@@ -859,81 +869,84 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Documents",
     "endpoint": "DocumentTypes",
     "url": "/api/v1/{division}/documents/DocumentTypes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Financial",
     "endpoint": "AgingOverview",
     "url": "/api/v1/{division}/read/financial/AgingOverview",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables, financial payables"
+    "scope": "Financial receivables, financial payables",
   },
   {
     "service": "Financial",
     "endpoint": "AgingOverviewByAccount",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialAgingOverviewByAccount\" target=\"_blank\">AgingOverviewByAccount - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialAgingOverviewByAccount" target="_blank">AgingOverviewByAccount - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables, financial payables"
+    "scope": "Financial receivables, financial payables",
   },
   {
     "service": "Financial",
     "endpoint": "AgingPayablesList",
     "url": "/api/v1/{division}/read/financial/AgingPayablesList",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial payables"
+    "scope": "Financial payables",
   },
   {
     "service": "Financial",
     "endpoint": "AgingPayablesListByAgeGroup",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialAgingPayablesListByAgeGroup\" target=\"_blank\">AgingPayablesListByAgeGroup - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialAgingPayablesListByAgeGroup" target="_blank">AgingPayablesListByAgeGroup - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial payables"
+    "scope": "Financial payables",
   },
   {
     "service": "Financial",
     "endpoint": "AgingReceivablesList",
     "url": "/api/v1/{division}/read/financial/AgingReceivablesList",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables"
+    "scope": "Financial receivables",
   },
   {
     "service": "Financial",
     "endpoint": "AgingReceivablesListByAgeGroup",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialAgingReceivablesListByAgeGroup\" target=\"_blank\">AgingReceivablesListByAgeGroup - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialAgingReceivablesListByAgeGroup" target="_blank">AgingReceivablesListByAgeGroup - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables"
+    "scope": "Financial receivables",
   },
   {
     "service": "Financial",
     "endpoint": "DeductibilityPercentages",
     "url": "/api/v1/{division}/financial/DeductibilityPercentages",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Financial",
@@ -943,18 +956,18 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial currencies"
+    "scope": "Financial currencies",
   },
   {
     "service": "Financial",
     "endpoint": "FinancialPeriods",
     "url": "/api/v1/{division}/financial/FinancialPeriods",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Financial",
@@ -964,9 +977,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Financial",
@@ -976,45 +989,45 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Financial",
     "endpoint": "GLClassifications",
     "url": "/api/v1/{division}/financial/GLClassifications",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Financial",
     "endpoint": "GLSchemes",
     "url": "/api/v1/{division}/financial/GLSchemes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Financial",
     "endpoint": "GLTransactionSources",
     "url": "/api/v1/{division}/financial/GLTransactionSources",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Financial",
     "endpoint": "GLTransactionTypes",
     "url": "/api/v1/{division}/financial/GLTransactionTypes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Financial",
@@ -1024,27 +1037,28 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Financial",
     "endpoint": "JournalStatusByFinancialPeriod",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialJournalStatusByFinancialPeriod\" target=\"_blank\">JournalStatusByFinancialPeriod - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialJournalStatusByFinancialPeriod" target="_blank">JournalStatusByFinancialPeriod - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Financial",
     "endpoint": "JournalStatusList",
     "url": "/api/v1/{division}/read/financial/JournalStatusList",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Financial",
@@ -1052,153 +1066,162 @@
     "url": "/api/v1/{division}/financial/OfficialReturns",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Financial returns"
+    "scope": "Financial returns",
   },
   {
     "service": "Financial",
     "endpoint": "OutstandingInvoicesOverview",
     "url": "/api/v1/{division}/read/financial/OutstandingInvoicesOverview",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables, financial payables"
+    "scope": "Financial receivables, financial payables",
   },
   {
     "service": "Financial",
     "endpoint": "PayablesList",
     "url": "/api/v1/{division}/read/financial/PayablesList",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial payables"
+    "scope": "Financial payables",
   },
   {
     "service": "Financial",
     "endpoint": "PayablesListByAccount",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialPayablesListByAccount\" target=\"_blank\">PayablesListByAccount - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialPayablesListByAccount" target="_blank">PayablesListByAccount - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial payables"
+    "scope": "Financial payables",
   },
   {
     "service": "Financial",
     "endpoint": "PayablesListByAccountAndAgeGroup",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialPayablesListByAccountAndAgeGroup\" target=\"_blank\">PayablesListByAccountAndAgeGroup - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialPayablesListByAccountAndAgeGroup" target="_blank">PayablesListByAccountAndAgeGroup - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial payables"
+    "scope": "Financial payables",
   },
   {
     "service": "Financial",
     "endpoint": "PayablesListByAgeGroup",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialPayablesListByAgeGroup\" target=\"_blank\">PayablesListByAgeGroup - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialPayablesListByAgeGroup" target="_blank">PayablesListByAgeGroup - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial payables"
+    "scope": "Financial payables",
   },
   {
     "service": "Financial",
     "endpoint": "ProfitLossOverview",
     "url": "/api/v1/{division}/read/financial/ProfitLossOverview",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Financial",
     "endpoint": "ReceivablesList",
     "url": "/api/v1/{division}/read/financial/ReceivablesList",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables"
+    "scope": "Financial receivables",
   },
   {
     "service": "Financial",
     "endpoint": "ReceivablesListByAccount",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialReceivablesListByAccount\" target=\"_blank\">ReceivablesListByAccount - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialReceivablesListByAccount" target="_blank">ReceivablesListByAccount - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables"
+    "scope": "Financial receivables",
   },
   {
     "service": "Financial",
     "endpoint": "ReceivablesListByAccountAndAgeGroup",
-    "url": "/api/v1/{division}/read/financial/ReceivablesListByAccountAndAgeGroup",
+    "url":
+      "/api/v1/{division}/read/financial/ReceivablesListByAccountAndAgeGroup",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables"
+    "scope": "Financial receivables",
   },
   {
     "service": "Financial",
     "endpoint": "ReceivablesListByAgeGroup",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialReceivablesListByAgeGroup\" target=\"_blank\">ReceivablesListByAgeGroup - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialReceivablesListByAgeGroup" target="_blank">ReceivablesListByAgeGroup - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial receivables"
+    "scope": "Financial receivables",
   },
   {
     "service": "Financial",
     "endpoint": "ReportingBalance",
     "url": "/api/v1/{division}/financial/ReportingBalance",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Financial",
     "endpoint": "ReportingBalanceByClassification",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialReportingBalanceByClassification\" target=\"_blank\">ReportingBalanceByClassification - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialReportingBalanceByClassification" target="_blank">ReportingBalanceByClassification - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Financial",
     "endpoint": "Returns",
     "url": "/api/v1/{division}/read/financial/Returns",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial returns"
+    "scope": "Financial returns",
   },
   {
     "service": "Financial",
     "endpoint": "RevenueList",
     "url": "/api/v1/{division}/read/financial/RevenueList",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Financial",
     "endpoint": "RevenueListByYear",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialRevenueListByYear\" target=\"_blank\">RevenueListByYear - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialRevenueListByYear" target="_blank">RevenueListByYear - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Financial",
     "endpoint": "RevenueListByYearAndStatus",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadFinancialRevenueListByYearAndStatus\" target=\"_blank\">RevenueListByYearAndStatus - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadFinancialRevenueListByYearAndStatus" target="_blank">RevenueListByYearAndStatus - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "FinancialTransaction",
@@ -1206,9 +1229,9 @@
     "url": "/api/v1/{division}/financialtransaction/BankEntries",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "FinancialTransaction",
@@ -1216,9 +1239,9 @@
     "url": "/api/v1/{division}/financialtransaction/BankEntryLines",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "FinancialTransaction",
@@ -1226,9 +1249,9 @@
     "url": "/api/v1/{division}/financialtransaction/CashEntries",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "FinancialTransaction",
@@ -1236,27 +1259,27 @@
     "url": "/api/v1/{division}/financialtransaction/CashEntryLines",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "FinancialTransaction",
     "endpoint": "TransactionLines",
     "url": "/api/v1/{division}/financialtransaction/TransactionLines",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "General",
     "endpoint": "Currencies",
     "url": "/api/v1/{division}/general/Currencies",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial currencies"
+    "scope": "Financial currencies",
   },
   {
     "service": "GeneralJournalEntry",
@@ -1264,9 +1287,9 @@
     "url": "/api/v1/{division}/generaljournalentry/GeneralJournalEntries",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "GeneralJournalEntry",
@@ -1274,27 +1297,27 @@
     "url": "/api/v1/{division}/generaljournalentry/GeneralJournalEntryLines",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "HRM",
     "endpoint": "AbsenceRegistrations",
     "url": "/api/v1/{division}/hrm/AbsenceRegistrations",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm employees"
+    "scope": "Hrm employees",
   },
   {
     "service": "HRM",
     "endpoint": "AbsenceRegistrationTransactions",
     "url": "/api/v1/{division}/hrm/AbsenceRegistrationTransactions",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm employees"
+    "scope": "Hrm employees",
   },
   {
     "service": "HRM",
@@ -1304,9 +1327,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial costcenters"
+    "scope": "Financial costcenters",
   },
   {
     "service": "HRM",
@@ -1316,126 +1339,126 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial costcenters"
+    "scope": "Financial costcenters",
   },
   {
     "service": "HRM",
     "endpoint": "Departments",
     "url": "/api/v1/{division}/hrm/Departments",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm employees"
+    "scope": "Hrm employees",
   },
   {
     "service": "HRM",
     "endpoint": "DivisionClasses",
     "url": "/api/v1/{division}/hrm/DivisionClasses",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "HRM",
     "endpoint": "DivisionClassNames",
     "url": "/api/v1/{division}/hrm/DivisionClassNames",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "HRM",
     "endpoint": "DivisionClassValues",
     "url": "/api/v1/{division}/hrm/DivisionClassValues",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "HRM",
     "endpoint": "Divisions",
     "url": "/api/v1/{division}/hrm/Divisions",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "-"
+    "scope": "-",
   },
   {
     "service": "HRM",
     "endpoint": "JobGroups",
     "url": "/api/v1/{division}/hrm/JobGroups",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm employees"
+    "scope": "Hrm employees",
   },
   {
     "service": "HRM",
     "endpoint": "JobTitles",
     "url": "/api/v1/{division}/hrm/JobTitles",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm employees"
+    "scope": "Hrm employees",
   },
   {
     "service": "HRM",
     "endpoint": "LeaveBuildUpRegistrations",
     "url": "/api/v1/{division}/hrm/LeaveBuildUpRegistrations",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm employees"
+    "scope": "Hrm employees",
   },
   {
     "service": "HRM",
     "endpoint": "LeaveRegistrations",
     "url": "/api/v1/{division}/hrm/LeaveRegistrations",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm employees"
+    "scope": "Hrm employees",
   },
   {
     "service": "HRM",
     "endpoint": "Schedules",
     "url": "/api/v1/{division}/hrm/Schedules",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm employees"
+    "scope": "Hrm employees",
   },
   {
     "service": "Inventory",
     "endpoint": "AssemblyOrders",
     "url": "/api/v1/{division}/inventory/AssemblyOrders",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Inventory",
     "endpoint": "BatchNumbers",
     "url": "/api/v1/{division}/inventory/BatchNumbers",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Inventory",
     "endpoint": "ItemWarehousePlanningDetails",
     "url": "/api/v1/{division}/inventory/ItemWarehousePlanningDetails",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
@@ -1445,45 +1468,45 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
     "endpoint": "ItemWarehouseStorageLocations",
     "url": "/api/v1/{division}/inventory/ItemWarehouseStorageLocations",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
     "endpoint": "ProcessStockCount",
     "url": "/api/v1/{division}/inventory/ProcessStockCount",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
     "endpoint": "ProcessWarehouseTransfer",
     "url": "/api/v1/{division}/inventory/ProcessWarehouseTransfer",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
     "endpoint": "SerialNumbers",
     "url": "/api/v1/{division}/inventory/SerialNumbers",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Inventory",
@@ -1493,9 +1516,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
@@ -1505,9 +1528,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
@@ -1517,9 +1540,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
@@ -1528,18 +1551,18 @@
     "methods": [
       "GET",
       "POST",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
     "endpoint": "StorageLocations",
     "url": "/api/v1/{division}/inventory/StorageLocations",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
@@ -1549,9 +1572,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
@@ -1561,9 +1584,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Inventory",
@@ -1573,81 +1596,84 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Logistics",
     "endpoint": "AccountItems",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsAccountItems\" target=\"_blank\">AccountItems - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsAccountItems" target="_blank">AccountItems - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "CustomerItems",
     "url": "/api/v1/{division}/logistics/CustomerItems",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "ItemAssortment",
     "url": "/api/v1/{division}/logistics/ItemAssortment",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "ItemAssortmentProperty",
     "url": "/api/v1/{division}/logistics/ItemAssortmentProperty",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "ItemChargeRelation",
     "url": "/api/v1/{division}/logistics/ItemChargeRelation",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "ItemDetailsByID",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsItemDetailsByID\" target=\"_blank\">ItemDetailsByID - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsItemDetailsByID" target="_blank">ItemDetailsByID - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "ItemExtraField",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsItemExtraField\" target=\"_blank\">ItemExtraField - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsItemExtraField" target="_blank">ItemExtraField - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "ItemGroups",
     "url": "/api/v1/{division}/logistics/ItemGroups",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
@@ -1657,27 +1683,28 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "ItemVersions",
     "url": "/api/v1/{division}/logistics/ItemVersions",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "SalesItemPrice",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsSalesItemPrice\" target=\"_blank\">SalesItemPrice - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsSalesItemPrice" target="_blank">SalesItemPrice - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Logistics",
@@ -1687,27 +1714,28 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Logistics",
     "endpoint": "SelectionCodes",
     "url": "/api/v1/{division}/logistics/SelectionCodes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "Logistics",
     "endpoint": "StockPosition",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsStockPosition\" target=\"_blank\">StockPosition - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadLogisticsStockPosition" target="_blank">StockPosition - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics inventory"
+    "scope": "Logistics inventory",
   },
   {
     "service": "Logistics",
@@ -1717,27 +1745,27 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Logistics",
     "endpoint": "Units",
     "url": "/api/v1/{division}/logistics/Units",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Mailbox",
     "endpoint": "DefaultMailbox",
     "url": "/api/v1/{division}/read/mailbox/DefaultMailbox",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Communication mailboxes"
+    "scope": "Communication mailboxes",
   },
   {
     "service": "Mailbox",
@@ -1747,9 +1775,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Communication mailboxes"
+    "scope": "Communication mailboxes",
   },
   {
     "service": "Mailbox",
@@ -1757,9 +1785,9 @@
     "url": "/api/v1/{division}/mailbox/MailMessageAttachments",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Communication mailboxes"
+    "scope": "Communication mailboxes",
   },
   {
     "service": "Mailbox",
@@ -1767,27 +1795,28 @@
     "url": "/api/v1/{division}/mailbox/MailMessagesSent",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Communication mailboxes"
+    "scope": "Communication mailboxes",
   },
   {
     "service": "Mailbox",
     "endpoint": "PreferredMailbox",
     "url": "/api/v1/{division}/read/mailbox/PreferredMailbox",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Communication mailboxes"
+    "scope": "Communication mailboxes",
   },
   {
     "service": "Mailbox",
     "endpoint": "PreferredMailboxForOperation",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadMailboxPreferredMailboxForOperation\" target=\"_blank\">PreferredMailboxForOperation - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadMailboxPreferredMailboxForOperation" target="_blank">PreferredMailboxForOperation - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Communication mailboxes"
+    "scope": "Communication mailboxes",
   },
   {
     "service": "Manufacturing",
@@ -1797,9 +1826,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -1809,9 +1838,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -1819,9 +1848,9 @@
     "url": "/api/v1/{division}/manufacturing/ByProductReceipts",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -1829,18 +1858,18 @@
     "url": "/api/v1/{division}/manufacturing/ByProductReversals",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
     "endpoint": "ManufacturingSettings",
     "url": "/api/v1/{division}/manufacturing/ManufacturingSettings",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -1848,9 +1877,9 @@
     "url": "/api/v1/{division}/manufacturing/MaterialIssues",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -1858,9 +1887,9 @@
     "url": "/api/v1/{division}/manufacturing/MaterialReversals",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -1870,9 +1899,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -1882,9 +1911,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -1894,27 +1923,27 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
     "endpoint": "RecentTimeTransactions",
     "url": "/api/v1/{division}/read/manufacturing/RecentTimeTransactions",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
     "endpoint": "ShopOrderMaterialPlanDetails",
     "url": "/api/v1/{division}/manufacturing/ShopOrderMaterialPlanDetails",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "Manufacturing",
@@ -1924,9 +1953,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "Manufacturing",
@@ -1934,9 +1963,9 @@
     "url": "/api/v1/{division}/manufacturing/ShopOrderPriorities",
     "methods": [
       "GET",
-      "PUT"
+      "PUT",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "Manufacturing",
@@ -1944,9 +1973,9 @@
     "url": "/api/v1/{division}/manufacturing/ShopOrderReceipts",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "Manufacturing",
@@ -1954,9 +1983,9 @@
     "url": "/api/v1/{division}/manufacturing/ShopOrderReversals",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "Manufacturing",
@@ -1966,18 +1995,19 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "Manufacturing",
     "endpoint": "ShopOrderRoutingStepPlansAvailableToWork",
-    "url": "/api/v1/{division}/read/manufacturing/ShopOrderRoutingStepPlansAvailableToWork",
+    "url":
+      "/api/v1/{division}/read/manufacturing/ShopOrderRoutingStepPlansAvailableToWork",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -1987,9 +2017,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "Manufacturing",
@@ -1997,9 +2027,9 @@
     "url": "/api/v1/{division}/manufacturing/StageForDeliveryReceipts",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -2007,18 +2037,18 @@
     "url": "/api/v1/{division}/manufacturing/StageForDeliveryReversals",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
     "endpoint": "StartedTimedTimeTransactions",
     "url": "/api/v1/{division}/read/manufacturing/StartedTimedTimeTransactions",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -2026,9 +2056,9 @@
     "url": "/api/v1/{division}/manufacturing/SubOrderReceipts",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -2036,9 +2066,9 @@
     "url": "/api/v1/{division}/manufacturing/SubOrderReversals",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Manufacturing production"
+    "scope": "Manufacturing production",
   },
   {
     "service": "Manufacturing",
@@ -2048,9 +2078,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "Manufacturing",
@@ -2060,9 +2090,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "Manufacturing",
@@ -2072,243 +2102,255 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Manufacturing shopfloor"
+    "scope": "Manufacturing shopfloor",
   },
   {
     "service": "OpeningBalance",
     "endpoint": "CurrentYear/AfterEntry",
     "url": "/api/v1/{division}/openingbalance/CurrentYear/AfterEntry",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "OpeningBalance",
     "endpoint": "CurrentYear/Processed",
     "url": "/api/v1/{division}/openingbalance/CurrentYear/Processed",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "OpeningBalance",
     "endpoint": "PreviousYear/AfterEntry",
     "url": "/api/v1/{division}/openingbalance/PreviousYear/AfterEntry",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "OpeningBalance",
     "endpoint": "PreviousYear/Processed",
     "url": "/api/v1/{division}/openingbalance/PreviousYear/Processed",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Payroll",
     "endpoint": "ActiveEmployments",
     "url": "/api/v1/{division}/payroll/ActiveEmployments",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "Employees",
     "url": "/api/v1/{division}/payroll/Employees",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "EmploymentConditionGroups",
     "url": "/api/v1/beta/{division}/payroll/EmploymentConditionGroups",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "EmploymentContractFlexPhases",
     "url": "/api/v1/{division}/payroll/EmploymentContractFlexPhases",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "EmploymentContracts",
     "url": "/api/v1/{division}/payroll/EmploymentContracts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "EmploymentEndReasons",
     "url": "/api/v1/{division}/payroll/EmploymentEndReasons",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "EmploymentEndReasonsOnFocusDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadPayrollEmploymentEndReasonsOnFocusDate\" target=\"_blank\">EmploymentEndReasonsOnFocusDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadPayrollEmploymentEndReasonsOnFocusDate" target="_blank">EmploymentEndReasonsOnFocusDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "EmploymentOrganizations",
     "url": "/api/v1/{division}/payroll/EmploymentOrganizations",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "Employments",
     "url": "/api/v1/{division}/payroll/Employments",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "EmploymentSalaries",
     "url": "/api/v1/{division}/payroll/EmploymentSalaries",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "PayrollComponents",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=PayrollPayrollComponents\" target=\"_blank\">PayrollComponents - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=PayrollPayrollComponents" target="_blank">PayrollComponents - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "PayrollTransactionsByPayrollYear",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=PayrollPayrollTransactionsByPayrollYear\" target=\"_blank\">PayrollTransactionsByPayrollYear - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=PayrollPayrollTransactionsByPayrollYear" target="_blank">PayrollTransactionsByPayrollYear - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Payroll",
     "endpoint": "TaxEmploymentEndFlexCodes",
     "url": "/api/v1/{division}/payroll/TaxEmploymentEndFlexCodes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Hrm payroll"
+    "scope": "Hrm payroll",
   },
   {
     "service": "Project",
     "endpoint": "CostEntryExpensesByProject",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryExpensesByProject\" target=\"_blank\">CostEntryExpensesByProject - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryExpensesByProject" target="_blank">CostEntryExpensesByProject - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostEntryRecentAccounts",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentAccounts\" target=\"_blank\">CostEntryRecentAccounts - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentAccounts" target="_blank">CostEntryRecentAccounts - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostEntryRecentAccountsByProject",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentAccountsByProject\" target=\"_blank\">CostEntryRecentAccountsByProject - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentAccountsByProject" target="_blank">CostEntryRecentAccountsByProject - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostEntryRecentCostTypes",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentCostTypes\" target=\"_blank\">CostEntryRecentCostTypes - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentCostTypes" target="_blank">CostEntryRecentCostTypes - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostEntryRecentCostTypesByProject",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentCostTypesByProject\" target=\"_blank\">CostEntryRecentCostTypesByProject - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentCostTypesByProject" target="_blank">CostEntryRecentCostTypesByProject - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostEntryRecentExpensesByProject",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentExpensesByProject\" target=\"_blank\">CostEntryRecentExpensesByProject - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentExpensesByProject" target="_blank">CostEntryRecentExpensesByProject - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostEntryRecentProjects",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentProjects\" target=\"_blank\">CostEntryRecentProjects - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostEntryRecentProjects" target="_blank">CostEntryRecentProjects - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostsByDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostsByDate\" target=\"_blank\">CostsByDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostsByDate" target="_blank">CostsByDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostsById",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostsById\" target=\"_blank\">CostsById - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostsById" target="_blank">CostsById - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2318,36 +2360,39 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostTypes",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostTypes\" target=\"_blank\">CostTypes - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostTypes" target="_blank">CostTypes - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostTypesByDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostTypesByDate\" target=\"_blank\">CostTypesByDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostTypesByDate" target="_blank">CostTypesByDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "CostTypesByProjectAndDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostTypesByProjectAndDate\" target=\"_blank\">CostTypesByProjectAndDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectCostTypesByProjectAndDate" target="_blank">CostTypesByProjectAndDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2357,135 +2402,147 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "EmploymentInternalRates",
     "url": "/api/v1/{division}/project/EmploymentInternalRates",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourCostTypes",
     "url": "/api/v1/{division}/read/project/HourCostTypes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourEntryActivitiesByProject",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryActivitiesByProject\" target=\"_blank\">HourEntryActivitiesByProject - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryActivitiesByProject" target="_blank">HourEntryActivitiesByProject - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourEntryRecentAccounts",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentAccounts\" target=\"_blank\">HourEntryRecentAccounts - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentAccounts" target="_blank">HourEntryRecentAccounts - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourEntryRecentAccountsByProject",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentAccountsByProject\" target=\"_blank\">HourEntryRecentAccountsByProject - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentAccountsByProject" target="_blank">HourEntryRecentAccountsByProject - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourEntryRecentActivitiesByProject",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentActivitiesByProject\" target=\"_blank\">HourEntryRecentActivitiesByProject - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentActivitiesByProject" target="_blank">HourEntryRecentActivitiesByProject - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "HourEntryRecentHourTypes",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentHourTypes\" target=\"_blank\">HourEntryRecentHourTypes - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentHourTypes" target="_blank">HourEntryRecentHourTypes - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourEntryRecentHourTypesByProject",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentHourTypesByProject\" target=\"_blank\">HourEntryRecentHourTypesByProject - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentHourTypesByProject" target="_blank">HourEntryRecentHourTypesByProject - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourEntryRecentProjects",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentProjects\" target=\"_blank\">HourEntryRecentProjects - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourEntryRecentProjects" target="_blank">HourEntryRecentProjects - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HoursByDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHoursByDate\" target=\"_blank\">HoursByDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHoursByDate" target="_blank">HoursByDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HoursById",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHoursById\" target=\"_blank\">HoursById - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHoursById" target="_blank">HoursById - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourTypes",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourTypes\" target=\"_blank\">HourTypes - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourTypes" target="_blank">HourTypes - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourTypesByDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourTypesByDate\" target=\"_blank\">HourTypesByDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourTypesByDate" target="_blank">HourTypesByDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "HourTypesByProjectAndDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourTypesByProjectAndDate\" target=\"_blank\">HourTypesByProjectAndDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectHourTypesByProjectAndDate" target="_blank">HourTypesByProjectAndDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
@@ -2495,9 +2552,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2507,18 +2564,18 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "ProjectBudgetTypes",
     "url": "/api/v1/{division}/project/ProjectBudgetTypes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2528,9 +2585,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2540,9 +2597,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2552,9 +2609,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2564,9 +2621,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2576,9 +2633,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2588,9 +2645,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2600,9 +2657,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
@@ -2612,225 +2669,240 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "ProjectWBSByProject",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectProjectWBSByProject\" target=\"_blank\">ProjectWBSByProject - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectProjectWBSByProject" target="_blank">ProjectWBSByProject - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "ProjectWBSByProjectAndWBS",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectProjectWBSByProjectAndWBS\" target=\"_blank\">ProjectWBSByProjectAndWBS - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectProjectWBSByProjectAndWBS" target="_blank">ProjectWBSByProjectAndWBS - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "RecentCosts",
     "url": "/api/v1/{division}/read/project/RecentCosts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
     "endpoint": "RecentCostsByNumberOfWeeks",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectRecentCostsByNumberOfWeeks\" target=\"_blank\">RecentCostsByNumberOfWeeks - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectRecentCostsByNumberOfWeeks" target="_blank">RecentCostsByNumberOfWeeks - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "RecentHours",
     "url": "/api/v1/{division}/read/project/RecentHours",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "RecentHoursByNumberOfWeeks",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectRecentHoursByNumberOfWeeks\" target=\"_blank\">RecentHoursByNumberOfWeeks - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectRecentHoursByNumberOfWeeks" target="_blank">RecentHoursByNumberOfWeeks - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingAccountDetails",
     "url": "/api/v1/{division}/read/project/TimeAndBillingAccountDetails",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingAccountDetailsByID",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingAccountDetailsByID\" target=\"_blank\">TimeAndBillingAccountDetailsByID - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingAccountDetailsByID" target="_blank">TimeAndBillingAccountDetailsByID - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingActivitiesAndExpenses",
-    "url": "/api/v1/{division}/read/project/TimeAndBillingActivitiesAndExpenses",
+    "url":
+      "/api/v1/{division}/read/project/TimeAndBillingActivitiesAndExpenses",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryAccounts",
     "url": "/api/v1/{division}/read/project/TimeAndBillingEntryAccounts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryAccountsByDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingEntryAccountsByDate\" target=\"_blank\">TimeAndBillingEntryAccountsByDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingEntryAccountsByDate" target="_blank">TimeAndBillingEntryAccountsByDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryAccountsByProjectAndDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingEntryAccountsByProjectAndDate\" target=\"_blank\">TimeAndBillingEntryAccountsByProjectAndDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingEntryAccountsByProjectAndDate" target="_blank">TimeAndBillingEntryAccountsByProjectAndDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryProjects",
     "url": "/api/v1/{division}/read/project/TimeAndBillingEntryProjects",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryProjectsByAccountAndDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingEntryProjectsByAccountAndDate\" target=\"_blank\">TimeAndBillingEntryProjectsByAccountAndDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingEntryProjectsByAccountAndDate" target="_blank">TimeAndBillingEntryProjectsByAccountAndDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryProjectsByDate",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingEntryProjectsByDate\" target=\"_blank\">TimeAndBillingEntryProjectsByDate - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingEntryProjectsByDate" target="_blank">TimeAndBillingEntryProjectsByDate - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryRecentAccounts",
     "url": "/api/v1/{division}/read/project/TimeAndBillingEntryRecentAccounts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryRecentActivitiesAndExpenses",
-    "url": "/api/v1/{division}/read/project/TimeAndBillingEntryRecentActivitiesAndExpenses",
+    "url":
+      "/api/v1/{division}/read/project/TimeAndBillingEntryRecentActivitiesAndExpenses",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryRecentHourCostTypes",
-    "url": "/api/v1/{division}/read/project/TimeAndBillingEntryRecentHourCostTypes",
+    "url":
+      "/api/v1/{division}/read/project/TimeAndBillingEntryRecentHourCostTypes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingEntryRecentProjects",
     "url": "/api/v1/{division}/read/project/TimeAndBillingEntryRecentProjects",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingItemDetails",
     "url": "/api/v1/{division}/read/project/TimeAndBillingItemDetails",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingItemDetailsByID",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingItemDetailsByID\" target=\"_blank\">TimeAndBillingItemDetailsByID - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingItemDetailsByID" target="_blank">TimeAndBillingItemDetailsByID - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingProjectDetails",
     "url": "/api/v1/{division}/read/project/TimeAndBillingProjectDetails",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingProjectDetailsByID",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingProjectDetailsByID\" target=\"_blank\">TimeAndBillingProjectDetailsByID - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingProjectDetailsByID" target="_blank">TimeAndBillingProjectDetailsByID - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
     "endpoint": "TimeAndBillingRecentProjects",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingRecentProjects\" target=\"_blank\">TimeAndBillingRecentProjects - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=ReadProjectTimeAndBillingRecentProjects" target="_blank">TimeAndBillingRecentProjects - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
@@ -2840,9 +2912,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
@@ -2852,9 +2924,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects billing"
+    "scope": "Projects billing",
   },
   {
     "service": "Project",
@@ -2864,9 +2936,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2876,9 +2948,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Project",
@@ -2888,9 +2960,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Projects projects"
+    "scope": "Projects projects",
   },
   {
     "service": "Purchase",
@@ -2898,9 +2970,9 @@
     "url": "/api/v1/{division}/purchase/PurchaseInvoiceLines",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Purchase invoices"
+    "scope": "Purchase invoices",
   },
   {
     "service": "Purchase",
@@ -2910,9 +2982,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Purchase invoices"
+    "scope": "Purchase invoices",
   },
   {
     "service": "PurchaseEntry",
@@ -2922,9 +2994,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "PurchaseEntry",
@@ -2934,9 +3006,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "PurchaseOrder",
@@ -2944,9 +3016,9 @@
     "url": "/api/v1/{division}/purchaseorder/GoodsReceiptLines",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Logistics wms"
+    "scope": "Logistics wms",
   },
   {
     "service": "PurchaseOrder",
@@ -2954,9 +3026,9 @@
     "url": "/api/v1/{division}/purchaseorder/GoodsReceipts",
     "methods": [
       "GET",
-      "POST"
+      "POST",
     ],
-    "scope": "Logistics wms"
+    "scope": "Logistics wms",
   },
   {
     "service": "PurchaseOrder",
@@ -2965,9 +3037,9 @@
     "methods": [
       "GET",
       "POST",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Purchase orders"
+    "scope": "Purchase orders",
   },
   {
     "service": "PurchaseOrder",
@@ -2976,72 +3048,72 @@
     "methods": [
       "GET",
       "POST",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Purchase orders"
+    "scope": "Purchase orders",
   },
   {
     "service": "Sales",
     "endpoint": "PriceLists",
     "url": "/api/v1/{division}/sales/PriceLists",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Sales",
     "endpoint": "SalesPriceListDetails",
     "url": "/api/v1/{division}/sales/SalesPriceListDetails",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Sales",
     "endpoint": "SalesPriceListLinkedAccounts",
     "url": "/api/v1/{division}/sales/SalesPriceListLinkedAccounts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Sales",
     "endpoint": "SalesPriceListPeriods",
     "url": "/api/v1/{division}/sales/SalesPriceListPeriods",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Sales",
     "endpoint": "SalesPriceLists",
     "url": "/api/v1/{division}/sales/SalesPriceLists",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Sales",
     "endpoint": "SalesPriceListVolumeDiscounts",
     "url": "/api/v1/{division}/sales/SalesPriceListVolumeDiscounts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Sales",
     "endpoint": "ShippingMethods",
     "url": "/api/v1/{division}/sales/ShippingMethods",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "SalesEntry",
@@ -3051,9 +3123,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "SalesEntry",
@@ -3063,36 +3135,36 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "SalesInvoice",
     "endpoint": "InvoiceSalesOrders",
     "url": "/api/v1/{division}/salesinvoice/InvoiceSalesOrders",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "SalesInvoice",
     "endpoint": "Layouts",
     "url": "/api/v1/{division}/salesinvoice/Layouts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales invoices"
+    "scope": "Sales invoices",
   },
   {
     "service": "SalesInvoice",
     "endpoint": "PrintedSalesInvoices",
     "url": "/api/v1/{division}/salesinvoice/PrintedSalesInvoices",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Sales invoices"
+    "scope": "Sales invoices",
   },
   {
     "service": "SalesInvoice",
@@ -3102,9 +3174,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales invoices"
+    "scope": "Sales invoices",
   },
   {
     "service": "SalesInvoice",
@@ -3114,18 +3186,18 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales invoices"
+    "scope": "Sales invoices",
   },
   {
     "service": "SalesInvoice",
     "endpoint": "SalesOrderID",
     "url": "/api/v1/{division}/salesinvoice/SalesOrderID",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "SalesOrder",
@@ -3134,9 +3206,9 @@
     "methods": [
       "GET",
       "POST",
-      "PUT"
+      "PUT",
     ],
-    "scope": "Logistics wms"
+    "scope": "Logistics wms",
   },
   {
     "service": "SalesOrder",
@@ -3145,9 +3217,9 @@
     "methods": [
       "GET",
       "POST",
-      "PUT"
+      "PUT",
     ],
-    "scope": "Logistics wms"
+    "scope": "Logistics wms",
   },
   {
     "service": "SalesOrder",
@@ -3157,9 +3229,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "SalesOrder",
@@ -3169,18 +3241,18 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "SalesOrder",
     "endpoint": "PrintedSalesOrders",
     "url": "/api/v1/{division}/salesorder/PrintedSalesOrders",
     "methods": [
-      "POST"
+      "POST",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "SalesOrder",
@@ -3190,9 +3262,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "SalesOrder",
@@ -3202,9 +3274,9 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "Subscription",
@@ -3214,27 +3286,27 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales contracts"
+    "scope": "Sales contracts",
   },
   {
     "service": "Subscription",
     "endpoint": "SubscriptionLineTypes",
     "url": "/api/v1/{division}/subscription/SubscriptionLineTypes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales contracts"
+    "scope": "Sales contracts",
   },
   {
     "service": "Subscription",
     "endpoint": "SubscriptionReasonCodes",
     "url": "/api/v1/{division}/subscription/SubscriptionReasonCodes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales contracts"
+    "scope": "Sales contracts",
   },
   {
     "service": "Subscription",
@@ -3243,9 +3315,9 @@
     "methods": [
       "GET",
       "POST",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales contracts"
+    "scope": "Sales contracts",
   },
   {
     "service": "Subscription",
@@ -3254,9 +3326,9 @@
     "methods": [
       "GET",
       "POST",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales contracts"
+    "scope": "Sales contracts",
   },
   {
     "service": "Subscription",
@@ -3266,225 +3338,225 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Sales contracts"
+    "scope": "Sales contracts",
   },
   {
     "service": "Subscription",
     "endpoint": "SubscriptionTypes",
     "url": "/api/v1/{division}/subscription/SubscriptionTypes",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales contracts"
+    "scope": "Sales contracts",
   },
   {
     "service": "Sync",
     "endpoint": "Cashflow/PaymentTerms",
     "url": "/api/v1/{division}/sync/Cashflow/PaymentTerms",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial cashflow"
+    "scope": "Financial cashflow",
   },
   {
     "service": "Sync",
     "endpoint": "CRM/Accounts",
     "url": "/api/v1/{division}/sync/CRM/Accounts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "Sync",
     "endpoint": "CRM/Addresses",
     "url": "/api/v1/{division}/sync/CRM/Addresses",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "Sync",
     "endpoint": "CRM/Contacts",
     "url": "/api/v1/{division}/sync/CRM/Contacts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm accounts"
+    "scope": "Crm accounts",
   },
   {
     "service": "Sync",
     "endpoint": "CRM/Quotations",
     "url": "/api/v1/{division}/sync/CRM/Quotations",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Crm quotes"
+    "scope": "Crm quotes",
   },
   {
     "service": "Sync",
     "endpoint": "Deleted",
     "url": "/api/v1/{division}/sync/Deleted",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "Sync",
     "endpoint": "Documents/DocumentAttachments",
     "url": "/api/v1/{division}/sync/Documents/DocumentAttachments",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Sync",
     "endpoint": "Documents/Documents",
     "url": "/api/v1/{division}/sync/Documents/Documents",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization documents"
+    "scope": "Organization documents",
   },
   {
     "service": "Sync",
     "endpoint": "Financial/GLAccounts",
     "url": "/api/v1/{division}/sync/Financial/GLAccounts",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Sync",
     "endpoint": "Financial/GLClassifications",
     "url": "/api/v1/{division}/sync/Financial/GLClassifications",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial generalledgers"
+    "scope": "Financial generalledgers",
   },
   {
     "service": "Sync",
     "endpoint": "Financial/TransactionLines",
     "url": "/api/v1/{division}/sync/Financial/TransactionLines",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Sync",
     "endpoint": "Logistics/Items",
     "url": "/api/v1/{division}/sync/Logistics/Items",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics items"
+    "scope": "Logistics items",
   },
   {
     "service": "Sync",
     "endpoint": "Logistics/SalesItemPrices",
     "url": "/api/v1/{division}/sync/Logistics/SalesItemPrices",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales prices"
+    "scope": "Sales prices",
   },
   {
     "service": "Sync",
     "endpoint": "SalesInvoice/SalesInvoices",
     "url": "/api/v1/{division}/sync/SalesInvoice/SalesInvoices",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales invoices"
+    "scope": "Sales invoices",
   },
   {
     "service": "Sync",
     "endpoint": "SalesOrder/GoodsDeliveries",
     "url": "/api/v1/{division}/sync/SalesOrder/GoodsDeliveries",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics wms"
+    "scope": "Logistics wms",
   },
   {
     "service": "Sync",
     "endpoint": "SalesOrder/GoodsDeliveryLines",
     "url": "/api/v1/{division}/sync/SalesOrder/GoodsDeliveryLines",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Logistics wms"
+    "scope": "Logistics wms",
   },
   {
     "service": "Sync",
     "endpoint": "SalesOrder/SalesOrders",
     "url": "/api/v1/{division}/sync/SalesOrder/SalesOrders",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Sales orders"
+    "scope": "Sales orders",
   },
   {
     "service": "System",
     "endpoint": "AccountantInfo",
     "url": "/api/v1/{division}/system/AccountantInfo",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "System",
     "endpoint": "AllDivisions",
     "url": "/api/v1/{division}/system/AllDivisions",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "System",
     "endpoint": "AvailableFeatures",
     "url": "/api/v1/{division}/system/AvailableFeatures",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "System",
     "endpoint": "Divisions",
     "url": "/api/v1/{division}/system/Divisions",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "System",
     "endpoint": "GetMostRecentlyUsedDivisions",
     "url": "/api/v1/{division}/system/GetMostRecentlyUsedDivisions",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "System",
     "endpoint": "Me",
     "url": "/api/v1/current/Me",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "-"
+    "scope": "-",
   },
   {
     "service": "System",
@@ -3493,36 +3565,37 @@
     "methods": [
       "GET",
       "POST",
-      "PUT"
+      "PUT",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "Users",
     "endpoint": "UserHasRights",
-    "url": "<a href=\"HlpRestAPIResourcesDetails.aspx?name=UsersUserHasRights\" target=\"_blank\">UserHasRights - Function Details</a>",
+    "url":
+      '<a href="HlpRestAPIResourcesDetails.aspx?name=UsersUserHasRights" target="_blank">UserHasRights - Function Details</a>',
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "Users",
     "endpoint": "UserRoles",
     "url": "/api/v1/{division}/users/UserRoles",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "Users",
     "endpoint": "UserRolesPerDivision",
     "url": "/api/v1/{division}/users/UserRolesPerDivision",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "VAT",
@@ -3532,18 +3605,18 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "VAT",
     "endpoint": "VatPercentages",
     "url": "/api/v1/{division}/vat/VatPercentages",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Financial accounting"
+    "scope": "Financial accounting",
   },
   {
     "service": "Webhooks",
@@ -3553,17 +3626,19 @@
       "GET",
       "POST",
       "PUT",
-      "DELETE"
+      "DELETE",
     ],
-    "scope": "Organization administration"
+    "scope": "Organization administration",
   },
   {
     "service": "Workflow",
     "endpoint": "RequestAttachments",
     "url": "/api/v1/beta/{division}/workflow/RequestAttachments",
     "methods": [
-      "GET"
+      "GET",
     ],
-    "scope": "Organization workflow"
-  }
-]
+    "scope": "Organization workflow",
+  },
+] as const;
+
+export default endpoints;

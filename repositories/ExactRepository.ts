@@ -15,19 +15,11 @@ import type {
   ReportingBalance,
   RevenueListResponse,
 } from "./exact_models.d.ts";
+import exactEndpointData from "../resources/exact_endpoints.ts";
 
 const ODATA_DATE_TIME_REGEX = /\/Date\(([0-9]*)\)\//;
 
-export interface EndpointData {
-  service: string;
-  endpoint: string;
-  url: string;
-  methods: ("GET" | "POST" | "PUT" | "DELETE")[];
-  scope: string;
-}
-
 export default class ExactRepository {
-  private static endpointData = ExactRepository.loadEndpointData();
   private static api?: ExactApi = undefined;
 
   #settingRepo;
@@ -69,15 +61,9 @@ export default class ExactRepository {
     };
   }
 
-  private static loadEndpointData(): EndpointData[] {
-    return JSON.parse(
-      Deno.readTextFileSync("./resources/exact_endpoints.json"),
-    );
-  }
-
   public static get endpoints(): string[] {
     const prefix = "/api/v1/{division}/";
-    return ExactRepository.endpointData.map((d) => d.url)
+    return exactEndpointData.map((d) => d.url)
       .filter((url) => url.startsWith(prefix))
       .map((url) => url.slice(prefix.length));
   }
