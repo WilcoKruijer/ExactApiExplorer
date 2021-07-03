@@ -24,7 +24,7 @@ export default class QueryHistoryMigration implements Migration {
   }
 
   downgrade(db: Database) {
-    db.query("DROP TABLE query_history;");
-    db.query("DROP TABLE endpoint_parameters;");
+    db.query("DROP TABLE IF EXISTS query_history;");
+    db.query("DROP TABLE IF EXISTS endpoint_parameters;");
   }
 }

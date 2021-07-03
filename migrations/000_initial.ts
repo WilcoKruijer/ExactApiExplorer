@@ -12,6 +12,6 @@ export default class InitialMigration implements Migration {
   }
 
   downgrade(db: Database) {
-    db.query("DROP TABLE settings;");
+    db.query("DROP TABLE IF EXISTS settings;");
   }
 }

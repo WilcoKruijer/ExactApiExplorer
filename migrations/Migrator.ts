@@ -1,14 +1,17 @@
 import type Database from "../classes/Database.ts";
 
+import InitialMigration from "./000_initial.ts";
+import QueryHistoryMigration from "./001_query_history.ts";
+
 /** List of migrations to run, in this order. */
-export const migrations = [
-  "./000_initial.ts",
-  "./001_query_history.ts",
+export const migrations: { new (db: Database): Migration }[] = [
+  InitialMigration,
+  QueryHistoryMigration,
 ];
 
-export interface Migration {
-  upgrade(db: Database): void;
-  downgrade(db: Database): void;
+export abstract class Migration {
+  abstract upgrade(db: Database): void;
+  abstract downgrade(db: Database): void;
 }
 
 export default class Migrator {
@@ -16,11 +19,22 @@ export default class Migrator {
 
   constructor(db: Database) {
     this.#db = db;
+
+    // For backward compatibility, this can be removed at some point.
+    db.query(
+      "UPDATE migrations SET name='InitialMigration' WHERE name = './000_initial.ts'",
+    );
+    db.query(
+      "UPDATE migrations SET name='QueryHistoryMigration' WHERE name = './001_query_history.ts'",
+    );
   }
 
-  public async upgrade() {
+  public upgrade() {
     let upgradedRevisions = 0;
-    for (const migrationName of migrations) {
+    for (const migrationClass of migrations) {
+      const migrationName = migrationClass.name;
+      const migration = new migrationClass(this.#db);
+
       const result = this.#db.query(
         "SELECT executed FROM migrations WHERE name = ?",
         [migrationName],
@@ -31,11 +45,8 @@ export default class Migrator {
         continue;
       }
 
-      const migration = await import(migrationName);
-      const instance: Migration = new migration.default();
-
       console.log(`Upgrading: '${migrationName}'.`);
-      instance.upgrade(this.#db);
+      migration.upgrade(this.#db);
 
       this.#db.query(
         "INSERT INTO migrations (name, executed) VALUES (:migrationName, 1)" +
@@ -51,18 +62,19 @@ export default class Migrator {
     }
   }
 
-  public async downgrade() {
+  public downgrade() {
+    let migrationClass: { new (db: Database): Migration } | undefined;
     let migrationName;
     let result;
 
-    while (!result);
-    {
-      migrationName = migrations.pop();
-
-      if (!migrationName) {
+    while (!result) {
+      migrationClass = migrations.pop();
+      if (!migrationClass) {
         console.error("Nothing to downgrade.");
         return;
       }
+
+      migrationName = migrationClass.name;
 
       result = this.#db.query(
         "SELECT executed FROM migrations WHERE name = ? AND executed = 1",
@@ -70,11 +82,10 @@ export default class Migrator {
       ).oneOrUndefined();
     }
 
-    const migration = await import(migrationName);
-    const instance: Migration = new migration.default();
+    const migration = new migrationClass!(this.#db);
 
     console.log(`Downgrading: '${migrationName}'.`);
-    instance.downgrade(this.#db);
+    migration.downgrade(this.#db);
 
     this.#db.query(
       "UPDATE migrations SET executed=0 WHERE name = :migrationName",

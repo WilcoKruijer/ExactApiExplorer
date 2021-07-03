@@ -27,9 +27,9 @@ const migrator = new Migrator(db);
 const flags = parse(Deno.args);
 if ("migrate" in flags) {
   if (flags["migrate"] === "up") {
-    await migrator.upgrade();
+    migrator.upgrade();
   } else if (flags["migrate"] === "down") {
-    await migrator.downgrade();
+    migrator.downgrade();
   } else {
     console.error(
       "Invalid value given for 'migrate'. Expected 'up' or 'down'. Ignoring.",
