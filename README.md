@@ -28,7 +28,7 @@ you to play with the API.
 
 # Deno specifics
 
-The application was tested with Deno version `1.11.1.` and stdlib `0.99.0`. The
+The application was tested with Deno version `1.11.5.` and stdlib `0.100.0`. The
 following flags are used:
 
 - `--unstable`: Used to access `Deno.setRaw()`. This means this application
