@@ -7,6 +7,7 @@ import ExactApi, {
 import SettingRepository from "./SettingRepository.ts";
 import SettingService from "../services/SettingService.ts";
 import type {
+  AccountClassification,
   AccountClassificationMapping,
   DivisionResponse,
   FinancialPeriod,
@@ -118,6 +119,13 @@ export default class ExactRepository {
     return this.cleanJsonRequest<AccountClassificationMapping>({
       method: "GET",
       resource: `financial/GLAccountClassificationMappings`,
+    });
+  }
+
+  public getAccountClassifications() {
+    return this.cleanJsonRequest<AccountClassification>({
+      method: "GET",
+      resource: `financial/GLClassifications`,
     });
   }
 

@@ -35,6 +35,22 @@ export interface Account {
   GLAccountDescription: string;
 }
 
+export interface AccountClassification extends Account, Creator, Modifier {
+  ID: ODataGuid;
+  Abstract: boolean;
+  Code: string;
+  Description: string;
+  Division: number;
+  IsTupleSubElement: boolean;
+  Name: string;
+  Nillable: boolean;
+  Parent: ODataGuid | null;
+  // instance = balance, duration = profit/loss
+  PeriodType: "instant" | "duration";
+  TaxonomyNamespace: ODataGuid;
+  TaxonomyNamespaceDescription: string;
+}
+
 export interface AccountClassificationMapping extends Account {
   Classification: ODataGuid;
   ClassificationCode: string;
