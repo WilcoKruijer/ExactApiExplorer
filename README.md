@@ -15,16 +15,25 @@ you to play with the API.
   <img src="./img/usage.gif" alt="Example usage of the explorer." width="738">
 </p>
 
-# Usage
+# Usage (installing)
+1. Install [Deno](https://deno.land/#installation).
+2. Run the installation command:
+
+`deno install --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl https://raw.githubusercontent.com/WilcoKruijer/ExactApiExplorer/main/exact_explorer.ts`
+
+3. Initialize the local SQLite database & run the program: `exact_explorer --migrate=up`
+4. Follow the set-up instructions.
+5. Enjoy!
+
+# Usage (cloning)
 
 1. Install [Deno](https://deno.land/#installation).
 2. Clone this repostiory.
 3. Initialize the local SQLite database & run the program:
 
-`deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl,deno.land --lock lock.json main.ts --migrate=up`
+`deno run --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json exact_explorer.ts --migrate=up`
 
 4. Follow the set-up instructions.
-5. Enjoy!
 
 # Deno specifics
 
