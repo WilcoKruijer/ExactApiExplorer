@@ -24,3 +24,14 @@ test:
 
 test_full:
 	deno test --unstable --allow-read=.
+
+install:
+	deno install -f --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json exact_explorer.ts
+
+compile:
+	mkdir -p bin;
+	for arch in x86_64-unknown-linux-gnu x86_64-pc-windows-msvc x86_64-apple-darwin aarch64-apple-darwin; do \
+		deno compile -o bin/exact_explorer --target $$arch --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl --lock lock.json exact_explorer.ts --migrate=up; \
+		zip bin/$$arch.zip bin/exact_explorer*; \
+		rm bin/exact_explorer*; \
+	done
