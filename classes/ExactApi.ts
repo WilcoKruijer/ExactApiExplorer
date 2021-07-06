@@ -1,6 +1,8 @@
 const INCOMPLETE_EXACT_URL = "https://start.exactonline.";
 const AUTH_PATH = "/api/oauth2/auth/";
 const REST_PATH = "/api/";
+const XML_POST_PATH = "/docs/XMLUpload.aspx";
+const XML_GET_PATH = "/docs/XMLDownload.aspx";
 const TOKEN_PATH = "/api/oauth2/token/";
 
 // TODO(Wilco): make iteration limit adjustable as well.
@@ -9,12 +11,18 @@ const ITERATION_LIMIT = 30;
 /** Thrown when the API returns an error message. */
 export class ExactOnlineServiceError extends Error {
   name = "ExactOnlineServiceError";
-  exactResponse: Record<string, unknown>;
-  constructor(message: string, exactResponse: ExactApiErrorResponse = {}) {
+  exactResponse?: Record<string, unknown> | string;
+  constructor(message: string, exactResponse?: ExactApiErrorResponse | string) {
     let msg = message;
-    if (exactResponse?.error?.message?.value) {
-      msg += "\n" + exactResponse.error.message.value;
+
+    if (typeof exactResponse === "object") {
+      if (exactResponse?.error?.message?.value) {
+        msg += "\n" + exactResponse.error.message.value;
+      }
+    } else if (typeof exactResponse === "string") {
+      msg += "\n" + exactResponse;
     }
+
     super(msg);
     this.exactResponse = exactResponse;
   }
@@ -60,18 +68,34 @@ export interface ExactApiStorage {
   division?: number;
 }
 
-type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 /** Options for requesting data from the api. */
-export interface ExactApiRequest {
-  method: RestMethod;
-  resource: string;
+export interface ExactApiRequestBase {
+  method: HttpMethod;
+  type: "REST" | "XML";
   searchParams?: URLSearchParams;
+  body?: Record<string, unknown> | string;
+}
+
+export interface ExactApiRequestRest extends ExactApiRequestBase {
+  method: HttpMethod;
+  resource: string;
+  type: "REST";
   body?: Record<string, unknown>;
   filter?: string;
   select?: string;
   top?: string;
 }
+
+export interface ExactApiRequestXML extends ExactApiRequestBase {
+  type: "XML";
+  body?: string;
+}
+
+export type ExactApiRequest =
+  | ExactApiRequestRest
+  | ExactApiRequestXML;
 
 /** Response wrapper for a raw API response */
 export interface ExactApiResponse<T> {
@@ -154,7 +178,8 @@ export default class ExactApi {
    * null means the API is not ready for querying.
    */
   public async retrieveDivision(): Promise<number | null> {
-    const response = await this.rawRequest({
+    const response = await this.rawJSONRequest({
+      type: "REST",
       method: "GET",
       resource: "v1/current/Me",
       select: "CurrentDivision",
@@ -187,29 +212,25 @@ export default class ExactApi {
    * Handles paginating by requesting all pages until the iteration limit is reached.
    */
   public async jsonRequest<T>(
-    request: (ExactApiRequest & { method: "GET" | "POST" }),
+    request: (ExactApiRequestRest & { method: "GET" | "POST" }),
   ): Promise<(T & ExactApiResponseMeta)[]>;
   public async jsonRequest<T>(
-    request: (ExactApiRequest & { method: "PUT" | "DELETE" }),
+    request: (ExactApiRequestRest & { method: "PUT" | "DELETE" }),
   ): Promise<undefined>;
   public async jsonRequest<T>(
-    request: (ExactApiRequest),
+    request: (ExactApiRequestRest),
   ): Promise<(T & ExactApiResponseMeta)[] | undefined>;
   public async jsonRequest<T>(
-    request: ExactApiRequest,
+    request: ExactApiRequestRest,
   ) {
-    if (!this.#storage.division) {
-      throw new ExactApiNotReadyError(
-        "Division has not been set. Call retrieveDivision() first.",
-      );
-    }
+    this.ensureDivision(this.#storage.division);
 
     request = {
       ...request,
       resource: `v1/${this.#storage.division}/${request.resource}`,
     };
 
-    const response = await this.rawRequest(request);
+    const response = await this.rawJSONRequest(request);
 
     if (!response.ok) {
       throw new ExactOnlineServiceError(
@@ -223,6 +244,31 @@ export default class ExactApi {
     }
 
     return this.retrievePaginatedResponse<T>(await response.json());
+  }
+
+  private ensureDivision(
+    _division?: number,
+  ): asserts _division is NonNullable<number> {
+    if (!this.#storage.division) {
+      throw new ExactApiNotReadyError(
+        "Division has not been set. Call retrieveDivision() first.",
+      );
+    }
+  }
+
+  public async xmlRequest(request: ExactApiRequestXML) {
+    this.ensureDivision(this.#storage.division);
+
+    const response = await this.rawXMLRequest(request);
+
+    if (!response.ok) {
+      throw new ExactOnlineServiceError(
+        "XML request failed.",
+        await response.text(),
+      );
+    }
+
+    return response.text();
   }
 
   /** Returns a copy of the current storage. */
@@ -262,7 +308,7 @@ export default class ExactApi {
     return new URL(this.authBaseUrl + "?" + params.toString()).toString();
   }
 
-  public buildUrl(request: ExactApiRequest) {
+  public buildRestUrl(request: ExactApiRequestRest) {
     const params = ExactApi.buildRequestParameters(request);
     const paramsString = params.toString() ? "?" + params.toString() : "";
 
@@ -271,12 +317,42 @@ export default class ExactApi {
     );
   }
 
+  public buildXmlUrl(request: ExactApiRequestXML) {
+    this.ensureDivision(this.#storage.division);
+
+    const params = request.searchParams ?? new URLSearchParams();
+
+    if (!params.get("_Division_")) {
+      params.set("_Division_", this.#storage.division.toString());
+    }
+
+    const paramsString = params.toString() ? "?" + params.toString() : "";
+
+    if (request.method === "GET") {
+      return new URL(this.XMLDownloadUrl + paramsString);
+    } else if (request.method === "POST") {
+      return new URL(this.XMLUploadUrl + paramsString);
+    } else {
+      throw new TypeError(
+        "Cannot build URL for XML request that is neither GET nor POST.",
+      );
+    }
+  }
+
   public get authBaseUrl() {
     return INCOMPLETE_EXACT_URL + this.#options.exactTLD + AUTH_PATH;
   }
 
   public get restBaseUrl() {
     return INCOMPLETE_EXACT_URL + this.#options.exactTLD + REST_PATH;
+  }
+
+  public get XMLDownloadUrl() {
+    return INCOMPLETE_EXACT_URL + this.#options.exactTLD + XML_GET_PATH;
+  }
+
+  public get XMLUploadUrl() {
+    return INCOMPLETE_EXACT_URL + this.#options.exactTLD + XML_POST_PATH;
   }
 
   public get tokenUrl() {
@@ -306,7 +382,8 @@ export default class ExactApi {
       const nextUrl: string = d.__next.substring(this.restBaseUrl.length);
 
       // TODO(Wilco): Is 'GET' always the right method here?
-      const response = await this.rawRequest({
+      const response = await this.rawJSONRequest({
+        type: "REST",
         method: "GET",
         resource: nextUrl,
       });
@@ -330,7 +407,7 @@ export default class ExactApi {
     return results as (T & ExactApiResponseMeta)[];
   }
 
-  private static buildRequestParameters(request: ExactApiRequest) {
+  private static buildRequestParameters(request: ExactApiRequestRest) {
     const params = request.searchParams ?? new URLSearchParams();
 
     if (request.select) {
@@ -348,10 +425,18 @@ export default class ExactApi {
     return params;
   }
 
-  private async rawRequest(request: ExactApiRequest) {
+  private async rawJSONRequest(request: ExactApiRequestRest) {
+    if (
+      typeof request.body !== "undefined" && typeof request.body !== "object"
+    ) {
+      throw new TypeError(
+        "Expected no body or a Record<> body for REST request.",
+      );
+    }
+
     await this.refreshTokenIfNeeded();
 
-    const url = this.buildUrl(request);
+    const url = this.buildRestUrl(request);
 
     const fetchObject: RequestInit = {
       method: request.method,
@@ -360,6 +445,33 @@ export default class ExactApi {
         "Authorization": `Bearer ${this.#storage.accessToken}`,
       },
       body: request.body ? JSON.stringify(request.body) : undefined,
+    };
+
+    let response = await fetch(url, fetchObject);
+
+    if (response.status === 401) {
+      // Our token might just have expired. Simply try again
+      await this.refreshTokenIfNeeded();
+      response = await fetch(url, fetchObject);
+    }
+
+    return response;
+  }
+
+  private async rawXMLRequest(request: ExactApiRequestXML) {
+    await this.refreshTokenIfNeeded();
+
+    const url = this.buildXmlUrl(request);
+
+    console.log(url);
+
+    const fetchObject: RequestInit = {
+      method: request.method,
+      headers: {
+        "Accept": "application/xml",
+        "Authorization": `Bearer ${this.#storage.accessToken}`,
+      },
+      body: request.body,
     };
 
     let response = await fetch(url, fetchObject);

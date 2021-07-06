@@ -1,4 +1,4 @@
-import { ExactApiRequest } from "../classes/ExactApi.ts";
+import { ExactApiRequestRest } from "../classes/ExactApi.ts";
 import {
   EndpointParameter,
   HistorySets,
@@ -12,7 +12,7 @@ export interface HistoryResult {
 
 export default class QueryHistoryService {
   static createHistory(
-    request: ExactApiRequest,
+    request: ExactApiRequestRest,
     result: Record<string, unknown>[] | undefined,
   ): HistoryResult {
     const queryHistory: QueryHistory = {

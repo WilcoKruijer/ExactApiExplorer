@@ -1,6 +1,6 @@
 import { colors, Input, List, prompt } from "../deps.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
-import { ExactApiRequest } from "../classes/ExactApi.ts";
+import { ExactApiRequest, ExactApiRequestRest } from "../classes/ExactApi.ts";
 import QueryHistoryService from "../services/QueryHistoryService.ts";
 import QueryHistoryRepository from "../repositories/QueryHistoryRepository.ts";
 import DatabaseSingleton from "../singletons/database.ts";
@@ -16,11 +16,11 @@ const db = DatabaseSingleton.getInstance();
 const exactRepo = new ExactRepository(db);
 const queryHistoryRepo = new QueryHistoryRepository(db);
 
-async function executeQuery(request: ExactApiRequest) {
+async function executeQuery(request: ExactApiRequestRest) {
   console.log(
     "Will execute: " +
       colors.yellow("GET ") +
-      colors.brightGreen(exactRepo.api.buildUrl(request).toString()),
+      colors.brightGreen(exactRepo.api.buildRestUrl(request).toString()),
   );
 
   try {
@@ -78,6 +78,7 @@ async function executeQuery(request: ExactApiRequest) {
 
 export default async function runQueryPrompts() {
   const request: Partial<ExactApiRequest> = {
+    type: "REST",
     method: "GET",
   };
 
@@ -150,7 +151,7 @@ export default async function runQueryPrompts() {
           request.top = "1";
         }
 
-        await executeQuery(request as ExactApiRequest);
+        await executeQuery(request as ExactApiRequestRest);
       },
     },
   ]);

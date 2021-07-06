@@ -1,7 +1,7 @@
 import Database from "../classes/Database.ts";
 import ExactApi, {
   ExactApiNotReadyError,
-  ExactApiRequest,
+  ExactApiRequestRest,
   ExactApiResponseMeta,
 } from "../classes/ExactApi.ts";
 import SettingRepository from "./SettingRepository.ts";
@@ -115,6 +115,20 @@ export default class ExactRepository {
     });
   }
 
+  public getXMLBalance(year: number) {
+    const searchParams = new URLSearchParams({
+      Topic: "Balances",
+      Params_Year: year.toString(),
+      Params_AfterEntry: true.toString(),
+    });
+
+    return this.api.xmlRequest({
+      type: "XML",
+      method: "GET",
+      searchParams,
+    });
+  }
+
   public getReportingBalance(year: number) {
     const searchParams = new URLSearchParams({
       $select:
@@ -174,18 +188,22 @@ export default class ExactRepository {
   }
 
   public async cleanJsonRequest<T>(
-    request: (ExactApiRequest & { method: "GET" | "POST" }),
+    request: (Omit<ExactApiRequestRest, "type"> & { method: "GET" | "POST" }),
   ): Promise<T[]>;
   public async cleanJsonRequest<T>(
-    request: (ExactApiRequest & { method: "PUT" | "DELETE" }),
+    request: (Omit<ExactApiRequestRest, "type"> & { method: "PUT" | "DELETE" }),
   ): Promise<undefined>;
   public async cleanJsonRequest<T>(
-    request: (ExactApiRequest),
+    request: (Omit<ExactApiRequestRest, "type">),
   ): Promise<T[] | undefined>;
   public async cleanJsonRequest<T>(
-    request: ExactApiRequest,
+    request: Omit<ExactApiRequestRest, "type">,
   ) {
-    const res = await this.api.jsonRequest<T>(request);
+    const res = await this.api.jsonRequest<T>({
+      type: "REST",
+      ...request,
+    });
+
     if (!res) {
       return;
     }
