@@ -16,12 +16,14 @@ you to play with the API.
 </p>
 
 # Usage (installing)
+
 1. Install [Deno](https://deno.land/#installation).
 2. Run the installation command:
 
 `deno install --unstable --allow-read=. --allow-write=. --allow-net=0.0.0.0,start.exactonline.nl https://raw.githubusercontent.com/WilcoKruijer/ExactApiExplorer/main/exact_explorer.ts`
 
-3. Initialize the local SQLite database & run the program: `exact_explorer --migrate=up`
+3. Initialize the local SQLite database & run the program:
+   `exact_explorer --migrate=up`
 4. Follow the set-up instructions.
 5. Enjoy!
 

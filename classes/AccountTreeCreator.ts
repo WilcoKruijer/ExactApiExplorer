@@ -4,7 +4,10 @@ import type {
   AccountClassificationMapping,
   ODataGuid,
 } from "../repositories/exact_models.d.ts";
-import type { YearlyReportingBalance } from "../services/ExactReportService.ts";
+import type {
+  XMLBalance,
+  YearlyReportingBalance,
+} from "../services/ExactReportService.ts";
 
 export type SimplifiedClassification = Pick<
   AccountClassification,
@@ -69,7 +72,14 @@ export default class AccountTreeCreator {
   }
 
   public static simplifyYearlyReportingBalance(
-    yearlyBalance: YearlyReportingBalance,
+    yearlyBalance: Pick<
+      YearlyReportingBalance,
+      | "Amount"
+      | "AmountCredit"
+      | "AmountDebit"
+      | "BalanceType"
+      | "Count"
+    >,
   ): AccountResult {
     return {
       Amount: yearlyBalance.Amount,
@@ -90,7 +100,9 @@ export default class AccountTreeCreator {
     yearlyBalances: Map<string, YearlyReportingBalance>,
   ) {
     for (const balance of yearlyBalances.values()) {
-      const accountItem = this.findAccountInTree(balance.GLAccount);
+      const accountItem = this.findAccountInTree(
+        (account) => account.GLAccount === balance.GLAccount,
+      );
 
       if (!accountItem) {
         throw new TypeError(
@@ -100,6 +112,26 @@ export default class AccountTreeCreator {
 
       accountItem.result = AccountTreeCreator.simplifyYearlyReportingBalance(
         balance,
+      );
+    }
+  }
+
+  public addXMLBalancesToTree(
+    balances: XMLBalance[],
+  ) {
+    for (const balance of balances) {
+      const accountItem = this.findAccountInTree(
+        (account) => account.GLAccountCode === balance.GLAccountCode,
+      );
+
+      if (!accountItem) {
+        throw new TypeError(
+          `Account '${balance.GLAccountDescription}' not found in tree.`,
+        );
+      }
+
+      accountItem.result = AccountTreeCreator.simplifyYearlyReportingBalance(
+        { Count: 0, ...balance },
       );
     }
   }
@@ -165,12 +197,12 @@ export default class AccountTreeCreator {
   }
 
   private findAccountInTree(
-    account: ODataGuid,
+    predicate: (acc: Account) => boolean,
     current: AccountTreeItem[] = this.#tree,
   ): AccountTreeItemAccount | undefined {
     for (const treeItem of current) {
       if (
-        treeItem.type === "account" && treeItem.account.GLAccount === account
+        treeItem.type === "account" && predicate(treeItem.account)
       ) {
         return treeItem;
       }
@@ -179,7 +211,7 @@ export default class AccountTreeCreator {
         let result;
         if (
           typeof (result = this.findAccountInTree(
-            account,
+            predicate,
             treeItem.children,
           )) !== "undefined"
         ) {

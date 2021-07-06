@@ -463,8 +463,6 @@ export default class ExactApi {
 
     const url = this.buildXmlUrl(request);
 
-    console.log(url);
-
     const fetchObject: RequestInit = {
       method: request.method,
       headers: {

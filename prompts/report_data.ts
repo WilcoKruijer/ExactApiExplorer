@@ -3,6 +3,7 @@ import DatabaseSingleton from "../singletons/database.ts";
 import { colors, ensureDir, Input, prompt } from "../deps.ts";
 import {
   aggregateReportingBalance,
+  parseXMLBalancesResponse,
   YearlyReportingBalance,
 } from "../services/ExactReportService.ts";
 import type { ReportingBalance } from "../repositories/exact_models.d.ts";
@@ -32,7 +33,10 @@ export async function reportDataPrompt() {
           return next(Prompts.YEAR);
         }
 
-        // const periods = await exactRepo.getFinancialPeriods(yearNumber);
+        const balancesString = await exactRepo.getXMLBalance(yearNumber);
+        const balanceData = parseXMLBalancesResponse(balancesString, yearNumber)
+          .filter((b) => b.BalanceType === "B");
+
         const mapping = await exactRepo.getAccountClassificationMappings();
         const classifications = await exactRepo.getAccountClassifications();
 
@@ -48,6 +52,7 @@ export async function reportDataPrompt() {
           aggregateReportingBalance(balances);
 
         treeCreator.addReportingBalancesToTree(yearlyBalances);
+        treeCreator.addXMLBalancesToTree(balanceData);
 
         await ensureDir("out");
 

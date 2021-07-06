@@ -17,6 +17,8 @@ import type {
 } from "./exact_models.d.ts";
 import exactEndpointData from "../resources/exact_endpoints.ts";
 
+export type XMLBalancesResponse = string;
+
 const ODATA_DATE_TIME_REGEX = /\/Date\(([0-9]*)\)\//;
 
 export default class ExactRepository {
@@ -115,7 +117,7 @@ export default class ExactRepository {
     });
   }
 
-  public getXMLBalance(year: number) {
+  public getXMLBalance(year: number): Promise<XMLBalancesResponse> {
     const searchParams = new URLSearchParams({
       Topic: "Balances",
       Params_Year: year.toString(),
@@ -135,7 +137,7 @@ export default class ExactRepository {
         "Amount, AmountCredit, AmountDebit, BalanceType, Count, Division, " +
         "GLAccount, GLAccountCode, GLAccountDescription, ID, ReportingPeriod, " +
         "ReportingYear, Type, Status",
-      $filter: `ReportingYear eq ${year}`,
+      $filter: `ReportingYear eq ${year} and BalanceType eq 'W'`,
       $orderby: "GLAccountDescription asc, ReportingPeriod asc",
     });
     return this.cleanJsonRequest<ReportingBalance>({
