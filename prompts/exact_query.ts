@@ -3,7 +3,9 @@ import ExactRepository from "../repositories/ExactRepository.ts";
 import { ExactApiRequest, ExactApiRequestRest } from "../classes/ExactApi.ts";
 import QueryHistoryService from "../services/QueryHistoryService.ts";
 import QueryHistoryRepository from "../repositories/QueryHistoryRepository.ts";
-import DatabaseSingleton from "../singletons/database.ts";
+import DatabaseSingleton from "../singletons/DatabaseSingleton.ts";
+import SettingRepository from "../repositories/SettingRepository.ts";
+import ExactApiSingleton from "../singletons/ExactApiSingleton.ts";
 
 const enum Prompts {
   ENTER_URL = "urlEntry",
@@ -13,10 +15,13 @@ const enum Prompts {
 }
 
 const db = DatabaseSingleton.getInstance();
-const exactRepo = new ExactRepository(db);
+const settingRepo = new SettingRepository(db);
 const queryHistoryRepo = new QueryHistoryRepository(db);
 
-async function executeQuery(request: ExactApiRequestRest) {
+async function executeQuery(
+  exactRepo: ExactRepository,
+  request: ExactApiRequestRest,
+) {
   console.log(
     "Will execute: " +
       colors.yellow("GET ") +
@@ -77,6 +82,16 @@ async function executeQuery(request: ExactApiRequestRest) {
 }
 
 export default async function runQueryPrompts() {
+  const api = ExactApiSingleton.getInstance(settingRepo);
+
+  if (!api) {
+    throw new TypeError(
+      "Cannot run query prompts before Exact Api has been intialized.",
+    );
+  }
+
+  const exactRepo = new ExactRepository(api);
+
   const request: Partial<ExactApiRequest> = {
     type: "REST",
     method: "GET",
@@ -151,7 +166,7 @@ export default async function runQueryPrompts() {
           request.top = "1";
         }
 
-        await executeQuery(request as ExactApiRequestRest);
+        await executeQuery(exactRepo, request as ExactApiRequestRest);
       },
     },
   ]);

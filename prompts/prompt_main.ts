@@ -2,9 +2,10 @@ import { colors, prompt, Select } from "../deps.ts";
 import { runExactSetup } from "./exact_setup.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
 import runQueryPrompts from "./exact_query.ts";
-import DatabaseSingleton from "../singletons/database.ts";
-import { EXACT_REDIRECT_URL } from "../resources/constants.ts";
+import DatabaseSingleton from "../singletons/DatabaseSingleton.ts";
 import { reportDataPrompt } from "./report_data.ts";
+import ExactApiSingleton from "../singletons/ExactApiSingleton.ts";
+import SettingRepository from "../repositories/SettingRepository.ts";
 
 const enum Prompts {
   ACTION = "action",
@@ -19,10 +20,10 @@ const enum Options {
   EXIT = "Exit",
 }
 
-const db = DatabaseSingleton.getInstance();
-const exactRepo = new ExactRepository(db);
-
-async function printCurrentDivision(division: number) {
+async function printCurrentDivision(
+  exactRepo: ExactRepository,
+  division: number,
+) {
   const [{ Description }] = await exactRepo.getDivisionByCode(division);
   console.log(
     `Selected division: ${colors.brightGreen(Description)} (${
@@ -32,30 +33,24 @@ async function printCurrentDivision(division: number) {
 }
 
 export async function run() {
-  let division: number | null = null;
+  const db = DatabaseSingleton.getInstance();
+  const settingRepo = new SettingRepository(db);
+  let api = ExactApiSingleton.getInstance(settingRepo);
+  let exactRepo: ExactRepository | undefined;
 
-  exactRepo.constructApi(EXACT_REDIRECT_URL);
+  if (api) {
+    exactRepo = new ExactRepository(api);
+    const division = await api.retrieveDivision();
 
-  try {
-    if (exactRepo.api) {
-      const retrievedDivision = await exactRepo.api.retrieveDivision();
-      division = exactRepo.api.division ?? retrievedDivision;
-    }
-  } catch (error) {
-    if (
-      error.name !== "ExactOnlineServiceError" &&
-      error.name !== "ExactApiNotReadyError"
-    ) {
-      throw error;
-    }
-  }
-
-  if (division) {
     console.log(
       "Exact Online API is available!",
     );
 
-    await printCurrentDivision(division);
+    if (division) {
+      await printCurrentDivision(exactRepo, division);
+    } else {
+      console.log("No division found.");
+    }
   }
 
   await prompt([
@@ -67,17 +62,17 @@ export async function run() {
         {
           name: Options.QUERY,
           value: Options.QUERY,
-          disabled: !division,
+          disabled: !exactRepo,
         },
         {
           name: Options.REPORT_DATA,
           value: Options.REPORT_DATA,
-          disabled: !division,
+          disabled: !exactRepo,
         },
         {
           name: Options.DIVISION,
           value: Options.DIVISION,
-          disabled: !division,
+          disabled: !exactRepo,
         },
         Options.SETUP,
         Options.EXIT,
@@ -86,29 +81,32 @@ export async function run() {
         switch (action) {
           case Options.QUERY:
             await runQueryPrompts();
-            return await next(Prompts.ACTION);
+            return next(Prompts.ACTION);
           case Options.REPORT_DATA:
             await reportDataPrompt();
-            return await next(Prompts.ACTION);
+            return next(Prompts.ACTION);
           case Options.DIVISION:
-            await selectDivision();
-            return await next(Prompts.ACTION);
+            // Cannot select division option when repo is undefined.
+            await selectDivision(exactRepo!);
+            return next(Prompts.ACTION);
 
           case Options.SETUP:
-            await runExactSetup(!!division);
-            if (exactRepo.api?.division) {
-              division = exactRepo.api.division;
-              await printCurrentDivision(exactRepo.api.division);
+            await runExactSetup(!!api);
+            api = ExactApiSingleton.getInstance(settingRepo);
+
+            if (!api) {
+              throw new Error("Exact setup finished without intializing API.");
             }
 
-            return await next(Prompts.ACTION);
+            exactRepo = new ExactRepository(api);
+            return run();
         }
       },
     },
   ]);
 }
 
-async function selectDivision() {
+async function selectDivision(exactRepo: ExactRepository) {
   const divisions = await exactRepo.getDivisions();
   const options: { name: string; value: string }[] = [];
 
@@ -126,10 +124,11 @@ async function selectDivision() {
       type: Select,
       options: options,
       after: async ({ division }) => {
-        if (exactRepo.api && division) {
-          exactRepo.api.division = +division;
-          await printCurrentDivision(+division);
+        if (!division) {
+          throw new TypeError("No division selected.");
         }
+        exactRepo.api.division = +division;
+        await printCurrentDivision(exactRepo, +division);
       },
     },
   ]);

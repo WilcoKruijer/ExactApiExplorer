@@ -1,11 +1,8 @@
-import Database from "../classes/Database.ts";
 import ExactApi, {
-  ExactApiNotReadyError,
   ExactApiRequestRest,
   ExactApiResponseMeta,
 } from "../classes/ExactApi.ts";
 import SettingRepository from "./SettingRepository.ts";
-import SettingService from "../services/SettingService.ts";
 import type {
   AccountClassification,
   AccountClassificationMapping,
@@ -22,45 +19,14 @@ export type XMLBalancesResponse = string;
 const ODATA_DATE_TIME_REGEX = /\/Date\(([0-9]*)\)\//;
 
 export default class ExactRepository {
-  private static api?: ExactApi = undefined;
+  #api;
 
-  #settingRepo;
-
-  constructor(db: Database) {
-    this.#settingRepo = new SettingRepository(db);
+  constructor(api: ExactApi) {
+    this.#api = api;
   }
 
   get api(): ExactApi {
-    if (!ExactRepository.api) {
-      throw new ExactApiNotReadyError("Api not yet constructed.");
-    }
-
-    return ExactRepository.api;
-  }
-
-  public constructApi(redirectUrl: string) {
-    // TODO(Wilco): are we ending up with multiple ExactApi instances?
-
-    const apiStorage = SettingService.settingsToExactStorage(
-      this.#settingRepo.getExactStorageSettings(),
-    );
-
-    if (!apiStorage) {
-      return;
-    }
-
-    ExactRepository.api = new ExactApi({
-      exactTLD: "nl",
-      redirectUrl,
-    }, apiStorage);
-
-    ExactRepository.api.setStorageCallback = (storage) => {
-      const settings = SettingService.exactStorageToSettings(
-        storage,
-      );
-      this.#settingRepo.setAll(settings);
-      // console.log(">>> Saving Exact Storage to DISK.");
-    };
+    return this.#api;
   }
 
   public static get endpoints(): string[] {

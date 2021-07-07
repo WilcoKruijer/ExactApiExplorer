@@ -9,7 +9,7 @@
 import { parse } from "./deps.ts";
 import Migrator from "./migrations/Migrator.ts";
 import { run } from "./prompts/prompt_main.ts";
-import DatabaseSingleton from "./singletons/database.ts";
+import DatabaseSingleton from "./singletons/DatabaseSingleton.ts";
 
 // export { default as DatabaseSingleton } from "./singletons/database.ts";
 

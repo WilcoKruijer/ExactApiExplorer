@@ -3,7 +3,8 @@ import ExactRepository from "../repositories/ExactRepository.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
 import { EXACT_REDIRECT_URL } from "../resources/constants.ts";
 import SettingService from "../services/SettingService.ts";
-import DatabaseSingleton from "../singletons/database.ts";
+import DatabaseSingleton from "../singletons/DatabaseSingleton.ts";
+import ExactApiSingleton from "../singletons/ExactApiSingleton.ts";
 
 const enum Prompts {
   RESET_CONFIRMATION = "resetConfirmed",
@@ -15,7 +16,12 @@ const enum Prompts {
 export async function runExactSetup(doConfirm = false) {
   const db = DatabaseSingleton.getInstance();
   const settingRepo = new SettingRepository(db);
-  const exactRepo = new ExactRepository(db);
+  let api = ExactApiSingleton.getInstance(settingRepo);
+  let exactRepo: ExactRepository | undefined;
+
+  if (api) {
+    exactRepo = new ExactRepository(api);
+  }
 
   let clientId: string;
 
@@ -90,9 +96,9 @@ export async function runExactSetup(doConfirm = false) {
         });
         settingRepo.setAll(settings);
         // Recreate the Exact Api based on the stored settings.
-        exactRepo.constructApi(EXACT_REDIRECT_URL);
+        api = ExactApiSingleton.getInstance(settingRepo);
 
-        if (!exactRepo.api) {
+        if (!api) {
           console.error(
             colors.red("Error:"),
             "Something went wrong while setting up the Exact Online API.\n" +
@@ -102,6 +108,7 @@ export async function runExactSetup(doConfirm = false) {
           return await next(Prompts.MAKE_APP);
         }
 
+        exactRepo = new ExactRepository(api);
         const url = exactRepo.api.authRequestUrl;
 
         console.log(
@@ -111,9 +118,9 @@ export async function runExactSetup(doConfirm = false) {
         );
 
         const code = await startWebServer();
-        await exactRepo.api.requestToken(code!);
+        await api.requestToken(code!);
 
-        const division = await exactRepo.api.retrieveDivision();
+        const division = await api.retrieveDivision();
 
         if (!division) {
           console.error(

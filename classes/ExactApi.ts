@@ -177,7 +177,7 @@ export default class ExactApi {
    * Returns the current selected division when available. A return value of
    * null means the API is not ready for querying.
    */
-  public async retrieveDivision(): Promise<number | null> {
+  public async retrieveDivision(): Promise<number | undefined> {
     const response = await this.rawJSONRequest({
       type: "REST",
       method: "GET",
@@ -186,7 +186,7 @@ export default class ExactApi {
     });
 
     if (!response.ok) {
-      return null;
+      return;
     }
 
     const res = await this.retrievePaginatedResponse<MeResponse>(
@@ -194,7 +194,7 @@ export default class ExactApi {
     );
 
     if (!res.length) {
-      return null;
+      return;
     }
 
     const division = res[0].CurrentDivision;
