@@ -1,7 +1,7 @@
 import type {
-  Account,
   AccountClassification,
   AccountClassificationMapping,
+  IAccount,
   ODataGuid,
 } from "../repositories/exact_models.d.ts";
 import type {
@@ -25,7 +25,7 @@ export interface AccountTreeItemBase {
 
 export interface AccountTreeItemAccount extends AccountTreeItemBase {
   type: "account";
-  account: Account;
+  account: IAccount;
   result?: AccountResult;
 }
 
@@ -52,7 +52,7 @@ export default class AccountTreeCreator {
 
   public static accountMappingToAccount(
     mapping: AccountClassificationMapping,
-  ): Account {
+  ): IAccount {
     return {
       GLAccount: mapping.GLAccount,
       GLAccountCode: mapping.GLAccountCode,
@@ -197,7 +197,7 @@ export default class AccountTreeCreator {
   }
 
   private findAccountInTree(
-    predicate: (acc: Account) => boolean,
+    predicate: (acc: IAccount) => boolean,
     current: AccountTreeItem[] = this.#tree,
   ): AccountTreeItemAccount | undefined {
     for (const treeItem of current) {

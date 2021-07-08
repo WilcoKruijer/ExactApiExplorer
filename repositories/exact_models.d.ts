@@ -8,19 +8,19 @@ export interface DivisionResponse {
   Description: string;
 }
 
-export interface Creator {
+export interface ICreator {
   Created: ODataDateTime;
   Creator: ODataGuid;
   CreatorFullName: string;
 }
 
-export interface Modifier {
+export interface IModifier {
   Modified: ODataDateTime;
   Modifier: ODataGuid;
   ModifierFullName: string;
 }
 
-export interface FinancialPeriod extends Creator, Modifier {
+export interface FinancialPeriod extends ICreator, IModifier {
   ID: ODataGuid;
   Division: number;
   StartDate: ODataDateTime;
@@ -29,13 +29,85 @@ export interface FinancialPeriod extends Creator, Modifier {
   FinYear: number;
 }
 
-export interface Account {
+export interface IAccount {
   GLAccount: ODataGuid;
   GLAccountCode: string;
   GLAccountDescription: string;
 }
 
-export interface AccountClassification extends Account, Creator, Modifier {
+export interface Account extends ICreator, IModifier {
+  // This interface is not complete.
+  ID: ODataGuid;
+  Code: string;
+  Description: string;
+
+  BalanceSide: "D" | "C";
+  BalanceType: "B" | "W";
+
+  Type: number;
+  TypeDescription: string;
+
+  VATCode: string;
+  VATDescription: string;
+
+  IsBlocked: boolean;
+  SearchCode: string;
+}
+
+export interface TransactionLine extends IAccount, ICreator, IModifier {
+  // This interface is not complete.
+
+  // These are 'relation' accounts.
+  Account: ODataGuid;
+  AccountCode: string;
+  AccountName: string;
+
+  AmountDC: number;
+  AmountFC: number;
+  AmountVATBaseFC: number;
+  AmountVATFC: number;
+
+  CostCenter: string;
+  CostCenterDescription: string;
+
+  Currency: string;
+
+  Date: ODataDateTime;
+  DueDate: ODataDateTime;
+  Description: string;
+
+  Document: ODataGuid;
+  DocumentNumber: number;
+  DocumentSubject: number;
+
+  EntryID: ODataGuid;
+  EntryNumber: number;
+
+  FinancialPeriod: number;
+  FinancialYear: number;
+
+  InvoiceNumber: number;
+  JournalCode: number;
+  JournalDescription: string;
+
+  LineNumber: number;
+  LineType: number;
+
+  Notes: string;
+
+  Status: AccountStatus;
+
+  VATCode: string;
+  VATCodeDescription: string;
+  VATPercentage: number;
+  VATType: string;
+
+  YourRef: string;
+
+  Type: ReportingType;
+}
+
+export interface AccountClassification extends IAccount, ICreator, IModifier {
   ID: ODataGuid;
   Abstract: boolean;
   Code: string;
@@ -51,7 +123,7 @@ export interface AccountClassification extends Account, Creator, Modifier {
   TaxonomyNamespaceDescription: string;
 }
 
-export interface AccountClassificationMapping extends Account {
+export interface AccountClassificationMapping extends IAccount {
   Classification: ODataGuid;
   ClassificationCode: string;
   ClassificationDescription: string;
@@ -130,7 +202,7 @@ export enum ReportingType {
   Budget = 3000,
 }
 
-export interface ReportingBalance extends Account {
+export interface ReportingBalance extends IAccount {
   Amount: number;
   AmountCredit: number;
   AmountDebit: number;

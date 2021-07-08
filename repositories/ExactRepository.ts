@@ -2,15 +2,17 @@ import ExactApi, {
   ExactApiRequestRest,
   ExactApiResponseMeta,
 } from "../classes/ExactApi.ts";
-import SettingRepository from "./SettingRepository.ts";
 import type {
+  Account,
   AccountClassification,
   AccountClassificationMapping,
   DivisionResponse,
   FinancialPeriod,
   ODataDateTime,
+  ODataGuid,
   ReportingBalance,
   RevenueListResponse,
+  TransactionLine,
 } from "./exact_models.d.ts";
 import exactEndpointData from "../resources/exact_endpoints.ts";
 
@@ -80,6 +82,40 @@ export default class ExactRepository {
     return this.cleanJsonRequest<AccountClassification>({
       method: "GET",
       resource: `financial/GLClassifications`,
+    });
+  }
+
+  public getAccounts(descriptionFilter: string, top = 25) {
+    const searchParams = new URLSearchParams({
+      $orderby: "Description asc",
+    });
+
+    return this.cleanJsonRequest<Account>({
+      method: "GET",
+      resource: `financial/GLAccounts`,
+      filter:
+        `startswith(Description, '${descriptionFilter}') and IsBlocked eq false`,
+      top: top + "",
+      searchParams,
+    });
+  }
+
+  public getTransactionLines(accountGuid: ODataGuid, year: number) {
+    const searchParams = new URLSearchParams({
+      $orderby: "Date asc",
+    });
+
+    return this.cleanJsonRequest<TransactionLine>({
+      method: "GET",
+      resource: `bulk/Financial/TransactionLines`,
+      filter: `GLAccount eq guid'${accountGuid}' and FinancialYear eq ${year}`,
+      select:
+        "Account, AccountCode, AccountName, AmountDC, AmountFC, AmountVATBaseFC, AmountVATFC, " +
+        "CostCenter, CostCenterDescription, Currency, Date, DueDate, Description, Document, DocumentNumber, " +
+        "DocumentSubject, EntryID, EntryNumber, FinancialPeriod, FinancialYear, InvoiceNumber, JournalCode, " +
+        "JournalDescription, LineNumber, LineType, Notes, Status, VATCode, VATCodeDescription, VATPercentage, " +
+        "VATType, YourRef, Type, GLAccount, GLAccountCode, GLAccountDescription",
+      searchParams,
     });
   }
 
