@@ -1,6 +1,7 @@
 export {
   Checkbox,
   Confirm,
+  Figures,
   Input,
   List,
   Number,
@@ -8,6 +9,15 @@ export {
   Select,
   Toggle,
 } from "https://deno.land/x/cliffy@v0.19.2/prompt/mod.ts";
+
+export type {
+  InputKeys,
+} from "https://deno.land/x/cliffy@v0.19.2/prompt/mod.ts";
+
+export type {
+  GenericSuggestionsOptions,
+  GenericSuggestionsSettings,
+} from "https://deno.land/x/cliffy@v0.19.2/prompt/_generic_suggestions.ts";
 
 export {
   ansi,
