@@ -6,6 +6,8 @@ import DatabaseSingleton from "../singletons/DatabaseSingleton.ts";
 import { reportDataPrompt } from "./report_data.ts";
 import ExactApiSingleton from "../singletons/ExactApiSingleton.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
+import { ExactOnlineServiceError } from "../classes/ExactApi.ts";
+import TransactionsPrompt from "./TransactionsPrompt.ts";
 
 const enum Prompts {
   ACTION = "action",
@@ -15,6 +17,7 @@ const enum Prompts {
 const enum Options {
   QUERY = "Execute an API query",
   REPORT_DATA = "Get data for report",
+  TRANSACTIONS = "Get all transactions",
   DIVISION = "Set Exact Online division",
   SETUP = "Exact Online setup",
   EXIT = "Exit",
@@ -39,17 +42,27 @@ export async function run() {
   let exactRepo: ExactRepository | undefined;
 
   if (api) {
-    exactRepo = new ExactRepository(api);
-    const division = await api.retrieveDivision();
-
-    console.log(
-      "Exact Online API is available!",
-    );
+    let division;
+    try {
+      division = await api.retrieveDivision();
+    } catch (e) {
+      if (!(e instanceof ExactOnlineServiceError)) {
+        throw e;
+      }
+    }
 
     if (division) {
+      console.log(
+        "Exact Online API is available!",
+      );
+      exactRepo = new ExactRepository(api);
+
       await printCurrentDivision(exactRepo, division);
     } else {
-      console.log("No division found.");
+      console.log(
+        colors.red("Error:") + " Exact Online API not available.",
+      );
+      console.dir(api.storage);
     }
   }
 
@@ -62,6 +75,11 @@ export async function run() {
         {
           name: Options.QUERY,
           value: Options.QUERY,
+          disabled: !exactRepo,
+        },
+        {
+          name: Options.TRANSACTIONS,
+          value: Options.TRANSACTIONS,
           disabled: !exactRepo,
         },
         {
@@ -82,6 +100,9 @@ export async function run() {
           case Options.QUERY:
             await runQueryPrompts();
             return next(Prompts.ACTION);
+          case Options.TRANSACTIONS:
+            await new TransactionsPrompt().run();
+            return next(Prompts.ACTION);
           case Options.REPORT_DATA:
             await reportDataPrompt();
             return next(Prompts.ACTION);
@@ -91,7 +112,7 @@ export async function run() {
             return next(Prompts.ACTION);
 
           case Options.SETUP:
-            await runExactSetup(!!api);
+            await runExactSetup(!!exactRepo);
             api = ExactApiSingleton.getInstance(settingRepo);
 
             if (!api) {

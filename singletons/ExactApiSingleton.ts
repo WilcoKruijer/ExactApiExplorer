@@ -18,6 +18,7 @@ export default class ExactApiSingleton {
     );
 
     if (!apiStorage) {
+      ExactApiSingleton.api = undefined;
       return;
     }
 
