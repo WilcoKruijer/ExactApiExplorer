@@ -35,5 +35,4 @@ export { ensureDir } from "https://deno.land/std@0.100.0/fs/mod.ts";
 
 export {
   DOMParser,
-  Element,
-} from "https://deno.land/x/deno_dom@v0.1.12-alpha/deno-dom-wasm.ts";
+} from "https://cdn.skypack.dev/linkedom@v0.11.0/worker.js?dts";

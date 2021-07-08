@@ -1,4 +1,4 @@
-import { DOMParser, Element } from "../deps.ts";
+import { DOMParser } from "../deps.ts";
 
 import type { XMLBalancesResponse } from "../repositories/ExactRepository.ts";
 import type { ReportingBalance } from "../repositories/exact_models.d.ts";
@@ -53,21 +53,18 @@ export function parseXMLBalancesResponse(
   response: XMLBalancesResponse,
   year: number,
 ): XMLBalance[] {
-  // We use text/html instead of text/xml since that hasn't been implemented
-  // in the DOMParser yet.
-  const document = new DOMParser().parseFromString(response, "text/html");
+  const document = new DOMParser().parseFromString(response, "text/xml");
 
   if (!document) {
     throw new Error("Document is empty.");
   }
 
-  const balanceNodes = document.querySelectorAll("Balance");
+  const balanceNodes = document.querySelectorAll("balance");
   const balances: XMLBalance[] = [];
 
-  for (const node of balanceNodes) {
-    const element = node as Element;
-    const accountDescription = element.querySelector("Description")?.innerText;
-    const balanceType = element.attributes["balancetype"];
+  for (const element of balanceNodes) {
+    const accountDescription = element.querySelector("description")?.innerText;
+    const balanceType = element.getAttribute("balanceType");
 
     if (!accountDescription) {
       throw new TypeError("Invalid account description in XML string.");
@@ -81,15 +78,15 @@ export function parseXMLBalancesResponse(
     }
 
     balances.push({
-      GLAccountCode: element.attributes["code"],
+      GLAccountCode: element.getAttribute("code"),
       GLAccountDescription: accountDescription,
-      Amount: +(element.querySelector(`Year[reportingyear='${year}'] > Close`)
+      Amount: +(element.querySelector(`year[ReportingYear='${year}'] > close`)
         ?.innerText ?? 0),
       AmountCredit:
-        +(element.querySelector(`Year[reportingyear='${year}'] > Credit`)
+        +(element.querySelector(`year[ReportingYear='${year}'] > credit`)
           ?.innerText ?? 0),
       AmountDebit:
-        +(element.querySelector(`Year[reportingyear='${year}'] > Debit`)
+        +(element.querySelector(`year[ReportingYear='${year}'] > debit`)
           ?.innerText ?? 0),
       BalanceType: balanceType,
       ReportingYear: year,

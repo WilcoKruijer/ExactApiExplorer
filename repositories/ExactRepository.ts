@@ -2,7 +2,6 @@ import ExactApi, {
   ExactApiRequestRest,
   ExactApiResponseMeta,
 } from "../classes/ExactApi.ts";
-import SettingRepository from "./SettingRepository.ts";
 import type {
   AccountClassification,
   AccountClassificationMapping,
