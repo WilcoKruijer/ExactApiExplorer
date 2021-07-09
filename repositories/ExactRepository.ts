@@ -6,6 +6,8 @@ import type {
   Account,
   AccountClassification,
   AccountClassificationMapping,
+  BudgetScenario,
+  BudgetScenarioValue,
   DivisionResponse,
   FinancialPeriod,
   ODataDateTime,
@@ -82,6 +84,33 @@ export default class ExactRepository {
     return this.cleanJsonRequest<AccountClassification>({
       method: "GET",
       resource: `financial/GLClassifications`,
+    });
+  }
+
+  public getBudgetScenario(descriptionFilter = "", top = 25) {
+    const searchParams = new URLSearchParams({
+      $orderby: "Description asc",
+    });
+
+    return this.cleanJsonRequest<BudgetScenario>({
+      method: "GET",
+      resource: "budget/BudgetScenarios",
+      betaRoute: true,
+      filter: `startswith(Description, '${descriptionFilter}')`,
+      select: "ID, Code, Description, Division, FromYear, ToYear",
+      top: top + "",
+      searchParams,
+    });
+  }
+
+  public getBudgetScenarioValues(budget: ODataGuid) {
+    return this.cleanJsonRequest<BudgetScenarioValue>({
+      method: "GET",
+      resource: "budget/Budgets",
+      filter: `BudgetScenario eq guid'${budget}'`,
+      select:
+        "BudgetScenario, BudgetScenarioCode, BudgetScenarioDescription, AmountDC, ReportingYear, " +
+        "ReportingPeriod, GLAccount, GLAccountCode, GLAccountDescription",
     });
   }
 

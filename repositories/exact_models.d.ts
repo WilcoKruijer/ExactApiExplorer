@@ -221,3 +221,22 @@ export interface RevenueListResponse {
   Period: number;
   Amount: number;
 }
+
+export interface BudgetScenario {
+  ID: ODataGuid;
+  Code: string;
+  Description: string;
+  Division: number;
+  FromYear: number;
+  ToYear: number;
+}
+
+export interface BudgetScenarioValue extends IAccount {
+  BudgetScenario: ODataGuid;
+  BudgetScenarioCode: string;
+  BudgetScenarioDescription: string;
+
+  AmountDC: number;
+  ReportingPeriod: number;
+  ReportingYear: number;
+}
