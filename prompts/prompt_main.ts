@@ -8,6 +8,7 @@ import ExactApiSingleton from "../singletons/ExactApiSingleton.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
 import { ExactOnlineServiceError } from "../classes/ExactApi.ts";
 import TransactionsPrompt from "./TransactionsPrompt.ts";
+import BudgetPrompt from "./BudgetPrompt.ts";
 
 const enum Prompts {
   ACTION = "action",
@@ -18,6 +19,7 @@ const enum Options {
   QUERY = "Execute an API query",
   REPORT_DATA = "Get data for report",
   TRANSACTIONS = "Get all transactions",
+  BUDGET = "Get a budget scenario",
   DIVISION = "Set Exact Online division",
   SETUP = "Exact Online setup",
   EXIT = "Exit",
@@ -88,6 +90,11 @@ export async function run() {
           disabled: !exactRepo,
         },
         {
+          name: Options.BUDGET,
+          value: Options.BUDGET,
+          disabled: !exactRepo,
+        },
+        {
           name: Options.DIVISION,
           value: Options.DIVISION,
           disabled: !exactRepo,
@@ -105,6 +112,9 @@ export async function run() {
             return next(Prompts.ACTION);
           case Options.REPORT_DATA:
             await new ReportDataPrompt().run();
+            return next(Prompts.ACTION);
+          case Options.BUDGET:
+            await new BudgetPrompt().run();
             return next(Prompts.ACTION);
           case Options.DIVISION:
             // Cannot select division option when repo is undefined.
