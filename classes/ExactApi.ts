@@ -86,6 +86,7 @@ export interface ExactApiRequestRest extends ExactApiRequestBase {
   filter?: string;
   select?: string;
   top?: string;
+  betaRoute?: boolean;
 }
 
 export interface ExactApiRequestXML extends ExactApiRequestBase {
@@ -225,9 +226,11 @@ export default class ExactApi {
   ) {
     this.ensureDivision(this.#storage.division);
 
+    const beta = request.betaRoute ? "beta/" : "";
+
     request = {
       ...request,
-      resource: `v1/${this.#storage.division}/${request.resource}`,
+      resource: `v1/${beta}${this.#storage.division}/${request.resource}`,
     };
 
     const response = await this.rawJSONRequest(request);
