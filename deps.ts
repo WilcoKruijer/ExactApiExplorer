@@ -16,7 +16,6 @@ export type {
 
 export type {
   GenericSuggestionsOptions,
-  GenericSuggestionsSettings,
 } from "https://deno.land/x/cliffy@v0.19.2/prompt/_generic_suggestions.ts";
 
 export {
@@ -47,3 +46,10 @@ export {
   DOMParser,
   Element,
 } from "https://deno.land/x/deno_dom@v0.1.12-alpha/deno-dom-wasm.ts";
+
+export {
+  dirname,
+  extname,
+  join,
+  sep,
+} from "https://deno.land/std@0.100.0/path/mod.ts";
