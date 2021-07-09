@@ -1,6 +1,8 @@
+import AccountTreeCreator from "../classes/AccountTreeCreator.ts";
 import { DOMParser, Element } from "../deps.ts";
 
 import type { XMLBalancesResponse } from "../repositories/ExactRepository.ts";
+import ExactRepository from "../repositories/ExactRepository.ts";
 import type { ReportingBalance } from "../repositories/exact_models.d.ts";
 
 export type YearlyReportingBalance = Omit<ReportingBalance, "ReportingPeriod">;
@@ -15,6 +17,39 @@ export type XMLBalance = Pick<
   | "BalanceType"
   | "ReportingYear"
 >;
+
+export default class ExactReportService {
+  #exactRepo;
+
+  constructor(exactRepo: ExactRepository) {
+    this.#exactRepo = exactRepo;
+  }
+
+  async getReportForYear(year: number) {
+    const balancesString = await this.#exactRepo.getXMLBalance(year);
+    const balanceData = parseXMLBalancesResponse(balancesString, year)
+      .filter((b) => b.BalanceType === "B");
+
+    const mapping = await this.#exactRepo.getAccountClassificationMappings();
+    const classifications = await this.#exactRepo.getAccountClassifications();
+
+    const treeCreator = new AccountTreeCreator(
+      classifications,
+      mapping,
+    );
+
+    const balances: ReportingBalance[] = await this.#exactRepo
+      .getReportingBalance(year);
+
+    const yearlyBalances: Map<string, YearlyReportingBalance> =
+      aggregateReportingBalance(balances);
+
+    treeCreator.addReportingBalancesToTree(yearlyBalances);
+    treeCreator.addXMLBalancesToTree(balanceData);
+
+    return treeCreator.tree;
+  }
+}
 
 /**
  * @param balances

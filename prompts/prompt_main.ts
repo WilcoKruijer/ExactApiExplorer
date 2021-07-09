@@ -3,7 +3,7 @@ import { runExactSetup } from "./exact_setup.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
 import runQueryPrompts from "./exact_query.ts";
 import DatabaseSingleton from "../singletons/DatabaseSingleton.ts";
-import { reportDataPrompt } from "./report_data.ts";
+import ReportDataPrompt from "./ReportDataPrompt.ts";
 import ExactApiSingleton from "../singletons/ExactApiSingleton.ts";
 import SettingRepository from "../repositories/SettingRepository.ts";
 import { ExactOnlineServiceError } from "../classes/ExactApi.ts";
@@ -104,7 +104,7 @@ export async function run() {
             await new TransactionsPrompt().run();
             return next(Prompts.ACTION);
           case Options.REPORT_DATA:
-            await reportDataPrompt();
+            await new ReportDataPrompt().run();
             return next(Prompts.ACTION);
           case Options.DIVISION:
             // Cannot select division option when repo is undefined.

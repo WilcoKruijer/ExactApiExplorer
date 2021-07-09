@@ -1,10 +1,7 @@
 import { Number, prompt } from "../deps.ts";
-import ExactRepository from "../repositories/ExactRepository.ts";
 import { writeJsonFile } from "../repositories/FileRepository.ts";
-import SettingRepository from "../repositories/SettingRepository.ts";
 import ExactTransactionService from "../services/ExactTransactionService.ts";
-import DatabaseSingleton from "../singletons/DatabaseSingleton.ts";
-import ExactApiSingleton from "../singletons/ExactApiSingleton.ts";
+import BasePrompt from "./BasePrompt.ts";
 import DebouncedInput from "./DebouncedInput.ts";
 
 const enum Prompts {
@@ -12,20 +9,10 @@ const enum Prompts {
   YEAR = "year",
 }
 
-export default class TransactionsPrompt {
-  db = DatabaseSingleton.getInstance();
-  settingRepo = new SettingRepository(this.db);
-  api = ExactApiSingleton.getInstance(this.settingRepo);
-  exactRepo;
-
+export default class TransactionsPrompt extends BasePrompt {
   constructor() {
-    if (!this.api) {
-      throw new Error(
-        "Cannot run transactions prompts before Exact Api has been intialized.",
-      );
-    }
-
-    this.exactRepo = new ExactRepository(this.api);
+    super();
+    this.ensureApi();
   }
 
   async run() {
