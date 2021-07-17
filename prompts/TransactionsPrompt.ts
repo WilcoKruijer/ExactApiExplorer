@@ -1,4 +1,4 @@
-import { Number, prompt } from "../deps.ts";
+import { Input, Number, prompt } from "../deps.ts";
 import { writeJsonFile } from "../repositories/FileRepository.ts";
 import ExactTransactionService from "../services/ExactTransactionService.ts";
 import BasePrompt from "./BasePrompt.ts";
@@ -7,6 +7,7 @@ import DebouncedInput from "./DebouncedInput.ts";
 const enum Prompts {
   ACCOUNT = "account",
   YEAR = "year",
+  JOURNAL = "journal",
 }
 
 export default class TransactionsPrompt extends BasePrompt {
@@ -17,8 +18,12 @@ export default class TransactionsPrompt extends BasePrompt {
 
   async run() {
     let accountDescription: string | undefined;
+    let year: number | undefined;
+    let journalDescription: string | undefined;
 
-    return prompt([
+    const journals = await this.exactRepo.getJournals();
+
+    await prompt([
       {
         name: Prompts.ACCOUNT,
         message: "Please select the ledger account to get transactions from:",
@@ -50,29 +55,53 @@ export default class TransactionsPrompt extends BasePrompt {
         min: 1970,
         max: 3000,
         float: false,
-        after: async ({ year }, next) => {
-          if (!year) {
+        after: (res, next) => {
+          if (!res.year) {
             return next(Prompts.YEAR);
           }
 
-          if (!accountDescription) {
-            // This should not happen.
-            return next(Prompts.YEAR);
-          }
-
-          const fileName = `transactions_${year}_${accountDescription}`;
-
-          const transactionService = new ExactTransactionService(
-            this.exactRepo,
-          );
-          const lines = await transactionService.getTransactions(
-            accountDescription,
-            year,
-          );
-
-          await writeJsonFile(fileName, lines, lines.length < 100);
+          year = res.year;
+          return next();
+        },
+      },
+      {
+        name: Prompts.JOURNAL,
+        message: "Please select a journal to filter (empty for no filter):",
+        type: Input,
+        list: true,
+        info: true,
+        suggestions: journals.map((j) => j.Description),
+        after: ({ journal }, next) => {
+          journalDescription = journal;
+          return next();
         },
       },
     ]);
+
+    if (!accountDescription || !year) {
+      // This should not happen
+      throw new Error("Prompt failed.");
+    }
+
+    let fileName = `transactions_${year}_${accountDescription}`;
+
+    const journal = journalDescription
+      ? journals.find((j) => j.Description === journalDescription)
+      : undefined;
+
+    if (journal) {
+      fileName += "_" + journal.Description;
+    }
+
+    const transactionService = new ExactTransactionService(
+      this.exactRepo,
+    );
+    const lines = await transactionService.getTransactions(
+      accountDescription,
+      year,
+      journal?.Code,
+    );
+
+    await writeJsonFile(fileName, lines, lines.length < 100);
   }
 }

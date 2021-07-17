@@ -7,7 +7,11 @@ export default class ExactTransactionService {
     this.#exactRepo = exactRepo;
   }
 
-  async getTransactions(accountDescription: string, year: number) {
+  async getTransactions(
+    accountDescription: string,
+    year: number,
+    journalCode?: string,
+  ) {
     console.log(`Getting '${accountDescription}'.`);
     const accounts = await this.#exactRepo.getAccounts(accountDescription, 1);
 
@@ -15,6 +19,10 @@ export default class ExactTransactionService {
       throw new TypeError(`Failed to get account for '${accountDescription}'.`);
     }
 
-    return this.#exactRepo.getTransactionLines(accounts[0].ID, year);
+    return this.#exactRepo.getTransactionLines(
+      accounts[0].ID,
+      year,
+      journalCode,
+    );
   }
 }

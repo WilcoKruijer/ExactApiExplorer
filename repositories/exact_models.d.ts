@@ -240,3 +240,51 @@ export interface BudgetScenarioValue extends IAccount {
   ReportingPeriod: number;
   ReportingYear: number;
 }
+
+export interface Journal extends IAccount, ICreator, IModifier {
+  AllowVariableCurrency: boolean;
+  AllowVariableExchangeRate: boolean;
+  AllowVAT: boolean;
+  AutoSave: boolean;
+  Bank: ODataGuid;
+  BankAccountBICCode: string;
+  BankAccountCountry: string;
+  BankAccountDescription: string;
+  BankAccountIBAN: string;
+  BankAccountID: ODataGuid;
+  BankAccountIncludingMask: string;
+  BankAccountUseSEPA: boolean;
+  BankAccountUseSepaDirectDebit: boolean;
+  BankName: string;
+  Code: string;
+  Currency: string;
+  CurrencyDescription: string;
+  Description: string;
+  Division: number;
+  GLAccountType: number;
+  ID: string;
+  IsBlocked: boolean;
+  PaymentInTransitAccount: ODataGuid;
+  PaymentServiceAccountIdentifier: string;
+  PaymentServiceProvider: PaymentServiceProvider;
+  PaymentServiceProviderName: string;
+  Type: JournalType;
+}
+
+export enum JournalType {
+  Cash = 10,
+  Bank = 12,
+  PaymentService = 16,
+  Sales = 20,
+  ReturnInvoice = 21,
+  Purchase = 22,
+  ReceivedReturnInvoice = 23,
+  GeneralJournal = 90,
+}
+
+export enum PaymentServiceProvider {
+  None = 0,
+  Adyen = 1,
+  Paypal = 2,
+  Strpe = 3,
+}
