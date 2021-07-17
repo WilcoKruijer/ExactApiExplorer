@@ -1,5 +1,5 @@
 import { colors, prompt, Select } from "../deps.ts";
-import { runExactSetup } from "./exact_setup.ts";
+import { awaitLogin, runExactSetup } from "./exact_setup.ts";
 import ExactRepository from "../repositories/ExactRepository.ts";
 import runQueryPrompts from "./exact_query.ts";
 import DatabaseSingleton from "../singletons/DatabaseSingleton.ts";
@@ -64,7 +64,10 @@ export async function run() {
       console.log(
         colors.red("Error:") + " Exact Online API not available.",
       );
-      console.dir(api.storage);
+
+      console.log("Please relogin...\n");
+
+      await awaitLogin(settingRepo);
     }
   }
 

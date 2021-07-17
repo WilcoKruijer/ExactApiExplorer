@@ -16,13 +16,6 @@ const enum Prompts {
 export async function runExactSetup(doConfirm = false) {
   const db = DatabaseSingleton.getInstance();
   const settingRepo = new SettingRepository(db);
-  let api = ExactApiSingleton.getInstance(settingRepo);
-  let exactRepo: ExactRepository | undefined;
-
-  if (api) {
-    exactRepo = new ExactRepository(api);
-  }
-
   let clientId: string;
 
   await prompt([
@@ -95,50 +88,58 @@ export async function runExactSetup(doConfirm = false) {
           clientSecret: answer.clientSecret!,
         });
         settingRepo.setAll(settings);
-        // Recreate the Exact Api based on the stored settings.
-        api = ExactApiSingleton.getInstance(settingRepo);
-
-        if (!api) {
-          console.error(
-            colors.red("Error:"),
-            "Something went wrong while setting up the Exact Online API.\n" +
-              "Please try again (later).",
-          );
-
-          return await next(Prompts.MAKE_APP);
-        }
-
-        exactRepo = new ExactRepository(api);
-        const url = exactRepo.api.authRequestUrl;
-
-        console.log(
-          colors.bold("[2] Login to Exact.\n") +
-            "Please go to the following URL and login:\n" +
-            colors.gray("\t" + link(url, url)),
-        );
-
-        const code = await startWebServer();
-        await api.requestToken(code!);
-
-        const division = await api.retrieveDivision();
+        
+        const division = await awaitLogin(settingRepo);
 
         if (!division) {
-          console.error(
-            colors.red("Error:"),
-            "Something went wrong while setting up the Exact Online API.\n" +
-              "Please try again (later).",
-          );
-
           return await next(Prompts.MAKE_APP);
-        } else {
-          console.log(
-            colors.green("Succes:"),
-            "Created Exact Online API connection!",
-          );
         }
       },
     },
   ]);
+}
+
+export async function awaitLogin(settingRepo: SettingRepository): Promise<number | undefined> {
+  const api = ExactApiSingleton.getInstance(settingRepo);
+
+  if (!api) {
+    console.error(
+      colors.red("Error:"),
+      "Something went wrong while setting up the Exact Online API.\n" +
+        "Please try again (later).",
+    );
+
+    return;
+  }
+  
+  const exactRepo = new ExactRepository(api);
+  const url = exactRepo.api.authRequestUrl;
+
+  console.log(
+    colors.bold("[2] Login to Exact.\n") +
+      "Please go to the following URL and login:\n" +
+      colors.gray("\t" + link(url, url)),
+  );
+
+  const code = await startWebServer();
+  await api.requestToken(code!);
+
+  const division = await api.retrieveDivision();
+
+  if (!division) {
+    console.error(
+      colors.red("Error:"),
+      "Something went wrong while setting up the Exact Online API.\n" +
+        "Please try again (later).",
+    );
+  } else {
+    console.log(
+      colors.green("Succes:"),
+      "Created Exact Online API connection!",
+    );
+
+    return division;
+  }
 }
 
 /**
