@@ -88,7 +88,7 @@ export async function runExactSetup(doConfirm = false) {
           clientSecret: answer.clientSecret!,
         });
         settingRepo.setAll(settings);
-        
+
         const division = await awaitLogin(settingRepo);
 
         if (!division) {
@@ -99,7 +99,9 @@ export async function runExactSetup(doConfirm = false) {
   ]);
 }
 
-export async function awaitLogin(settingRepo: SettingRepository): Promise<number | undefined> {
+export async function awaitLogin(
+  settingRepo: SettingRepository,
+): Promise<number | undefined> {
   const api = ExactApiSingleton.getInstance(settingRepo);
 
   if (!api) {
@@ -111,7 +113,7 @@ export async function awaitLogin(settingRepo: SettingRepository): Promise<number
 
     return;
   }
-  
+
   const exactRepo = new ExactRepository(api);
   const url = exactRepo.api.authRequestUrl;
 

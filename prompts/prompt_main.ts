@@ -68,6 +68,8 @@ export async function run() {
       console.log("Please relogin...\n");
 
       await awaitLogin(settingRepo);
+      await run();
+      return;
     }
   }
 

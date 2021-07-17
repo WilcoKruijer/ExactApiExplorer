@@ -10,6 +10,7 @@ import type {
   BudgetScenarioValue,
   DivisionResponse,
   FinancialPeriod,
+  Journal,
   ODataDateTime,
   ODataGuid,
   ReportingBalance,
@@ -129,15 +130,41 @@ export default class ExactRepository {
     });
   }
 
-  public getTransactionLines(accountGuid: ODataGuid, year: number) {
+  public getJournals() {
+    const searchParams = new URLSearchParams({
+      $orderby: "Code asc",
+    });
+
+    return this.cleanJsonRequest<Journal>({
+      method: "GET",
+      resource: `financial/Journals`,
+      filter: `IsBlocked eq false`,
+      select:
+        "BankAccountDescription, Code, Description, GLAccount, GLAccountCode, " +
+        "GLAccountDescription, GLAccountType, ID, IsBlocked, PaymentServiceProvider, Type",
+      searchParams,
+    });
+  }
+
+  public getTransactionLines(
+    accountGuid: ODataGuid,
+    year: number,
+    journalCode?: string,
+  ) {
     const searchParams = new URLSearchParams({
       $orderby: "Date asc",
     });
 
+    let filter =
+      `GLAccount eq guid'${accountGuid}' and FinancialYear eq ${year}`;
+    if (journalCode) {
+      filter += ` and JournalCode eq '${journalCode}'`;
+    }
+
     return this.cleanJsonRequest<TransactionLine>({
       method: "GET",
       resource: `bulk/Financial/TransactionLines`,
-      filter: `GLAccount eq guid'${accountGuid}' and FinancialYear eq ${year}`,
+      filter,
       select:
         "Account, AccountCode, AccountName, AmountDC, AmountFC, AmountVATBaseFC, AmountVATFC, " +
         "CostCenter, CostCenterDescription, Currency, Date, DueDate, Description, Document, DocumentNumber, " +
